@@ -18,7 +18,7 @@
       <input type="password" name="Password" placeholder="Password" required>
       <input type="password" name="Confirm_password" placeholder="Confirm Password" required>
       <button type="submit" name="register">Register</button>
-      <p class="login-link">Already have an account? <a href="http://localhost/foodWaste/userLogin.php">Login</a></p>
+      <p class="login-link">Already have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/userLogin.php">Login</a></p>
     </form>
 
 
