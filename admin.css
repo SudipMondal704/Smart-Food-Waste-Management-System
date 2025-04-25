@@ -1,179 +1,336 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,500;0,700;0,800;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 *{
-  
     margin: 0;
     padding: 0;
-    list-style: none;
-    text-decoration: none;
-    /* font-family:sans-serif; */
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-  
-  }
-body{
+}
+:root
+{
+    --body-color: #E4E9F7;
+    --sidebar-color: #FFF;
+    --primary-color: #343a40;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #ffffff;
+}
+body
+{
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.container
+{
+    position: relative;
     width: 100%;
-    background: #bebcbc;
-    position: absolute;
-    display: flex;
 }
-#menu{
-    background: #06C167;
-    color: #0d0d0d;
+.navigation
+{
+    position: fixed;
     width: 300px;
-    height: 1000px;
-    font-size: 16px;
+    height: 100%;
+    background-color: #6184a8; 
+    transition: 0.5s;
+    overflow: hidden;
 }
-
-#menu .logo{
-    display: flex;
-    align-items: center;
-    color: #ffffff;
-    padding: 30px 0 0 30px;
+.navigation.active
+{
+    width: 80px;
 }
-
-#menu .logo img{
-    width: 60px;
-    margin-right: 15px;
+.navigation ul
+{
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 100%;
 }
-
-#menu .items{
-    margin-top: 40px;
-}
-
-#menu .items li{
+.navigation ul li
+{
+    position: relative;
+    width: 100%;
     list-style: none;
-    padding: 15px 0;
-    transition: 0.3s ease;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
-#menu .items li:nth-child(1){
-    border-left: 4px solid white;
+.navigation ul li:hover
+{
+    background-color:#dedce8;
+}
+.navigation ul li:nth-child(1)
+{
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+.navigation ul li a
+{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: #FFFF;
+}
+.navigation ul li:hover a
+{
+    color: #5083b7;
+}
+.navigation ul li a .icon
+{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 74px;
+    text-align: center;
+}
+.navigation ul li a .icon ion-icon
+{
+    font-size: 1.75em;
+}
+.navigation ul li a .title
+{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
 }
 
-#menu .items li:hover{
-    background: gray;
+/*main*/
+.main
+{
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: white;
+    transition: 0.5s;
+}
+.main.active
+{
+    width: calc(100% - 80px);
+    left: 80px;
+}
+.topbar
+{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.menu
+{
+    position: relative;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
     cursor: pointer;
 }
-#menu .items li i{
-    color: #0e0d0d;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    font-size: 14px;
-    margin: 0 10px 0 25px;
+
+.search
+{
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
 }
 
-#menu .items li:hover i,
-#menu .items li:hover a{
-    color: #ffffff;
-}
-#menu .items li a{
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 300px;
-    transition: 0.3s ease;
+.search label
+{
+    position: relative;
+    width: 100%;
 }
 
-#interface{
-    width: calc(100% - 300px);
-}
-
-#interface .navigation{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #ffffff;
-    padding: 15px 30px;
-    border-bottom: 3px solid #2a008d;
-}
-
-#interface .navigation .search {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 8px 12px;
-    border: 1px solid #adabab;
-    border-radius: 4px;
-}
-
-#interface .navigation .search i{
-    margin-right: 14px;
-}
-
-#interface .navigation .search input{
-    border: none;
+.search label input
+{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 15px;
     outline: none;
-    font-size: 14px;
+    border: 1px solid black;
+}
+.search label ion-icon
+{
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2em;
 }
 
-#interface .navigation .profile {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+.user
+{
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
 }
 
-#interface .navigation .profile i {
-    margin-right: 20px;
-    font-size: 20px;
-    font-weight: 400px;
+.user img
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.dashboard{
-    color: #1d1e1d;
-    padding: 24px 24px 0 24px;
-    font-size: 20px;
-    font-weight: 600px;
+.cardBox
+{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 30px;
 }
 
-.values{
-    padding: 30px 30px 0 30px;   
+.cardBox .card
+{
+    position: relative;
+    background: #f2e7e4;
+    padding: 30px;
+    border-radius: 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    cursor: pointer;
 }
 
-.values .val{
-    background: #ffffff;
-    width: 200px;
-    padding: 12px 16px;
-    border-radius: 4px;
+.cardBox .card .cardName
+{
+    color: #000000;
+    font-size: 1.1em;
+    margin-top: 5px;
+}
+
+.cardBox .card .iconBx
+{
+    font-size: 2.5em;
+    color: rgb(0, 34, 252);
+}
+.cardBox .card:hover
+{
+    background: rgb(131, 197, 252);
+}
+.cardBox .card:hover .cardName,
+.cardBox .card:hover .iconBx
+{
+    color: white;
+}
+
+.details
+{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 30px;
+}
+
+.details .Donate
+{
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: #edebe7;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.header
+{
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.values .val i{
-    font-size: 20px;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 50%;
-    text-align: center;
-    color: #ffffff;
-    margin-right: 14px;
+.header h2
+{
+    font-weight: 600;
+    color: blue;
 }
 
-.values .val:nth-child(1) i{
-    background:#7B74EC ;
-}
-.values .val:nth-child(2) i{
-    background: #955cf0;
-}
-.values .val:nth-child(3) i{
-    background: #E45D99;
-}
-.values .val:nth-child(4) i{
-    background: #c3d501;
-    
+.btn
+{
+    position: relative;
+    padding: 5px 10px;
+    background: blue;
+    text-decoration: none;
+    color: white;
+    border-radius: 6px;
 }
 
-.values .val h3{
-    font-size: 18px;
-    font-weight: 600px;
+.details table
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-.values .val span{
-    font-size: 12px;
-    color: #808583;
+.details table thead td
+{
+    font-weight: 600;
+}
+
+.details .Donate table tr
+{
+    color: #000000;
+    border-bottom: 1px solid black;
+}
+
+.details .Donate table tbody tr:hover
+{
+    background: blue;
+    color: white;
+}
+.details .Donate table tr td
+{
+    padding: 10px;
+}
+.details .Donate table tr td:last-child
+{
+    text-align: end;
+}
+.details .Donate table tr td:nth-child(2)
+{
+    text-align: end;
+}
+.details .Donate table tr td:nth-child(3)
+{
+    text-align: end;
+}
+.Customers
+{
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    padding: 20px;
+    background: #edebe7;
+    border-radius: 10px;
+}
+
+@media (max-width: 991px)
+{
+    .navigation
+    {
+        left: -300px;
+    }
+    .main
+    {
+        width: 100%;
+    }
 }

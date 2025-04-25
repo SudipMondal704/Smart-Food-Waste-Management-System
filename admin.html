@@ -1,81 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN DASHBOARD</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="admin.css"
+    <title>ADMIN PANEL</title>
+    <link rel="stylesheet" href="admin.css">
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
-
-    <section id="menu">
-        <div class="logo">
-            <img src="C:\Users\91629\OneDrive\Desktop\Final Year Project\Smart-Food-Waste-Management-System/food.png" alt="">
-            <h2>SFWM System</h2>
-        </div>
-
-        <div class="items">
-            <li><i class="fa-solid fa-chart-line"></i>Dashboard</li>
-            <li><i class="fa-solid fa-users-rectangle"></i>User Management</li>
-            <li><i class="fa-solid fa-hands-holding-child"></i>NGO Management</li>
-            <li><i class="fa-solid fa-bowl-food"></i>Food Details</li>
-
-        </div>
-    </section>
-    
-    <section id="interface">
+    <!--sidebar-->
+    <div class="container">
         <div class="navigation">
-            <div class="n1">
-                <div class="search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search">
-                </div>
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="logo-mastodon"></ion-icon></span>
+                    <span class="title">Food <b style="color: rgb(38, 211, 188);">Donate</b></span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+                    <span class="title">Customers</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <span class="title">NGOs</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="fast-food-outline"></ion-icon></span>
+                    <span class="title">Food Details</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="notifications-outline"></ion-icon></span>
+                    <span class="title">Notification</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+                    <span class="title">Feedback</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                    <span class="title">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!--main-->
+    <div class="main">
+        <div class="topbar">
+            <div class="menu"><ion-icon name="menu-outline"></ion-icon></div>
+            <div class="search">
+                <label>
+                    <input type="text" placeholder="Search here">
+                    <ion-icon name="search-outline"></ion-icon>
+                </label>
             </div>
 
-            <div class="profile">
-                <i class="fa-regular fa-bell"></i>
-                <i class="fa-solid fa-circle-user"></i>
+            <!--userimage-->
+
+            <div class="user">
+              <img src="user.jpg">
             </div>
         </div>
 
-        <h3 class="dashboard">
-            Dashboard
-        </h3>
-
-        <div class="values">
-            <div class="val">
-                <i class="fa-solid fa-users"></i>
+        <!--boxes-->
+        
+        <div class="cardBox">
+            <div class="card">
                 <div>
-                    <h3>4</h3>
-                    <span>Admin</span>
+                    <div class="cardName">Total Users</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="people-outline"></ion-icon>
                 </div>
             </div>
 
-            <div class="val">
-                <i class="fa-solid fa-hand"></i>
+            <div class="card">
                 <div>
-                    <h3>161</h3>
-                    <span>Food Request</span>
+                    <div class="cardName">Feedbacks</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
                 </div>
             </div>
 
-            <div class="val">
-                <i class="fa-solid fa-truck"></i>
+            <div class="card">
                 <div>
-                    <h3>147</h3>
-                    <span>Food Donated</span>
+                    <div class="cardName">Total Donates</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="heart-outline"></ion-icon>
                 </div>
             </div>
 
-            <div class="val">
-                <i class="fa-solid fa-hourglass-half"></i>
+            <div class="card">
                 <div>
-                    <h3>14</h3>
-                    <span>Pendng Request</span>
+                    <div class="cardName">Pending Requests</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="hourglass-outline"></ion-icon>
+                </div>
+            </div> 
+        </div>
+
+        <!--Details List-->
+
+        <div class="details">
+            <div class="Donate">
+                <div class="header">
+                <h2>Recent Donatation</h2>
+                <a href="#" class="btn">View All</a>
+                </div>
+                <table>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Food</td>
+                        <td>Category</td>
+                        <td>Date & Time</td>
+                        <td>Address</td>
+                        <td>Quantity</td>
+                        <td>Phone No</td>
+                    </tr>
+                </thead>
+                </table>
+            </div>
+
+            <div class="Customers">
+                <div class="header">
+                    <h2>New Users</h2>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    </div>
+    <script>
+        let menu = document.querySelector('.menu');
+        let navigation = document.querySelector('.navigation');
+        let main = document.querySelector('.main');
+
+        menu.onclick = function(){
+            navigation.classList.toggle('active')
+            main.classList.toggle('active')
+        }
+    </script>
 </body>
 </html>
+
+
+  

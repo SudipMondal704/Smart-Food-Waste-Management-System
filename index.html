@@ -1,11 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Food Waste Management System</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!----======== CSS ======== -->
+  <link rel="stylesheet" href="index.css">
+
+
+
+  <title>Admin Dashboard</title>
 </head>
+
 <body>
-    
+  <nav class="sidebar close">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="logo.png" alt="">
+        </span>
+
+        <div class="text logo-text">
+          <span>Food <b style="color: rgb(38, 211, 188);">Donate</b></span>
+
+        </div>
+
+      </div>
+
+      <i class='fas fa-bars toggle'></i>
+    </header>
+
+    <div class="menu-bar">
+      <div class="menu">
+
+
+
+        <ul class="menu-links">
+          <li class="nav-link">
+            <a href="#">
+              <i class="fa fa-dashboard  icon" style="font-size:20px"></i>
+              <span class="text nav-text">Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class="material-icons icon" style="font-size:20px">restaurant</i>
+
+              <!-- <i class='fas fa-bread-slice icon' style="font-size:20px"></i> -->
+              <span class="text nav-text">Food Info</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class='fas fa-handshake icon' style="font-size:20px"></i>
+              <span class="text nav-text">NGO</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class='fa fa-line-chart icon' style="font-size:20px"></i>
+              <span class="text nav-text">Analytics</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class="fa fa-envelope icon" style="font-size:20px"></i>
+
+              <span class="text nav-text">Message</span>
+            </a>
+          </li>
+
+
+          <li class="nav-link">
+            <a href="#">
+              <i class="material-icons icon" style="font-size:20px">speaker_notes</i>
+              <span class="text nav-text">Action</span>
+            </a>
+          </li>
+
+          <li class="nav-link">
+            <a href="#">
+              <i class="material-icons icon" style="font-size:20px">feedback</i>
+
+              <span class="text nav-text">Feedback</span>
+            </a>
+          </li>
+
+
+        </ul>
+      </div>
+
+
+
+      <div class="bottom-content">
+        <li class="Logout">
+          <a href="#">
+
+            <i class='fas fa-power-off icon' style="color:#fff"></i>
+            <span class="text nav-text" style="color:#ffff">Logout</span>
+          </a>
+        </li>
+
+        <!--<li class="mode">
+          <a href="#">
+
+            <i class='fas fa-moon' style="color:#fff"></i>
+            <span class="text nav-text" style="color:#ffff">Dark Mode</span>
+          </a>
+        </li>-->
+
+
+
+
+
+      </div>
+
+
+    </div>
+
+  </nav>
+
+  <section class="home">
+    <div class="text">Dashboard </div>
+    <div class="header">
+      <div id="left-part">
+        <!--<p>Home</p>-->
+      </div>
+      <div id="right-part">
+        <span>Profile</span>
+        <!-- <i class="material-icons icon" style="font-size:25px" id="alert-icon">add_alert</i> -->
+
+        <!-- <i class="fas fa-user-lock " id="iconbox"></i> -->
+
+      </div>
+
+    </div>
+    </div>
+
+    </div>
+
+
+    <div class="main-content">
+
+      <div class="dashboard-page">
+        <div class="head">
+          <span>Dashboard</span>
+          <p>Home</p>
+        </div>
+        <div class="cards">
+          <div id="card-1">
+            <div id="topic-1">
+              <strong>Users</strong>
+              <p>1000+</p>
+            </div>
+            <div id="icon-1">
+              <i class="fas fa-users" style="font-size:60px"></i>
+            </div>
+          </div>
+
+          <div id="card-2">
+            <div id="topic-2">
+              <strong>NGOs</strong>
+              <p>400</p>
+            </div>
+            <div id="icon-2">
+              <i class='fas fa-handshake' style="font-size:60px"></i>
+            </div>
+          </div>
+
+          <div id="card-3">
+            <div id="topic-3">
+              <strong style=" color:#f85819;">FOOD INFO</strong>
+              <p>786</p>
+            </div>
+            <div id="icon-3">
+              <i class="material-icons icon" style="font-size:60px">restaurant</i>
+            </div>
+          </div>
+
+          <div id="card-4">
+            <div id="topic-4">
+              <strong>All Requests</strong>
+              <p>786</p>
+            </div>
+            <div id="icon-4">
+              <i class="fas fa-hourglass-half" style="font-size:50px"></i>
+            </div>
+          </div>
+
+          <div class="activity-page">
+            <div class="title">
+              <span>Recent Activity</span>
+            </div>
+          <div class="activitydata">
+            <div class="data-names">
+                <span>Name</span>
+                <span>ABC</span>
+             </div>
+            <div class="data-email">
+                <span>Email</span>
+                <span>abc452@gmail.com</span>
+            </div>
+              <div class="data-request">
+                <span>Request Time</span>
+                <span>11:50 am</span>
+              </div>
+              <div class="data-complete">
+                <span>Confirmation Time</span>
+                <span>12.12 pm</span>
+              </div>
+            </div>
+          </div>
+        <!--</div>
+        <div class="charts">
+          <div class="chart-1">
+
+            <table>
+              <h3>Restuarant & NGO Status Dashboard</h3>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Status</th>
+
+
+              </tr>
+
+              <tr>
+                <td id="dark-table">1</td>
+                <td id="dark-table">Maria Anders</td>
+                <td id="online">Online</td>
+              </tr>
+              <tr>
+
+                <td>2</td>
+                <td>Francisco Chang</td>
+                <td id="online">Online</td>
+
+              </tr>
+
+              <tr>
+                <td id="dark-table">3</td>
+                <td id="dark-table">Yoshi Tannamuri</td>
+                <td id="offline">Offline</td>
+
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Giovanni Rovelli</td>
+                <td id="online">Online</td>
+
+              </tr>
+
+
+              <tr>
+                <td id="dark-table">5</td>
+                <td id="dark-table">Maria Anders</td>
+                <td id="offline">Offline</td>
+
+            </table>
+
+
+
+          </div>
+
+          <div class="chart-2">
+            <h3>List Bar for User in Mumbai </h3>
+
+            <p>Bandra</i>
+            </p>
+            <div class="container">
+              <div class="skills bandra">40%</div>
+            </div>
+
+            <p>Kurla</p>
+            <div class="container">
+              <div class="skills kurla">26%</div>
+            </div>
+
+            <p>Mulund</p>
+            <div class="container">
+              <div class="skills mulund">11%</div>
+            </div>
+
+            <p>Chembur</p>
+            <div class="container">
+              <div class="skills chembur">23%</div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>-->
+
+
+
+
+
+
+    </div>
+
+    <footer class="main-footer">
+      <div class="float-right">
+        <b>Version</b> 1.0.01
+      </div>
+      <strong class="no-print">Developed and Maintained by <a href="google.com">FOOD DONATE</a>.</strong>
+    </footer>
+
+  </section>
+
+  <script src="script.js">
+  </script>
+
+
 </body>
+
 </html>
