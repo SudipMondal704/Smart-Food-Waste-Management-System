@@ -6,8 +6,9 @@
   }
   
   body {
-    background:url(formbackground.jpg);
+    background: url(formbackground.jpg);
     background-size: cover;
+    background-position: center;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -19,28 +20,30 @@
     padding: 30px;
     border-radius: 10px;
     backdrop-filter: blur(3px);
+    width: 100%;
+    max-width: 950px;
+    margin: 20px;
   }
   
   .signup-box {
-    width: 900px;
     display: flex;
+    flex-wrap: wrap;
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   }
   
-  /* Left side with full image */
   .left-image {
-    width: 50%;
-    background-image: url('leftsideform.jpg');
+    flex: 1 1 100%;
+    min-height: 200px;
+    background-image: url(leftsideform.jpg);
     background-size: cover;
     background-position: center;
   }
   
-  /* Right side */
   .right-section {
-    width: 50%;
+    flex: 1 1 100%;
     padding: 40px 30px;
   }
   
@@ -120,3 +123,19 @@
     text-decoration: none;
   }
   
+  @media (min-width: 768px) {
+    .signup-box {
+      flex-wrap: nowrap;
+    }
+  
+    .left-image {
+      flex: 1;
+      min-height: auto;
+      height: auto;
+    }
+  
+    .right-section {
+      flex: 1;
+      padding: 40px 30px;
+    }
+  }
