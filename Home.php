@@ -20,12 +20,7 @@
                 <li><a href="" class="active">Home</a></li>
                 <li><a href="">About</a></li>
                 <li><a href="">Contact</a></li>
-<<<<<<< HEAD
                 <li><a href="index.html">Login</a></li>
-=======
-                <li><a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/usersignup.php">Profile</a></li>
-                <li><a href="admin.html">Admin</a></li>
->>>>>>> 54f5aaf1b3d515ecce1e09aad8397a23e6290cc2
             </ul>
         </nav>
     </header>
