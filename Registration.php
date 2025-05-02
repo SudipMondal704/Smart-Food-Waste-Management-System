@@ -47,7 +47,7 @@ if (isset($_GET['message'])) {
          <button type="submit">Register</button>
         </form>
         <div class="login-link">
-          Already have an account? <a href="http://localhost/foodWaste/Smart-Food-Waste-Management-System/login.php">Login</a>
+          Already have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/login.php">Login</a>
         </div>
       </div>
     </div>
