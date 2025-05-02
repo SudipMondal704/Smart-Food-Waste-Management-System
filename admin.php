@@ -48,13 +48,13 @@
             <li>
                 <a href="#">
                     <span class="icon"><ion-icon name="notifications-outline"></ion-icon></span>
-                    <span class="title">Notification</span>
+                    <span class="title">Notifications</span>
                 </a>
             </li>
             <li>
                 <a href="#">
                     <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
-                    <span class="title">Feedback</span>
+                    <span class="title">Feedbacks</span>
                 </a>
             </li>
             <li>
@@ -93,14 +93,14 @@
                 </div>
             </div>
 
-            <div class="card2">
+            <!--<div class="card2">
                 <div>
                     <div class="cardName">Feedbacks</div>
                 </div>
                 <div class="iconBx">
                     <ion-icon name="chatbubbles-outline"></ion-icon>
                 </div>
-            </div>
+            </div>-->
 
             <div class="card3">
                 <div>

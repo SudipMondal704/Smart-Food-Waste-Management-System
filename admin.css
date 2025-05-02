@@ -22,7 +22,7 @@ body {
 
 /* Sidebar Styling */
 .navigation {
-    width: 240px;
+    width: 250px;
     background-color: #2c3e50;
     height: 100vh;
     color: white;
@@ -30,6 +30,16 @@ body {
     left: 0;
     top: 0;
     overflow-y: auto;
+    transition: 0.3s;
+}
+
+.navigation.active
+{
+    width: 70px;
+}
+
+.navigation.active .title {
+    display: none;
 }
 
 .navigation ul {
@@ -42,8 +52,13 @@ body {
 
 .navigation ul li:nth-child(1)
 {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     pointer-events: none;
+}
+
+.navigation ul li:nth-child(8)
+{
+    margin-top: 180px;
 }
 
 .navigation ul li a {
@@ -59,6 +74,11 @@ body {
     margin-right: 10px;
 }
 
+.navigation ul li a .icon ion-icon
+{
+    font-size: 1.30em;
+}
+
 .navigation ul li a:hover {
     background-color: #34495e;
     border-radius: 5px;
@@ -70,11 +90,17 @@ body {
 
 /* Main Content Area */
 .main {
-    margin-left: 240px;
+    margin-left: 250px;
     border-radius: 20px;
     flex-grow: 1;
-    width: calc(100% - 240px);
+    width: calc(100% - 250px);
     overflow-x: hidden;
+    transition: 0.3s;
+}
+
+.main.active
+{
+   margin-left: 70px;
 }
 
 /* Top Bar */
@@ -88,6 +114,13 @@ body {
 }
 
 .menu {
+    position: relative;
+    top: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 30px;
     cursor: pointer;
 }
@@ -134,7 +167,7 @@ body {
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(3,1fr);
     grid-gap: 30px;
     box-shadow: #000000;
     transition: all 0.3s ease;
@@ -143,7 +176,7 @@ body {
 .cardBox .card1
 {
     position: relative;
-    background: #e25ff7;
+    background: #96e2ebcf;
     padding: 30px;
     border-radius: 20px;
     display: flex;
@@ -174,10 +207,10 @@ body {
     color: white;
 }
 
-.cardBox .card2
+/* .cardBox .card2
 {
     position: relative;
-    background: #f1e913;
+    background: #96e2ebcf;
     padding: 30px;
     border-radius: 20px;
     display: flex;
@@ -199,19 +232,19 @@ body {
 }
 .cardBox .card2:hover
 {
-  /*  background: rgb(131, 197, 252);*/
+ 
     transform: translateY(-5px) scale(1.02);
 }
 .cardBox .card2:hover .cardName,
 .cardBox .card2:hover .iconBx
 {
     color: white;
-}
+}*/
 
 .cardBox .card3
 {
     position: relative;
-    background: #42f74e;
+    background: #96e2ebcf;
     padding: 30px;
     border-radius: 20px;
     display: flex;
@@ -245,7 +278,7 @@ body {
 .cardBox .card4
 {
     position: relative;
-    background: #ff000083;
+    background: #96e2ebcf;
     padding: 30px;
     border-radius: 20px;
     display: flex;
