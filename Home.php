@@ -18,7 +18,7 @@
         <nav class="nav-bar">
             <ul>
                 <li><a href="" class="active">Home</a></li>
-                <li><a href="About.html">About</a></li>
+                <li><a href="About.php">About</a></li>
                 <li><a href="Contact.php">Contact</a></li>
                 <li><a href="login.php">Login</a></li>
             </ul>

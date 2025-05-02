@@ -8,7 +8,7 @@
     <title>contact</title>
     <link rel="stylesheet" href="Contact.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="chatbot/chatbot.css">
+	<link rel="stylesheet" href="chatbot.css">
 	 
 
 </head>
@@ -24,8 +24,8 @@
         </div>
         <nav class="nav-bar">
             <ul>
-                <li><a href="home.html" >Home</a></li>
-                <li><a href="about.html" >About</a></li>
+                <li><a href="Home.php" >Home</a></li>
+                <li><a href="About.php" >About</a></li>
                 <li> <a href="contact.php" class="active">Contact</a> </li>
                 <li><a href="profile.php" >Profile</a></li>
             </ul>
@@ -56,7 +56,7 @@
      <input type="submit" value="Send" name="send" class="form-submit" > 
     </form> 
    </div> 
-   <div class="contact-info" style="padding: 10px;"> 
+   <div class="contact-info" style="padding: 10px; text-align: center"> 
     <p>Email: fooddonate@gmail.com</p> 
     <p>Phone: 555-555-5555</p> 
     <p>Address: BIMS College</p> 
@@ -64,7 +64,7 @@
  
 
   <div class="chatbot" style="padding: 30px; background-color: rgba(151, 243, 199, 0.5);">
- <p style="font-size: 23px; text-align: center;">chat bot support <img src="bot-mini.png" alt=""height="20"></p>
+ <p style="font-size: 23px; text-align: center;">chat bot support <img src="img/bot-mini.png" alt=""height="20"></p>
 
 	
  <div id="container" class="container">
@@ -76,6 +76,9 @@
 		</div>
        
 	</div>
+
+
+
   <div class="help">
     <p style="font-size: 23px; text-align: center; padding:10px;">Help & FAQs?</p>
 
@@ -84,8 +87,7 @@
   <p>1)click on <a href="fooddonate.html">donate</a> in home page </p>
   <p>2)fill the details </p>
   <p>3)click on submit</p>
- <img src="img/mobile.jpg
- " alt="" width="100%">
+ <img src=" " alt="" width="100%">
 </div>
 
 <button class="accordion">How will my donation be used?</button>
