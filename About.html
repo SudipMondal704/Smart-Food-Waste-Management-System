@@ -19,7 +19,7 @@
             <ul>
                 <li><a href="Home.php" >Home</a></li>
                 <li><a href="#about" class="active" >About</a></li>
-                <li><a href="contact.html" >Contact</a></li>
+                <li><a href="Contact.php" >Contact</a></li>
                 <li><a href="profile.php" >Profile</a></li>
             </ul>
         </nav>
@@ -32,6 +32,14 @@
         }
     </script>
     <style>
+
+ body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #6bdb49d2 0%, #1731c2cb 100%); /* Change this to any color you prefer */
+}
+
        
         
         .coverc{
@@ -113,10 +121,18 @@
       <br>
       <br>
       
+  
+
+<p  style=" font-size:30px;" class="heading"> Location  </p>
 
 
-<div class="map"  style="  text-align: center; padding-bottom: 50px;" >
-<p  style=" font-size:30px ;" > Location  </p>
+<div style= "padding-top: 2%;"position: relative;">
+  <div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;">
+  <iframe style="position: absolute; top: 0; left: 15%; width: 70%; height: 50%; border: 2px solid black;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Burdwan+Institute+Management+%26+Computer+Science&output=embed">
+  </iframe>
+</div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>
+
+
     </div>
 
 

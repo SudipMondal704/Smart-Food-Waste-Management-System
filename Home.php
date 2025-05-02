@@ -19,8 +19,8 @@
             <ul>
                 <li><a href="" class="active">Home</a></li>
                 <li><a href="About.html">About</a></li>
-                <li><a href="">Contact</a></li>
-                <li><a href="index.html">Login</a></li>
+                <li><a href="Contact.php">Contact</a></li>
+                <li><a href="login.php">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -118,8 +118,8 @@
           <p class="menu">
            <a href="#"> Home</a> |
            <a href="about.html"> About</a> |
-           <a href="profile.php"> Profile</a> |
-           <a href="contact.html"> Contact</a>
+           <a href="Contact.php"> Contact</a> |
+          
          </p>
        
        </div>
