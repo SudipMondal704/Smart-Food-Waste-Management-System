@@ -37,7 +37,7 @@
   .left-image {
     flex: 1 1 100%;
     min-height: 200px;
-    background-image: url(leftsideform.jpg);
+    background-image: url(Left.jpg);
     background-size: cover;
     background-position: center;
   }

@@ -28,10 +28,11 @@ if (isset($_GET['message'])) {
         <input type="hidden" name="action" value="login">
         <input type="text" name="email_phone" placeholder="Email/Phone Number" required />
           <input type="password" name="confirm_password" placeholder=" Password" required />
+         
         <button type="submit">Login</button>
         </form>
         <div class="login-link">
-          Don't have an account? <a href="http://localhost/foodWaste/Smart-Food-Waste-Management-System/Registration.php">Register</a>
+          Don't have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System//Registration.php">Register</a>
         </div>
       </div>
     </div>
