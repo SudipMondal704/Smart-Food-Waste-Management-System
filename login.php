@@ -28,6 +28,7 @@ if (isset($_GET['message'])) {
         <input type="hidden" name="action" value="login">
         <input type="text" name="email_phone" placeholder="Email/Phone Number" required />
           <input type="password" name="confirm_password" placeholder=" Password" required />
+         
         <button type="submit">Login</button>
         </form>
         <div class="login-link">
