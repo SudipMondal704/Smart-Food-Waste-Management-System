@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         if (array_key_exists($email_phone, $admin_credentials)) {
             if (password_verify($confirm_password, $admin_credentials[$email_phone])) {
                 // Redirect to admin.html
-                header("Location: admin.html?message=Welcome Admin!");
+                header("Location: admin.php?message=Welcome Admin!");
                 exit();
             } else {
                 header("Location: login.php?message=You are not an Admin!");
