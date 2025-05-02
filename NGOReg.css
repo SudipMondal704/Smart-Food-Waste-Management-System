@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  body {
+    background-image:url(img/background.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 10px;
+    backdrop-filter: blur(3px);
+    width: 100%;
+    max-width: 950px;
+    margin: 20px;
+  }
+  
+  .signup-box {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .left-image {
+    flex: 1 1 100%;
+    min-height: 200px;
+    background-image: url(NGOReg1left.jpg);
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .right-section {
+    flex: 1 1 100%;
+    padding: 40px 30px;
+  }
+  
+  .right-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"],
+  form input[type="tel"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+  }
+  
+  .gender {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .gender label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .checkbox input {
+    margin-right: 8px;
+  }
+  
+  .checkbox a {
+    color: #00bcd4;
+    text-decoration: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #00bcd4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background: #0097a7;
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .login-link a {
+    color: #00bcd4;
+    text-decoration: none;
+  }
+  
+  @media (min-width: 768px) {
+    .signup-box {
+      flex-wrap: nowrap;
+    }
+  
+    .left-image {
+      flex: 1;
+      min-height: auto;
+      height: auto;
+    }
+  
+    .right-section {
+      flex: 1;
+      padding: 40px 30px;
+    }
+  }
