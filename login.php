@@ -32,7 +32,7 @@ if (isset($_GET['message'])) {
         <button type="submit">Login</button>
         </form>
         <div class="login-link">
-          Don't have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System//Registration.php">Register</a>
+          Don't have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/Registration.php">Register</a>
         </div>
       </div>
     </div>
