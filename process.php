@@ -1,8 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
-
->>>>>>> a63c9d30af9966e1845453fdde8e1aeecf5e7412
 // Database connection
 $servername = "localhost";
 $username = "root";
@@ -16,12 +12,11 @@ if ($conn->connect_error) {
     die("Database Connection failed: " . $conn->connect_error);
 }
 
-<<<<<<< HEAD
 // Hardcoded Admin credentials
-=======
+
 
 // Hardcoded admin credentials (email or phone => hashed password)
->>>>>>> a63c9d30af9966e1845453fdde8e1aeecf5e7412
+
 $admin_credentials = [
     // Admin 1
     "rayantan@gmail.com" => password_hash("rayantan", PASSWORD_DEFAULT),
