@@ -16,7 +16,7 @@ if (isset($_GET['message'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Responsive Login form</title>
-  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="NGOlog.css"/>
 </head>
 <body>
   <div class="overlay">
@@ -25,14 +25,14 @@ if (isset($_GET['message'])) {
       <div class="right-section">
         <h2>Log in</h2>
         <form action="process.php" method="POST">
-        <input type="hidden" name="action" value="login">
+        <input type="hidden" name="action" value="NGOlog">
         <input type="text" name="email_phone" placeholder="Email/Phone Number" required />
           <input type="password" name="confirm_password" placeholder=" Password" required />
          
         <button type="submit">Login</button>
         </form>
         <div class="login-link">
-          Don't have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/Registration.php">Register</a>
+          Don't have an account? <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/NGOReg.php">Register</a>
         </div>
       </div>
     </div>

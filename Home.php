@@ -20,17 +20,39 @@
                 <li><a href="" class="active">Home</a></li>
                 <li><a href="About.php">About</a></li>
                 <li><a href="Contact.php">Contact</a></li>
-                <li><a href="login.php">Login</a></li>
+               
+                <li class="dropdown">
+                 <a href="#" class="dropbtn">Login <i class="fa fa-caret-down"></i></a>
+                 <div class="dropdown-content">
+                 <a href="login.php">Doner</a>
+                <a href="NGOlog.php">NGO</a>
+             </div>
+             </li>
+
             </ul>
         </nav>
+        
     </header>
     <script>
-        hamburger=document.querySelector(".hamburger");
-        hamburger.onclick =function(){
-            navBar=document.querySelector(".nav-bar");
-            navBar.classList.toggle("active");
-        }
-    </script>
+    document.addEventListener("DOMContentLoaded", function () {
+  // Hamburger menu
+    const hamburger = document.querySelector(".hamburger");
+    hamburger.onclick = function () {
+    const navBar = document.querySelector(".nav-bar");
+    navBar.classList.toggle("active");
+     };
+
+    // Dropdown toggle for mobile
+    const dropdown = document.querySelector(".dropdown .dropbtn");
+    dropdown.addEventListener("click", function (e) {
+    e.preventDefault();
+    const dropdownContent = this.nextElementSibling;
+    dropdownContent.style.display =
+      dropdownContent.style.display === "block" ? "none" : "block";
+  });
+});
+</script>
+
 
 
 

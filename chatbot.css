@@ -147,7 +147,7 @@
     background-size: cover;
     display: grid;
     place-items:center;
-    padding-top: 8rem;
+    
   }
 
 
@@ -202,7 +202,6 @@ input[type="submit"] {
       background-size: cover;
       display: grid;
       place-items:center;
-      padding-top: 8rem;
     }
   
     .contact-form {
