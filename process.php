@@ -1,7 +1,5 @@
 <?php
-<<<<<<< HEAD
 
-=======
 // Database connection
 $servername = "localhost";
 $username = "root";
@@ -14,7 +12,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Database Connection failed: " . $conn->connect_error);
 }
->>>>>>> ca00daa7c955bd3c2de1e48d227eb3b96c6ee6cf
 
 // Hardcoded Admin credentials
 
@@ -78,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         // Admin login check
         if (array_key_exists($email_phone, $admin_credentials)) {
             if (password_verify($confirm_password, $admin_credentials[$email_phone])) {
-                header("Location: admin.php?message=Welcome Admin!");
+                header("Location: admin/admin.php?message=Welcome Admin!");
                 exit();
             } else {
                 header("Location: login.php?message=You are not an Admin!");

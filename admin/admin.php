@@ -61,7 +61,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="feedback.html">
 					<i class='bx bxs-file' ></i>
 					<span class="text">Feedbacks</span>
 				</a>
@@ -73,7 +73,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#" class="logout">
+				<a href="" class="logout">
 					<i class="fi fi-ss-sign-out-alt"></i>
 					<span class="text">Logout</span>
 				</a>
