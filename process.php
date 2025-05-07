@@ -1,8 +1,12 @@
 <?php
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 
 =======
 // Database connection
+=======
+// Database Connection
+>>>>>>> Stashed changes
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -16,11 +20,15 @@ if ($conn->connect_error) {
 }
 >>>>>>> ca00daa7c955bd3c2de1e48d227eb3b96c6ee6cf
 
+<<<<<<< Updated upstream
 // Hardcoded Admin credentials
 
 
 // Hardcoded admin credentials (email or phone => hashed password)
 
+=======
+//Hardcoded admin credentials (email or phone => hashed password)
+>>>>>>> Stashed changes
 $admin_credentials = [
     // Admin 1
     "rayantan@gmail.com" => password_hash("rayantan", PASSWORD_DEFAULT),
@@ -71,7 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         }
 
     // -------------------------- USER & ADMIN LOGIN ---------------------------- //
-    } elseif ($action == "login") {
+    }
+     elseif ($action == "login")
+      {
         $email_phone = $_POST['email_phone'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 

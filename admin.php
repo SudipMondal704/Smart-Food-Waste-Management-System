@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN PANEL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="fetch_users.css">
+    <link rel="stylesheet" href="fetch_ngo.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="logo-mastodon"></ion-icon></span>
+                    <span class="title">Food <b style="color: rgb(38, 211, 188);">Donate</b></span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="showUsers">
+                    <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+                    <span class="title">Users</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <span class="title">NGOs</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="fast-food-outline"></ion-icon></span>
+                    <span class="title">Food Details</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="notifications-outline"></ion-icon></span>
+                    <span class="title">Notifications</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="document-text-outline"></ion-icon></span>
+                    <span class="title">Feedbacks</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                    <span class="title">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="menu"><ion-icon name="menu-outline"></ion-icon></div>
+            <div class="search">
+                <label>
+                    <input type="text" placeholder="Search here">
+                    <ion-icon name="search-outline"></ion-icon>
+                </label>
+            </div>
+            <div class="user">
+                <img src="user.jpg" alt="Admin">
+            </div>
+        </div>
+
+        <!-- Dashboard cards -->
+        <div class="cardBox">
+            <div class="card1">
+                <div>
+                    <div class="cardName">Total Users</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="people-outline"></ion-icon>
+                </div>
+            </div>
+
+            <!--<div class="card2">
+                <div>
+                    <div class="cardName">Feedbacks</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                </div>
+            </div>-->
+
+            <div class="card3">
+                <div>
+                    <div class="cardName">Total Donates</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card4">
+                <div>
+                    <div class="cardName">Pending Requests</div>
+                
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="hourglass-outline"></ion-icon>
+                </div>
+            </div> 
+        </div>
+
+        <!-- Container for dynamic data -->
+        <div class="details">
+            <!-- Static Donation Table Placeholder -->
+            <div class="Donate">
+                <div class="header">
+                    <h2>Recent Donation</h2>
+                    <a href="#" class="btn">View All</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Food</td>
+                            <td>Category</td>
+                            <td>Date & Time</td>
+                            <td>Address</td>
+                            <td>Quantity</td>
+                            <td>Phone No</td>
+                            <td>Status</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <!-- User Table loads here -->
+            <div class="Customers">
+                <div class="header">
+                    <h2> Users</h2>
+                </div>
+                <div id="userTable">
+                    <!-- Table content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toggle Sidebar -->
+<script>
+    let menu = document.querySelector('.menu');
+    let navigation = document.querySelector('.navigation');
+    let main = document.querySelector('.main');
+
+    menu.onclick = function () {
+        navigation.classList.toggle('active');
+        main.classList.toggle('active');
+    }
+</script>
+
+<!-- AJAX to load users -->
+<script>
+    document.getElementById("showUsers").addEventListener("click", function (e) {
+        e.preventDefault();
+        fetch('fetch_users.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("userTable").innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+    });
+</script>
+</body>
+</html>
