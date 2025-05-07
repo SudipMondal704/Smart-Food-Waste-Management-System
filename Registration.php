@@ -22,7 +22,7 @@ if (isset($_GET['message'])) {
     <div class="signup-box">
       <div class="left-image"></div>
       <div class="right-section">
-        <h2>Registration</h2>
+        <h2>Donor Registration</h2>
         <form action="process.php" method="POST">
         <input type="hidden" name="action" value="registration">
          <input type="text" name="username"placeholder="User name" required />
