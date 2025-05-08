@@ -1,14 +1,7 @@
 <?php
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-<<<<<<< HEAD
->>>>>>> 9ecee328bfde3dd742589a818e40987b7abb7213
 
-// Database connection
-=======
 // Database Connection
->>>>>>> Stashed changes
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -21,15 +14,14 @@ if ($conn->connect_error) {
     die("Database Connection failed: " . $conn->connect_error);
 }
 
-<<<<<<< Updated upstream
 // Hardcoded Admin credentials
 
 
 // Hardcoded admin credentials (email or phone => hashed password)
 
-=======
+
 //Hardcoded admin credentials (email or phone => hashed password)
->>>>>>> Stashed changes
+
 $admin_credentials = [
     // Admin 1
     "rayantan@gmail.com" => password_hash("rayantan", PASSWORD_DEFAULT),

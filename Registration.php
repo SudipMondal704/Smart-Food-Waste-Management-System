@@ -8,7 +8,7 @@ if (isset($_GET['message'])) {
         ". (!empty($redirect) ? "window.location.href = '$redirect';" : "") ."
     </script>";
 }
-?>
+?
 <!DOCTYPE html>
 <html lang="en">
 <head>

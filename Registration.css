@@ -1,5 +1,4 @@
 * {
-<<<<<<< Updated upstream
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -10,10 +9,12 @@ body {
   background-image: linear-gradient(-60deg, #16a085 0%, #f4d03f 100%);
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  min-height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
+  overflow-y:scroll;
 }
 
 .overlay {
@@ -23,7 +24,7 @@ body {
   backdrop-filter: blur(3px);
   width: 100%;
   max-width: 950px;
-  margin: 20px;
+  margin: 10px;
 }
 
 .signup-box {
@@ -125,34 +126,6 @@ button:hover {
 
 /* Responsive for tablets and up */
 @media (min-width: 768px) {
-=======
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
-  }
-  
-  body {
-    background-image:url(img/UserRegBackground.jpg);
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .overlay {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 30px;
-    border-radius: 10px;
-    backdrop-filter: blur(3px);
-    width: 100%;
-    max-width: 950px;
-    margin: 20px;
-  }
-  
->>>>>>> Stashed changes
   .signup-box {
     flex-direction: row;
   }
