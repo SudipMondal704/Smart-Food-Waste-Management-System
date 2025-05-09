@@ -6,7 +6,7 @@ var currentdate = date.getDate().toString().padStart(2, '0') + '/' +
                  date.getFullYear();
 var time = new Date().toLocaleTimeString();
 const prompts = [
-    ["hi","Hii", "hey", "hello", "good morning", "good afternoon"],
+    ["Hi","hi", "hey", "hello", "good morning", "good afternoon"],
     ["how are you", "how is life", "how are things"],
     ["what are you doing", "what is going on", "what is up"],
     ["how old are you"],
@@ -53,31 +53,47 @@ const prompts = [
       "Pretty well, how are you?",
       "Fantastic, how are you?"
     ],
+    
     [
       "Nothing much",
       "About to go to sleep",
       "Can you guess?",
       "I don't know actually"
     ],
+
     ["I am infinite"],
+
     ["I am just a bot", "I am a bot. What are you?"],
     
     ["kishor and uppili"],
+
     ["I am chitti"],
+
     ["I love you too", "Me too"],
+
     ["Have you ever felt bad?", "Glad to hear it"],
+
     ["Why?", "Why? You shouldn't!", "Try watching TV"],
+
     ["What about?", "Once upon a time..."],
+
     ["Tell me a story", "Tell me a joke", "Tell me about yourself"],
    
     
     ["Bye", "Goodbye", "See you later"],
+
     ["Sushi", "Pizza"],
+
     ["Bro!"],
+
     ["Great question"],
+
     ["That's ok","I understand","What do you want to talk about?"],
+
     ["Please say something :("],
+
     ["Haha!","Good one!"],
+    
     ["  The basic concept of this project  Food Waste Management is to collect theexcess/leftover food from donors such as hotels, restaurants, marriage halls, etc and distribute to  the needy people"]
     ,[currentdate]
     [time],
