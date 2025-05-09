@@ -1,4 +1,4 @@
-<?php
+<!--<?php
 if (isset($_GET['message'])) {
     $message = $_GET['message'];
     $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
@@ -8,7 +8,11 @@ if (isset($_GET['message'])) {
         ". (!empty($redirect) ? "window.location.href = '$redirect';" : "") ."
     </script>";
 }
+<<<<<<< HEAD
 ?>
+=======
+?> -->
+>>>>>>> 7c49c2309127defe388e423d8b4034edb3597fb1
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +34,7 @@ if (isset($_GET['message'])) {
           <input type="email" name="email"placeholder="Email" required />
           <input type="tel" name="phone" placeholder="Phone Number" required />
           <input type="password"name="password" placeholder=" Create Password" required />
-          <input type="password" name="confirm_password"placeholder=" Confirm password" required />
+         <!-- <input type="password" name="confirm_password"placeholder=" Confirm password" required />-->
 
 
           <div class="gender">
