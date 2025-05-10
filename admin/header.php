@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <!-- My CSS -->
+	<link rel="stylesheet" href="admin.css">
+
+	<title>Admin</title>
+</head>
+<body>
+    <?php   include('sidebar.php');   ?>
+    <section id="content">
+    <?php   include('navbar.php');    ?>
+    
