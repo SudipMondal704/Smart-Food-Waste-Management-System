@@ -23,7 +23,7 @@ if (isset($_GET['message'])) {
     <div class="signup-box">
       <div class="left-image"></div>
       <div class="right-section">
-        <h2>Log in</h2>
+        <h2>Donor Login</h2>
         <form action="process.php" method="POST">
         <input type="hidden" name="action" value="login">
         <input type="text" name="email_phone" placeholder="Email/Phone Number" required />

@@ -1,10 +1,26 @@
 <?php
 
+// Database Connection
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "food_waste"; // your database name
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Database Connection failed: " . $conn->connect_error);
+}
 
 // Hardcoded Admin credentials
 
 
 // Hardcoded admin credentials (email or phone => hashed password)
+
+
+//Hardcoded admin credentials (email or phone => hashed password)
 
 $admin_credentials = [
     // Admin 1
@@ -56,7 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         }
 
     // -------------------------- USER & ADMIN LOGIN ---------------------------- //
-    } elseif ($action == "login") {
+    }
+     elseif ($action == "login")
+      {
         $email_phone = $_POST['email_phone'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 

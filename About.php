@@ -116,7 +116,8 @@
             like you who aim to make this world a better place."</p> -->
       
         <p>We are a team of passionate individuals committed to addressing the issue of food waste in India. 
-          Our goal is to create a system that connects food donors with charities and NGOs, while also reducing the environmental impact of food waste.</p>
+          Our goal is to create a system that connects food donors with charities and NGOs, while also reducing
+           the environmental impact of food waste.</p>
       </div>
       <br>
       <br>

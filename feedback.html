@@ -1,57 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Feedback Form </title>
-  <link rel="stylesheet" href="feedback.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback Form</title>
+    <link rel="stylesheet" href="feedback.css">
 </head>
 <body>
-  <div class="container">
-    <!-- Title section -->
-     <div class="img">
-        <img src="feedback.png" alt="" width="100">
-     </div>
-    <div class="title">Customer Feedback Form</div>
-
-    <div class="title-1">Thank you for taking time to provide feedback. We appreciate hearing from you and will review your comments carefully.</div>
-    <div class="content">
-      <!-- Registration form -->
-      <form action="#">
-        <div class="user-details">
-          <!-- Input for Full Name -->
-          <div class="input-box">
-            <span class="details">Full Name</span>
-            <input type="text" placeholder="Enter your name" required>
-          </div>
-          <!-- Input for Username -->
-          <div class="input-box">
-            <span class="details">Username</span>
-            <input type="text" placeholder="Enter your username" required>
-          </div>
-          <!-- Input for Email -->
-          <div class="input-box">
-            <span class="details">Email</span>
-            <input type="text" placeholder="Enter your email" required>
-          </div>
-          <!-- Input for Phone Number -->
-          <div class="input-box">
-            <span class="details">Phone Number</span>
-            <input type="text" placeholder="Enter your number" required>
-          </div>
-        </div> 
-        <!-- Input for feedback  -->
-        <div class="message">
-            <span class="details">Do you have any suggestions to improve our service?</span>
-            <textarea id="message" name="message" placeholder="Write your Feedback"></textarea>
+    <div class="container">
+        <div class="logo">
+          <img src="feedback.png" alt="logo">
         </div>
-       
-        <!-- Submit button -->
-        <div class="button">
-          <input type="submit" value="Send Feedback">
+        <div class="title">Customer Feedback Form</div>
+        <div class="subtitle">Thank you for taking time to provide feedback. We appreciate hearing from you and will review your comments carefully.</div>
+        <div class="content">
+             <form action="submit_feedback.php" method="POST">
+        <input type="hidden" name="action" value="feedback">
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Full Name</span>
+                        <input type="text"name="full_name" placeholder="Enter your name" required>
+                    </div>
+                <div class="input-box">
+                        <span class="details">Email</span>
+                        <input type="text"name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input type="text"name="phonenumber" placeholder="Enter your Phone Number" required>
+                </div>
+                </div>
+                <div class="message-box">
+                    <span class="details">Do you have any suggestions to improve our service?</span>
+                    <textarea name="feedback_text" placeholder="Write your feedback" required></textarea>
+                </div>
+                <div class="button">
+                    <input type="submit" value="Send Feedback">
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 </body>
 </html>
