@@ -14,28 +14,25 @@
         <div class="title">Customer Feedback Form</div>
         <div class="subtitle">Thank you for taking time to provide feedback. We appreciate hearing from you and will review your comments carefully.</div>
         <div class="content">
-            <form action="#">
+             <form action="submit_feedback.php" method="POST">
+        <input type="hidden" name="action" value="feedback">
                 <div class="user-details">
                     <div class="input-box">
                         <span class="details">Full Name</span>
-                        <input type="text" placeholder="Enter your name" required>
+                        <input type="text"name="full_name" placeholder="Enter your name" required>
                     </div>
-                    <div class="input-box">
-                        <span class="details">Username</span>
-                        <input type="text" placeholder="Enter your username" required>
-                    </div>
-                    <div class="input-box">
+                <div class="input-box">
                         <span class="details">Email</span>
-                        <input type="email" placeholder="Enter your email" required>
-                    </div>
-                    <div class="input-box">
+                        <input type="text"name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-box">
                         <span class="details">Phone Number</span>
-                        <input type="text" placeholder="Enter your number" required>
-                    </div>
+                        <input type="text"name="phonenumber" placeholder="Enter your Phone Number" required>
+                </div>
                 </div>
                 <div class="message-box">
                     <span class="details">Do you have any suggestions to improve our service?</span>
-                    <textarea placeholder="Write your feedback" required></textarea>
+                    <textarea name="feedback_text" placeholder="Write your feedback" required></textarea>
                 </div>
                 <div class="button">
                     <input type="submit" value="Send Feedback">

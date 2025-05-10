@@ -2,17 +2,17 @@
 
 // Database Connection
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "food_waste"; // your database name
+//$servername = "localhost";
+//$username = "root";
+//$password = "";
+//$dbname = "food_waste"; // your database name
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+//$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Database Connection failed: " . $conn->connect_error);
-}
+//if ($conn->connect_error) {
+  //  die("Database Connection failed: " . $conn->connect_error);
+//}
 
 // Hardcoded Admin credentials
 
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         $gender = $_POST['gender'] ?? '';
 
         if ($password === $confirm_password) {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $hashed_password = password ($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users (username, address, email, phone, password, gender) 
                     VALUES ('$username', '$address', '$email', '$phone', '$hashed_password', '$gender')";
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             header("Location: registration.php?message=Passwords do not match!");
             exit();
         }
-
+ 
     // -------------------------- USER & ADMIN LOGIN ---------------------------- //
     }
      elseif ($action == "login")

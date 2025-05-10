@@ -1,4 +1,4 @@
-<!--<?php
+<?php
 if (isset($_GET['message'])) {
     $message = $_GET['message'];
     $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
@@ -8,7 +8,11 @@ if (isset($_GET['message'])) {
         ". (!empty($redirect) ? "window.location.href = '$redirect';" : "") ."
     </script>";
 }
-?> -->
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

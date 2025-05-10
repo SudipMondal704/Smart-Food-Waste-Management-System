@@ -65,7 +65,7 @@ const prompts = [
 
     ["I am just a bot", "I am a bot. What are you?"],
     
-    ["kishor and uppili"],
+
 
     ["I am chitti"],
 
