@@ -19,7 +19,7 @@ li {
 	--lato: 'Lato', sans-serif;
 
 	--light: #F9F9F9;
-	--blue: #3C91E6;
+	--blue: #5500cb;
 	--light-blue: #CFE8FF;
 	--grey: #eee;
 	--dark-grey: #AAAAAA;
@@ -151,6 +151,7 @@ body {
 #sidebar .side-menu li a.logout {
 	color: var(--red);
 }
+
 #sidebar .side-menu.top li a:hover {
 	color: var(--blue);
 }
@@ -163,6 +164,8 @@ body {
 .side-menu li:nth-child(6){
     margin-top: 120px;
 }
+
+
 
 /* SUBMENU STYLES */
 #sidebar .side-menu li .sub-menu {
@@ -222,10 +225,11 @@ body {
 	box-shadow: 1px 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 /* DROPDOWN ICON TRANSITION */
 .dropdown-icon {
     transition: transform 0.3s ease;
-    display: inline-block;
+    display: flex;
 }
 
 #sidebar .side-menu li.show-submenu .dropdown-icon {
@@ -248,7 +252,7 @@ body {
 
 /* NAVBAR */
 #content nav {
-	height: 56px;
+	height: 62px;
 	background: var(--light);
 	padding: 0 24px;
 	display: flex;
@@ -275,6 +279,7 @@ body {
 }
 #content nav .bx.bx-menu {
 	cursor: pointer;
+    font-size: 25px;
 	color: var(--dark);
 }
 #content nav .nav-link {
@@ -375,7 +380,7 @@ body {
 /* MAIN */
 #content main {
 	width: 100%;
-	padding: 36px 24px;
+	padding: 8px 30px;
 	font-family: var(--poppins);
 	max-height: calc(100vh - 56px);
 	overflow-y: auto;
@@ -387,7 +392,7 @@ body {
 	grid-gap: 16px;
 	flex-wrap: wrap;
 }
-#content main .head-title .left h1 {
+#content main .head-title .left h2 {
 	font-size: 36px;
 	font-weight: 600;
 	margin-bottom: 10px;
@@ -409,18 +414,7 @@ body {
 	color: var(--blue);
 	pointer-events: unset;
 }
-#content main .head-title .btn-download {
-	height: 36px;
-	padding: 0 16px;
-	border-radius: 36px;
-	background: var(--blue);
-	color: var(--light);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	grid-gap: 10px;
-	font-weight: 500;
-}
+
 
 #content main .box-info {
 	display: grid;
@@ -458,11 +452,11 @@ body {
 	background: var(--light-orange);
 	color: #fc1919dc;
 }
-#content main .box-info li .text h3 {
+/* #content main .box-info li .text h3 {
 	font-size: 24px;
 	font-weight: 600;
 	color: var(--dark);
-}
+} */
 #content main .box-info li .text p {
 	color: var(--dark);	
 }
@@ -492,9 +486,18 @@ body {
 	font-size: 24px;
 	font-weight: 600;
 }
-#content main .table-data .head .bx {
-	cursor: pointer;
+#content main .table-data .head .view{
+	
+    height: 35px;
+    width: 90px;
+    border-radius: 8px;
+    background-color: #5500cb;
+    color: white;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
 }
+
 
 #content main .table-data .order {
 	flex-grow: 1;
@@ -506,18 +509,19 @@ body {
 }
 #content main .table-data .order table th {
 	padding-bottom: 12px;
-	font-size: 13px;
+	font-size: 14px;
 	text-align: left;
 	border-bottom: 1px solid var(--grey);
 }
 #content main .table-data .order table td {
+    font-size: 14px;
 	padding: 16px 0;
 }
 #content main .table-data .order table tr td:first-child {
 	display: flex;
 	align-items: center;
 	grid-gap: 12px;
-	padding-left: 6px;
+	padding-left: px;
 }
 #content main .table-data .order table td img {
 	width: 36px;
@@ -529,50 +533,19 @@ body {
 	background: var(--grey);
 }
 #content main .table-data .order table tr td .status {
-	font-size: 10px;
-	padding: 6px 16px;
+	font-size: 13px;
 	color: var(--light);
 	border-radius: 20px;
 	font-weight: 700;
 }
 #content main .table-data .order table tr td .status.completed {
-	background: #02b602;
+	color: #02b602;
 }
 #content main .table-data .order table tr td .status.process {
-	background: rgb(250, 215, 0);
+	color: #fad700;
 }
 #content main .table-data .order table tr td .status.pending {
-	background: rgb(255, 94, 0);
-}
-
-#content main .table-data .todo {
-	flex-grow: 1;
-	flex-basis: 300px;
-}
-#content main .table-data .todo .todo-list {
-	width: 100%;
-}
-#content main .table-data .todo .todo-list li {
-	width: 100%;
-	margin-bottom: 16px;
-	background: var(--grey);
-	border-radius: 10px;
-	padding: 14px 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-#content main .table-data .todo .todo-list li .bx {
-	cursor: pointer;
-}
-#content main .table-data .todo .todo-list li.completed {
-	border-left: 10px solid var(--blue);
-}
-#content main .table-data .todo .todo-list li.not-completed {
-	border-left: 10px solid var(--orange);
-}
-#content main .table-data .todo .todo-list li:last-child {
-	margin-bottom: 0;
+	color: #ff1e00;
 }
 /* MAIN */
 /* CONTENT */
