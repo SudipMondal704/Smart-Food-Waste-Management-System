@@ -62,7 +62,7 @@
 					</li>
 
 					<li>
-						<a href="#">
+						<a href="admin_fooddetails.php">
 							<i class='fi fi-ss-hamburger-soda' ></i>
 							<span class="text">Food Details</span>
 						</a>
