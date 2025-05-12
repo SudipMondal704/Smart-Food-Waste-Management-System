@@ -18,7 +18,7 @@
         <nav class="nav-bar">
             <ul>
                 <li><a href="" class="active">Home</a></li>
-                <li><a href="About.php">About</a></li>
+                <li><a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/Aboutnew.php">About</a></li>
                 <li><a href="Contact.php">Contact</a></li>
                
                 <li class="dropdown">
