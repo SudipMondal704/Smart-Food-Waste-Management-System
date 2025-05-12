@@ -1,10 +1,14 @@
-		<main>
+<div class="content">
 			<div class="head-title">
 				<div class="left">
 					<h2>Dashboard</h2>
 					<ul class="breadcrumb">
 						<li>
-							<a href="#">Dashboard</a>
+							<p>Home</p>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Dashboard</a>
 						</li>
 					</ul>
 				</div>
@@ -33,7 +37,6 @@
 					</span>
 				</li>
 			</ul>
-
 
 			<div class="table-data">
 				<div class="order">
@@ -74,10 +77,15 @@
 					</table>
 				</div>
 			</div>
-		</main>
-	</section>
+		</div>
+    </div>
 
-		<script src="admin.js"></script>
-
-    </body>
-    </html>
+	<!-- Jquery -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"
+      integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw=="
+      crossorigin="anonymous"
+    ></script>
+	<script src="admin.js"></script>
+</body>
+</html>

@@ -14,6 +14,5 @@
 </head>
 <body>
     <?php   include('sidebar.php');   ?>
-    <section id="content">
     <?php   include('navbar.php');    ?>
     
