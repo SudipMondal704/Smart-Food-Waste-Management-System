@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 
 // Check if user is logged in as admin
@@ -219,3 +220,9 @@ if (isset($_GET['type'])) {
 	<script src="script.js"></script>
 </body>
 </html>
+=======
+    include('header.php');
+        
+    include('footer.php');
+?>
+>>>>>>> 1a5effa903f71097941be5360dc00b284fab30f2
