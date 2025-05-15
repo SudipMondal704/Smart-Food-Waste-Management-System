@@ -38,19 +38,31 @@
             max-width: 80px;
         }
 
-        .container .title {
-            font-size: 28px;
+        .container .title-1{
+            font-size: 18px;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            color: #950acc;
+            border-bottom: 1px solid #666;
+            padding-bottom: 10px;
+        }
+
+        .container .title {
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 5px;
             color: #333;
         }
 
         .container .subtitle {
-            font-size: 15px;
+            font-size: 14px;
             text-align: center;
-            margin-bottom: 30px;
-            color: #555;
+            margin-bottom: 25px;
+            color: #818181;
+            border-bottom: 1px solid #666;
+            padding-bottom: 20px;
         }
 
         .content form .food-details {
@@ -84,7 +96,7 @@
         }
 
         .food-details .input-box input:focus {
-            border-color: #9b59b6;
+            border-color: #26a0da;
             box-shadow: 0 0 5px rgba(155, 89, 182, 0.3);
         }
 
@@ -112,7 +124,7 @@
         }
 
         form .message-box textarea:focus {
-            border-color: #9b59b6;
+            border-color: #26a0da;
             box-shadow: 0 0 5px rgba(155, 89, 182, 0.3);
         }
 
@@ -132,11 +144,11 @@
             letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            background: linear-gradient(135deg, #6d6027, #f5f362);
         }
 
         form .button input:hover {
-            background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+            background: linear-gradient(-135deg, #6d6027, #f5f362);
             transform: scale(0.99);
         }
 

@@ -1,3 +1,46 @@
+<!-- <?php
+include("login.php"); 
+if($_SESSION['name']==''){
+	header("location: signin.php");
+}
+// include("login.php"); 
+$emailid= $_SESSION['email'];
+$connection=mysqli_connect("localhost","root","");
+$db=mysqli_select_db($connection,'demo');
+if(isset($_POST['submit']))
+{
+    $foodname=mysqli_real_escape_string($connection, $_POST['foodname']);
+    $meal=mysqli_real_escape_string($connection, $_POST['meal']);
+    $category=$_POST['image-choice'];
+    $quantity=mysqli_real_escape_string($connection, $_POST['quantity']);
+    // $email=$_POST['email'];
+    $phoneno=mysqli_real_escape_string($connection, $_POST['phoneno']);
+    $district=mysqli_real_escape_string($connection, $_POST['district']);
+    $address=mysqli_real_escape_string($connection, $_POST['address']);
+    $name=mysqli_real_escape_string($connection, $_POST['name']);
+  
+
+ 
+
+
+
+    $query="insert into food_donations(email,food,type,category,phoneno,location,address,name,quantity) values('$emailid','$foodname','$meal','$category','$phoneno','$district','$address','$name','$quantity')";
+    $query_run= mysqli_query($connection, $query);
+    if($query_run)
+    {
+
+        echo '<script type="text/javascript">alert("data saved")</script>';
+        header("location:delivery.html");
+    }
+    else{
+        echo '<script type="text/javascript">alert("data not saved")</script>';
+    }
+}
+?> -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +126,16 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Unit</span>
-                        <input type="text" name="unit" placeholder="Enter the unit (e.g., kg, liters)" required>
+                        <input type="text" name="unit" placeholder="Enter the unit (e.g. kg, liters)" required>
+                    </div>
+                </div>
+                
+                <div class="title-1">Contact Details</div>
+
+                <div class="food-details">
+                    <div class="input-box" style="width: 100%;">
+                        <span class="details">Donar Name</span>
+                        <input type="text" name="food_name" placeholder="Enter the name of Food Donar" required>
                     </div>
                 </div>
                 
@@ -95,11 +147,11 @@
                 <div class="food-details">
                     <div class="input-box">
                         <span class="details">Phone no.</span>
-                        <input type="text" name="quantity" placeholder="Enter the quantity" required>
+                        <input type="text" name="phone" placeholder="Enter the phone number" required>
                     </div>
                     <div class="input-box">
-                        <span class="details">Unit</span>
-                        <input type="text" name="unit" placeholder="Enter the unit (e.g., kg, liters)" required>
+                        <span class="details">Alternative Phone no.</span>
+                        <input type="text" name="email" placeholder="Enter the alternative number" required>
                     </div>
                 </div>
 
