@@ -1,11 +1,19 @@
 <?php
+session_start(); // Start session at the very top before any output
 
 // Database Connection
+<<<<<<< HEAD
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "food_waste"; // your database name
+=======
 
 //$servername = "localhost";
 //$username = "root";
 //$password = "";
 //$dbname = "food_waste"; // your database name
+>>>>>>> 1a5effa903f71097941be5360dc00b284fab30f2
 
 //$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -15,36 +23,23 @@
 //}
 
 // Hardcoded Admin credentials
-
-
-// Hardcoded admin credentials (email or phone => hashed password)
-
-
-//Hardcoded admin credentials (email or phone => hashed password)
-
 $admin_credentials = [
-    // Admin 1
     "rayantan@gmail.com" => password_hash("rayantan", PASSWORD_DEFAULT),
     "1111" => password_hash("rayantan", PASSWORD_DEFAULT),
-
-    // Admin 2
     "sudip@gmail.com" => password_hash("sudip", PASSWORD_DEFAULT),
     "2222" => password_hash("sudip", PASSWORD_DEFAULT),
-
-    // Admin 3
     "anjan@gmail.com" => password_hash("anjan", PASSWORD_DEFAULT),
     "3333" => password_hash("anjan", PASSWORD_DEFAULT),
-
-    // Admin 4
     "rintu@gmail.com" => password_hash("rintu", PASSWORD_DEFAULT),
     "4444" => password_hash("rintu", PASSWORD_DEFAULT),
 ];
 
+// Action Check
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
     $action = $_POST['action'];
 
-    // -------------------------- USER REGISTRATION ---------------------------- //
-    if ($action == "registration") {
+    // ---------------- USER REGISTRATION ---------------- //
+    if ($action === "registration") {
         $username = $_POST['username'] ?? '';
         $address = $_POST['address'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -70,32 +65,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             header("Location: registration.php?message=Passwords do not match!");
             exit();
         }
+<<<<<<< HEAD
+
+    // ---------------- USER or ADMIN LOGIN ---------------- //
+    } elseif ($action === "login") {
+=======
  
     // -------------------------- USER & ADMIN LOGIN ---------------------------- //
     }
      elseif ($action == "login")
       {
+>>>>>>> 1a5effa903f71097941be5360dc00b284fab30f2
         $email_phone = $_POST['email_phone'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 
-        // Admin login check
+        // ADMIN login check
         if (array_key_exists($email_phone, $admin_credentials)) {
             if (password_verify($confirm_password, $admin_credentials[$email_phone])) {
-                header("Location: admin/admin.php?message=Welcome Admin!");
+                $_SESSION['user_role'] = 'admin';
+                $_SESSION['user_email'] = $email_phone;
+
+                header(header:"Location:login.php?message=Welcome Admin!&redirect=admin/admin.php");
                 exit();
             } else {
-                header("Location: login.php?message=You are not an Admin!");
+                header("Location: login.php?message=Incorrect admin password!");
                 exit();
             }
         }
 
-        // User login check
+        // USER login check
         $sql = "SELECT * FROM users WHERE email = '$email_phone' OR phone = '$email_phone'";
         $result = $conn->query($sql);
 
         if ($result && $result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (password_verify($confirm_password, $user['password'])) {
+                $_SESSION['user_role'] = 'user';
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['username'];
+
                 header("Location: Home.php?message=Login successful!");
                 exit();
             } else {
@@ -107,8 +115,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             exit();
         }
 
-    // -------------------------- NGO REGISTRATION ---------------------------- //
-    } elseif ($action == "NGOReg") {
+    // ---------------- NGO REGISTRATION ---------------- //
+    } elseif ($action === "NGOReg") {
         $ngo_name = $_POST['ngo_name'] ?? '';
         $address = $_POST['address'] ?? '';
         $email = $_POST['email'] ?? '';
@@ -123,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
                     VALUES ('$ngo_name', '$address', '$email', '$phone', '$hashed_password')";
 
             if ($conn->query($sql) === TRUE) {
-                header("Location:NGOReg.php?message=NGO Registration successful!&redirect=NGOlog.php");
+                header("Location: NGOReg.php?message=NGO Registration successful!&redirect=NGOlog.php");
                 exit();
             } else {
                 header("Location: NGOReg.php?message=NGO Registration failed: " . urlencode($conn->error));
@@ -134,8 +142,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             exit();
         }
 
-    // -------------------------- NGO LOGIN ---------------------------- //
-    } elseif ($action == "NGOlog") {
+    // ---------------- NGO LOGIN ---------------- //
+    } elseif ($action === "NGOlog") {
         $email_phone = $_POST['email_phone'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 
@@ -145,6 +153,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         if ($result && $result->num_rows > 0) {
             $ngo = $result->fetch_assoc();
             if (password_verify($confirm_password, $ngo['password'])) {
+                $_SESSION['user_role'] = 'ngo';
+                $_SESSION['user_id'] = $ngo['id'];
+                $_SESSION['user_name'] = $ngo['ngo_name'];
+
                 header("Location: Home.php?message=NGO Login successful!");
                 exit();
             } else {
@@ -157,12 +169,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         }
 
     } else {
-        header("Location: NGOReg.php?message=Invalid action specified.");
+        header("Location: login.php?message=Invalid action specified.");
         exit();
     }
 
 } else {
-    header("Location: NGOReg.php?message=Invalid access.");
+    header("Location: login.php?message=Invalid request method.");
     exit();
 }
 

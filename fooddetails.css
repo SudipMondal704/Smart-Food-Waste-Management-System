@@ -1,23 +1,292 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,500;0,700;0,800;1,400;1,600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-decoration: none;
-    /* font-family:sans-serif; */
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-  body {
-    background: linear-gradient(180deg, #6bdb49d2 0%, #1731c2cb 100%);
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: url(img/Food-details.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            overflow-y: scroll;
+        }
 
-  
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .container .logo {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .container .logo img {
+            max-width: 80px;
+        }
+
+        .container .title-1{
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #950acc;
+            border-bottom: 1px solid #666;
+            padding-bottom: 10px;
+        }
+
+        .container .title {
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .container .subtitle {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #818181;
+            border-bottom: 1px solid #666;
+            padding-bottom: 20px;
+        }
+
+        .content form .food-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        form .food-details .input-box {
+            margin-bottom: 20px;
+            width: calc(100% / 2 - 15px);
+        }
+
+        form .input-box span.details {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .food-details .input-box input {
+            height: 45px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 8px;
+            padding: 0 15px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .food-details .input-box input:focus {
+            border-color: #26a0da;
+            box-shadow: 0 0 5px rgba(155, 89, 182, 0.3);
+        }
+
+        form .message-box {
+            margin-bottom: 20px;
+        }
+
+        form .message-box span.details {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        form .message-box textarea {
+            resize: vertical;
+            min-height: 120px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        form .message-box textarea:focus {
+            border-color: #26a0da;
+            box-shadow: 0 0 5px rgba(155, 89, 182, 0.3);
+        }
+
+        form .button {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        form .button input {
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #6d6027, #f5f362);
+        }
+
+        form .button input:hover {
+            background: linear-gradient(-135deg, #6d6027, #f5f362);
+            transform: scale(0.99);
+        }
+
+        /* Card Styles from fooddetails.css */
+        .card-wrap {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .card {
+            width: 200px;
+            height: 170px;
+            border-radius: 20px;
+            background-color: #FFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .card:hover {
+            background-color: rgba(136, 241, 115, 0.2);
+        }
+
+        .card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .img-content,
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .img-content {
+            row-gap: 5px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .card-image {
+            position: relative;
+            height: 75%;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 15px;
+        }
+
+        .card-image .card-img {
+            height: auto;
+            width: 80%;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card-details {
+            padding-top: 5px;
+        }
+
+        .name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Radio button styling */
+        .card input[type="radio"]:checked + .img-content {
+            background-color: rgba(136, 241, 115, 0.3);
+            border-radius: 20px;
+        }
+
+        .card input[type="radio"]:checked + .img-content .card-img {
+            border: 2px solid #4CAF50;
+        }
+
+        .category-label {
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .category{
+            margin-bottom: 20px;
+        }
+
+        .cat{
+            display: flex; gap: 20px; flex-wrap: wrap;
+        }
+
+        .category-label label{
+            display: flex; 
+            align-items: center; 
+            cursor: pointer;
+        }
+
+        
+
+        /* Responsive media query code */
+        @media (max-width: 680px) {
+            .container {
+                padding: 20px;
+            }
+
+            form .food-details .input-box {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .container .title {
+                font-size: 24px;
+            }
+
+            .container .subtitle {
+                font-size: 14px;
+            }
+
+            .card-wrap {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                width: 80%;
+                max-width: 200px;
+            }
+        }

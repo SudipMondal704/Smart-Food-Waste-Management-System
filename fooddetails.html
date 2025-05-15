@@ -1,0 +1,175 @@
+<!-- <?php
+include("login.php"); 
+if($_SESSION['name']==''){
+	header("location: signin.php");
+}
+// include("login.php"); 
+$emailid= $_SESSION['email'];
+$connection=mysqli_connect("localhost","root","");
+$db=mysqli_select_db($connection,'demo');
+if(isset($_POST['submit']))
+{
+    $foodname=mysqli_real_escape_string($connection, $_POST['foodname']);
+    $meal=mysqli_real_escape_string($connection, $_POST['meal']);
+    $category=$_POST['image-choice'];
+    $quantity=mysqli_real_escape_string($connection, $_POST['quantity']);
+    // $email=$_POST['email'];
+    $phoneno=mysqli_real_escape_string($connection, $_POST['phoneno']);
+    $district=mysqli_real_escape_string($connection, $_POST['district']);
+    $address=mysqli_real_escape_string($connection, $_POST['address']);
+    $name=mysqli_real_escape_string($connection, $_POST['name']);
+  
+
+ 
+
+
+
+    $query="insert into food_donations(email,food,type,category,phoneno,location,address,name,quantity) values('$emailid','$foodname','$meal','$category','$phoneno','$district','$address','$name','$quantity')";
+    $query_run= mysqli_query($connection, $query);
+    if($query_run)
+    {
+
+        echo '<script type="text/javascript">alert("data saved")</script>';
+        header("location:delivery.html");
+    }
+    else{
+        echo '<script type="text/javascript">alert("data not saved")</script>';
+    }
+}
+?> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details Form</title>
+    <link rel="stylesheet" href="fooddetails.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/api/placeholder/80/80" alt="Food Details Logo">
+        </div>
+        <div class="title">Food Details Form</div>
+        <div class="subtitle">Thank you for taking time to provide food details. We appreciate your contribution.</div>
+        <div class="content">
+            <form action="" method="POST">
+                <input type="hidden" name="action" value="food_details">
+                <div class="food-details">
+                    <div class="input-box" style="width: 100%;">
+                        <span class="details">Food Name</span>
+                        <input type="text" name="food_name" placeholder="Enter the food name" required>
+                    </div>
+                </div>
+                
+                <div class="category-label">Select Food Type :</div>
+                <div class="category">
+                    <div class="cat">
+                        <label>
+                            <input type="radio" name="food_type" value="vegetarian" checked>
+                            <span style="margin-left: 8px;">Veg</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="food_type" value="non-vegetarian">
+                            <span style="margin-left: 8px;">Non-Veg</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="category-label">Select the Food Category:</div>
+                <div class="card-wrap">
+                    <div class="card">
+                        <input type="radio" id="raw-food" name="food_category" value="raw-food">
+                        <div class="img-content">
+                            <div class="card-image">
+                                <img src="img/Raw-food.jpg" alt="Raw Food" class="card-img">
+                            </div>
+                            <div class="card-details">
+                                <h2 class="name">Raw Food</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <input type="radio" id="cooked-food" name="food_category" value="cooked-food" checked>
+                        <div class="img-content">
+                            <div class="card-image">
+                                <img src="img/Cooke-food.jpg" alt="Cooked Food" class="card-img">
+                            </div>
+                            <div class="card-details">
+                                <h2 class="name">Cooked Food</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <input type="radio" id="packed-food" name="food_category" value="packed-food">
+                        <div class="img-content">
+                            <div class="card-image">
+                                <img src="img/Packaged-food.jpg" alt="Packaged Food" class="card-img">
+                            </div>
+                            <div class="card-details">
+                                <h2 class="name">Packaged Food</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-details">
+                    <div class="input-box">
+                        <span class="details">Quantity</span>
+                        <input type="text" name="quantity" placeholder="Enter the quantity" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Unit</span>
+                        <input type="text" name="unit" placeholder="Enter the unit (e.g. kg, liters)" required>
+                    </div>
+                </div>
+                
+                <div class="title-1">Contact Details</div>
+
+                <div class="food-details">
+                    <div class="input-box" style="width: 100%;">
+                        <span class="details">Donar Name</span>
+                        <input type="text" name="food_name" placeholder="Enter the name of Food Donar" required>
+                    </div>
+                </div>
+                
+                <div class="message-box">
+                    <span class="details">Address</span>
+                    <textarea name="additional_info" placeholder="Add the address from where food will be picked" required></textarea>
+                </div>
+
+                <div class="food-details">
+                    <div class="input-box">
+                        <span class="details">Phone no.</span>
+                        <input type="text" name="phone" placeholder="Enter the phone number" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Alternative Phone no.</span>
+                        <input type="text" name="email" placeholder="Enter the alternative number" required>
+                    </div>
+                </div>
+
+                <div class="button">
+                    <input type="submit" value="Submit Food Details">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Script to make the entire card clickable for radio buttons
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+            });
+        });
+    </script>
+</body>
+</html>
