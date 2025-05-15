@@ -19,12 +19,16 @@ body {
 
 .overlay {
   background-color: rgba(0, 0, 0, 0.2);
+<<<<<<< HEAD
+  padding:15px;
+=======
   padding: 10px;
+>>>>>>> 1a5effa903f71097941be5360dc00b284fab30f2
   border-radius: 10px;
   backdrop-filter: blur(px);
   height: 95%;
   width: 90%;
-  max-width: 950px;
+  max-width:950px;
   margin: 70px;
 }
 
