@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,500;0,700;0,800;1,400;1,600&display=swap');
 :root{
-    --navcolor:white;
-    --navfont:black;
+    --navcolor:rgb(0, 0, 0);
+    --navfont:rgb(255, 255, 255);
     --green:#06C167;
     --box-shadow:0 .5rem 1rem rgba(0,0,0.1)
   }
@@ -19,7 +19,7 @@
   }
 
   body{
-    background-color: #fefefe;
+    background-color: #ffffff;
       /* margin: 0; */
     /* padding: 0; */
     overflow-x: hidden;
@@ -28,18 +28,23 @@
   
   }
 
-  header{
+  /*navbar*/
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 80px;
-    background-color: var(--navcolor);
+    padding: 9px 10%;
+    background: #000000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 100px;
-  }
+    z-index: 100;
+}
 
   .logo{
-    font-size: 28px;
+    font-size: 20px;
+    font-variant: normal;
     color:var(--navfont);
   }
 
@@ -54,7 +59,7 @@
   .nav-bar ul li a{
     display: block;
     color: var(--navfont);
-    font-size: 15px ;
+    font-size: 13px ;
     padding:10px 25px;
     border-radius: 50px;
     transition: 0.2s;
@@ -106,7 +111,7 @@
 
 
   flex-wrap: wrap;
-    background-color: white;
+    background-color: rgb(0, 0, 0);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -115,7 +120,7 @@
 
 
 .dropdown-content a {
-  color: black;
+  color: rgb(0, 0, 0);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -131,7 +136,7 @@
     display: block;
    background-color: var(--navfont);
     flex-wrap: wrap;
-    background-color: white;
+    background-color: rgb(0, 0, 0);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -156,7 +161,7 @@
 
 
   .dropdown-content a {
-    color: black;
+    color: rgb(0, 0, 0);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -249,7 +254,111 @@
 }
 
 
-/* Dropdown styles */
+
+
+
+
+
+
+
+
+
+/* Sliding img */
+
+.banner {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            padding-top: 8rem;
+        }
+
+
+        
+        
+        .slider {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: grid;
+            place-items: center;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .indicator.active {
+            background-color: white;
+        }
+        
+        .banner-content {
+            color: white;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .banner-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .banner-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+   
+
+        
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -257,7 +366,7 @@
 
 /* nav end */
 
-.banner{
+/*.banner{
   width: auto;
   height: auto;
   background:url('img/coverimage.jpeg')no-repeat;
@@ -266,14 +375,14 @@
   place-items:center;
   padding-top: 8rem;
 }
- 
+ */
 
   @media only screen   
 and (min-device-width : 1200px)  
-  {
+{
 
 
-    .banner{
+   /* .banner{
       
     align-items: flex-end;
     padding: 10px 20px;
@@ -289,13 +398,13 @@ and (min-device-width : 1200px)
     }
     
   
-  }
+  }*/
 
 
   .content
   {
     padding: 20px;
-    background-color: #149196;
+    background-color: #0a0524;
     z-index: 0;
   }
 
@@ -304,17 +413,17 @@ and (min-device-width : 1200px)
     font-size: 1.1em;
     color:white;
     margin: 20px 0;
-    font-weight: 400;
-    max-width: 700px;
+    font-weight: 40;
+    max-width: 6800px;
 
   }
 
-
+/*
   .banner a
   {
     display: inline-block;
   font-size: 1em;
-  background: #111;
+  background: #443030;
   padding: 10px 20px;
   text-transform: uppercase;
   text-decoration: none;
@@ -334,6 +443,7 @@ and (min-device-width : 1200px)
 }
 .msg{
   height: 300px;
+}*/
 }
 
 
@@ -343,7 +453,7 @@ and (min-device-width : 1200px)
   width: 100%;
   text-align: left;
   /*font-family: ;*/
-  font-weight: bold;
+  font-weight:lighter;
   font-size: 16px;
   padding: 50px;
   margin-top: 50px;
@@ -454,7 +564,7 @@ and (min-device-width : 1200px)
 }
 
 .footer .name {
-  color: #0667c1;
+  color: #3d7bb6;
   font-size: 14px;
   font-weight: normal;
   margin: 0;
@@ -575,8 +685,7 @@ and (min-device-width : 1200px)
   font-size: 28px;
   text-align: center;
   align-items: center; 
-  text-decoration: underline 5px;
-  text-decoration-color: #0695c1;
+  
  }
 
  .heading:hover{
@@ -586,140 +695,4 @@ and (min-device-width : 1200px)
 
 
 
-
-
-
-.center{
-  display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  border: 1px solid  rgba(0,0,0,0.05);
-  background: rgba(255, 251, 251, 0.637);
-  border-radius: 10px;
-  box-shadow: 10px 10px 15px rgba(51, 179, 12, 0.05);
-}
-.center h1{
-  text-align: center;
-  padding: 100px 3px;
- 
-}
-.center form{
-  padding: 0 40px;
-  box-sizing: border-box;
-  
-}
-form .txt_field{
-  position: relative;
-  border-bottom: 2px solid #494848;
-  margin: 30px 0;
-}
-.txt_field input{
-  width: 100%;
-  padding: 0 5px;
-  height: 40px;
-  font-size: 16px;
-  border: none;
-  background: none;
-  outline: none;
-}
-select{
-  width: 100%;
-  padding: 0 5px;
-  height: 40px;
-  font-size: 16px;
-  border: none;
-  background: none;
-  outline: none; 
-}
-.txt_field label{
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  color: #000000;
-  transform: translateY(-50%);
-  font-size: 16px;
-  pointer-events: none;
-  transition: .5s;
-}
-.txt_field span::before{
-  content: '';
-  position: absolute;
-  top: 40px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: #2691d9;
-  transition: .5s;
-}
-.txt_field input:focus ~ label,
-.txt_field input:valid ~ label{
-  top: -5px;
-  color: #2691d9;
-}
-.txt_field input:focus ~ span::before,
-.txt_field input:valid ~ span::before{
-  width: 100%;
-}
-.pass{
-  margin: -5px 0 20px 5px;
-  color: #a6a6a6;
-  cursor: pointer;
-}
-.pass:hover{
-  text-decoration: underline;
-}
-input[type="submit"]{
-  width: 100%;
-  height: 50px;
-  border: 1px solid;
-  background: #2691d9;
-  border-radius: 25px;
-  font-size: 18px;
-  color: #eff9ff;
-  font-weight: 700;
-  cursor: pointer;
-  outline: none;
-}
-input[type="submit"]:hover{
-  border-color: #2691d9;
-  transition: .5s;
-}
-.signup_link{
-  margin: 30px 0;
-  text-align: center;
-  font-size: 16px;
-  color: #0a0101;
-}
-.signup_link a{
-  color: #2691d9;
-  text-decoration: none;
-}
-.signup_link a:hover{
-  text-decoration: underline;
-}
-
-
-@media (max-width: 767px) {
-
-
-  .center{ 
-  
-      width: 320px;
-     
-      
-  }
-}
- 
-.error {
-  display: flex;
-  align-items: center;
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #d93025;
-  
-}
 

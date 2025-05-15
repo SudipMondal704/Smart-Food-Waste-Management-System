@@ -54,31 +54,93 @@
 </script>
    
 
-<div class="center">
-      <h1>Let Connect Us!</h1>
-      <form method="post" action=" ">
-        <div class="txt_field">
-          <input type="text" name="username" required/>
-          
-          <label>Username</label>
-        </div>
-        <div class="txt_field">
-          <input type="password" name="password" required/>
-       
-          <label>Password</label>
-        </div>
-        <div class="txt_field">
-            <input type="email" name="email" required/>
-           
-            <label>Email</label>
-          </div>
-        <input type="submit" name="sign" value="Register">
-      </form>
-    </div>
 
+
+
+      <div class="banner">
+    <div class="slider">
+        <!-- Slides will be added by JavaScript -->
+    </div>
+    <div class="indicators">
+        <!-- Indicators will be added by JavaScript -->
+    </div>
+    <div class="banner-content">
+   </div>
+</div>
+
+<script>
+    // Image URLs - replace with your actual image paths
+    const images = [
+        'img/Pic-1.jpg',
+        'img/Pic-2.jpg', 
+        'img/Pic-3.jpg',
+        'img/Pic-4.jpg',
+        'img/Pic-5.jpg',
+        'img/Pic-6.jpg',
+        'img/UserRegBackground.jpg',
+        'img/NGOReg1left.jpg'
+    ];
     
-    <section class="banner">
-    </section>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.querySelector('.slider');
+        const indicators = document.querySelector('.indicators');
+        let currentSlide = 0;
+        
+        // Create slides
+        images.forEach((image, index) => {
+            const slide = document.createElement('div');
+            slide.className = `slide ${index === 0 ? 'active' : ''}`;
+            slide.style.backgroundImage = `url('${image}')`;
+            slider.appendChild(slide);
+            
+            // Create indicator
+            const indicator = document.createElement('div');
+            indicator.className = `indicator ${index === 0 ? 'active' : ''}`;
+            indicator.addEventListener('click', () => {
+                goToSlide(index);
+                resetTimer();
+            });
+            indicators.appendChild(indicator);
+        });
+        
+        function goToSlide(index) {
+            // Remove active class from all slides and indicators
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.indicator').forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Add active class to current slide and indicator
+            document.querySelectorAll('.slide')[index].classList.add('active');
+            document.querySelectorAll('.indicator')[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % images.length;
+            goToSlide(currentSlide);
+        }
+        
+        let slideInterval;
+        
+        function startSlider() {
+            slideInterval = setInterval(nextSlide, 3000); 
+        }
+        
+        function resetTimer() {
+            clearInterval(slideInterval);
+            startSlider();
+        }
+        
+        // Start the slider
+        startSlider();
+    });
+</script>
+    
 
 
 
@@ -96,7 +158,7 @@
         <!-- <h2>Love Food</h2>
         <h3>Hate Wasting</h3> -->
         <p style="font-size: 23px;">
-            “Cutting food waste is a delicious way of saving money, helping to feed the world and protect the planet.” 
+            Cutting food waste is a delicious way of saving money, helping to feed the world and protect the planet.
         </p>
        
     </div>
@@ -106,7 +168,7 @@
         <br>
         <p class="heading">Our Works</p>
         <br>
-        <p style="font-size: 28px; text-align: center;">"Look what we can do together."</p>
+        <p style="font-size:18px; text-align: center;">Look what we can do together.</p>
        <br>
         <div class="wrapper">
           <div class="box"><img src="img/p1.jpeg" alt=""></div>
