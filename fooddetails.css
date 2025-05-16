@@ -143,11 +143,11 @@ form .button input {
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, #6d6027, #f5f362);
+    background: linear-gradient(135deg, #687bcf, #ececa1);
 }
 
 form .button input:hover {
-    background: linear-gradient(-135deg, #6d6027, #f5f362);
+    background: linear-gradient(-135deg, #687bcf, #ececa1);
     transform: scale(0.99);
 }
 
