@@ -3,7 +3,7 @@
     --navcolor:white;
     --navfont:black;
     --green:#06C167;
-    --box-shadow:0 .5rem 1rem rgba(0,0,0.1)
+    --box-shadow:0 .3rem 1rem rgba(0,0,0.1)
   }
 
   *{
@@ -19,7 +19,11 @@
   }
 
   body{
-    background-color: #fefefe;
+    background-image: url(img/aboutus.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    
       /* margin: 0; */
     /* padding: 0; */
     
@@ -74,7 +78,7 @@
    /* === About Us Section === */
 .about-section {
     padding:6px 5px;
-    background-image:url(img/aboutTest.png);
+    
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -133,7 +137,7 @@
 .by-numbers {
     text-align: center;
     padding: 40px 20px;
-    background-image:url(img/aboutTest.png);
+    
     border-radius: 12px;
     box-shadow: var(--box-shadow);
 }

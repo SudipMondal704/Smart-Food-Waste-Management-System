@@ -43,9 +43,7 @@
             <div class="intro">
                 <div class="intro-text">
                     <h1><strong>About Us</strong></h1>
-                    <p>We are a dedicated team working towards eradicating hunger and reducing food waste across India through technology and community support,we connect food donors with NGOs to help feed those in need.
-
-</p>
+                    <p>We are a dedicated team working towards eradicating hunger and reducing food waste across India through technology and community support,we connect food donors with NGOs to help feed those in need.</p>
                 </div>
                 <div class="intro-image">
                     <img src="img/Aboutus.png" alt="about">
@@ -59,9 +57,7 @@
                 </div>
                 <div class="mission-text">
                     <h2>Our Mission</h2>
-                    <p>Our mission is to create a smart and efficient platform that bridges the gap between food donors and the needy. We aim to make food donation quick, accessible, and impactful—ensuring that surplus food reaches the hungry instead of going to waste.
-
-</p>
+                    <p>Our mission is to create a smart and efficient platform that bridges the gap between food donors and the needy. We aim to make food donation quick, accessible, and impactful—ensuring that surplus food reaches the hungry instead of going to waste.</p>
                 </div>
             </div>
 
@@ -108,9 +104,7 @@
                 </div>
                 <div class="mission-text">
                     <h2>Our Vision</h2>
-                    <p>We envision an India where hunger is no longer a daily struggle and every meal counts. Our goal is to ensure that no edible food is thrown away while millions go without a meal. By building a strong network of donors and NGOs, we strive to create a system where excess food is effectively redirected to those who need it most. We dream of a future where no food is wasted and no one sleeps hungry.
-
-</p>
+                    <p>We envision an India where hunger is no longer a daily struggle and every meal counts. Our goal is to ensure that no edible food is thrown away while millions go without a meal. By building a strong network of donors and NGOs, we strive to create a system where excess food is effectively redirected to those who need it most. We dream of a future where no food is wasted and no one sleeps hungry.</p>
                 </div>
             </div>
 
