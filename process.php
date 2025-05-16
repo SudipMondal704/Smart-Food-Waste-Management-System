@@ -2,18 +2,12 @@
 session_start(); // Start session at the very top before any output
 
 // Database Connection
-<<<<<<< HEAD
+
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "food_waste"; // your database name
-=======
 
-//$servername = "localhost";
-//$username = "root";
-//$password = "";
-//$dbname = "food_waste"; // your database name
->>>>>>> 1a5effa903f71097941be5360dc00b284fab30f2
 
 //$conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -65,17 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
             header("Location: registration.php?message=Passwords do not match!");
             exit();
         }
-<<<<<<< HEAD
-
-    // ---------------- USER or ADMIN LOGIN ---------------- //
-    } elseif ($action === "login") {
-=======
  
     // -------------------------- USER & ADMIN LOGIN ---------------------------- //
     }
      elseif ($action == "login")
       {
->>>>>>> 1a5effa903f71097941be5360dc00b284fab30f2
         $email_phone = $_POST['email_phone'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 

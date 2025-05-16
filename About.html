@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="Home.css">
+    <title>About Us</title>
+    <link rel="stylesheet" href="About.css">
 </head>
 <body>
+
+    <!-- ===== Header/Navbar Section ===== -->
     <header>
-        <div class="logo">Food <b style="color: #0bb1c7;">Donate</b></div>
+        <div class="logo">Food <b style="color: #06abc1;">Donate</b></div>
         <div class="hamburger">
             <div class="line"></div>
             <div class="line"></div>
@@ -17,190 +18,162 @@
         </div>
         <nav class="nav-bar">
             <ul>
-                <li><a href="Home.php" >Home</a></li>
-                <li><a href="#about" class="active" >About</a></li>
-                <li><a href="Contact.php" >Contact</a></li>
-                <li><a href="profile.php" >Profile</a></li>
+                <li><a href="Home.php">Home</a></li>
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="Contact.php">Contact</a></li>
+                <li><a href="profile.php">Profile</a></li>
             </ul>
         </nav>
     </header>
+
+    <!-- ===== JavaScript for Mobile Menu Toggle ===== -->
     <script>
-        hamburger=document.querySelector(".hamburger");
-        hamburger.onclick =function(){
-            navBar=document.querySelector(".nav-bar");
+        const hamburger = document.querySelector(".hamburger");
+        hamburger.onclick = function () {
+            const navBar = document.querySelector(".nav-bar");
             navBar.classList.toggle("active");
-        }
+        };
     </script>
-    <style>
 
- body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: rgb(7, 2, 26);
-       
-        
-        
-        .title{
-          color: #ffffff;
-          font-size: 38px;
-          text-align: center;
-          align-items: center; 
-        }
-       
-        .para p{
-          color: aliceblue;
-            font-size: 23px;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-        .heading{
-           color: #f5f5f5;
-           text-align: left;
+    <!-- ===== About Us Section ===== -->
+    <section class="about-section" id="about">
+        <div class="container">
 
-        }
-          @media (max-width: 767px) {
-            .para p{
-              color: #f8f7f7;
-               font-size: 16px;
-               /* margin-left: 10px; */
-              }
-            #pptslide{
-                height: 200px;
-                width: 300px;
+            <!-- Intro Section -->
+            <div class="intro">
+                <div class="intro-text">
+                    <h1><strong>About Us</strong></h1>
+                    <p>We are a dedicated team working towards eradicating hunger and reducing food waste across India through technology and community support,we connect food donors with NGOs to help feed those in need.</p>
+                </div>
+                <div class="intro-image">
+                    <img src="img/Aboutus.png" alt="about">
+                </div>
+            </div>
 
-            }
-            #map{
-              height: 200px;
-                width: 300px;
+            <!-- Mission Section -->
+            <div class="mission-story">
+                <div class="mission-image">
+                    <img src="img/OurMission.png" alt="mission">
+                </div>
+                <div class="mission-text">
+                    <h2>Our Mission</h2>
+                    <p>Our mission is to create a smart and efficient platform that bridges the gap between food donors and the needy. We aim to make food donation quick, accessible, and impactful—ensuring that surplus food reaches the hungry instead of going to waste.</p>
+                </div>
+            </div>
 
+            <!-- Story Section -->
+            <div class="story">
+                <div class="story-text">
+                    <h2>Our Services</h2>
+                    <p>	Connect donors (individuals, families, event organizers, restaurants, etc.) with nearby NGOs.<br>	Allow donors to donate excess cooked, raw, or packaged food from events, ceremonies, and daily life.<br>	Enable NGOs to receive donation requests and collect food directly from the donor's location.<br>	Ensure food is safely distributed to poor, needy, and street-hungry individuals.<br></p>
+                </div>
+                <div class="story-image">
+                    <img src="img/services.png" alt="Our service">
+                </div>
+            </div>
+             
+            <!-- Mission Section -->
+            <div class="mission-story">
+                <div class="mission-image">
+                    <img src="img/goal.png" alt="goal">
+                </div>
+                <div class="mission-text">
+                    <h2>Our Goal</h2>
+                    <p>Every day, tons of edible food is wasted while millions go hungry. Our platform was built to solve both these problems—fighting hunger and reducing waste—with one simple solution.</p>
+                </div>
+            </div>
+            <!-- Intro Section -->
+            <div class="intro">
+                <div class="intro-text">
+                    <h1>How It Works</h1>
+                    <p>	Donors sign up and send a food donation request.
+	Our system notifies the nearest NGO based on location.<br>
+	The NGO picks up the food from the donor's location.<br>
+	Food is distributed to people in need quickly and safely.<br>
+</p>
+                </div>
+                <div class="intro-image">
+                    <img src="img/mobile.jpg" alt="how work">
+                </div>
+            </div>
 
-            }
-            #overview{
-              height: 200px;
-                width: 300px;
-            }
-            
-        .title{
-          color: aliceblue;
-          font-size: 28px;
-          margin: 10px;
-          text-align: center;
-          align-items: center; 
-        }
-        
-       
+            <!-- Mission Section -->
+            <div class="mission-story">
+                <div class="mission-image">
+                    <img src="img/vision.png" alt="vision">
+                </div>
+                <div class="mission-text">
+                    <h2>Our Vision</h2>
+                    <p>We envision an India where hunger is no longer a daily struggle and every meal counts. Our goal is to ensure that no edible food is thrown away while millions go without a meal. By building a strong network of donors and NGOs, we strive to create a system where excess food is effectively redirected to those who need it most. We dream of a future where no food is wasted and no one sleeps hungry.</p>
+                </div>
+            </div>
 
-          }
-        }
-     
-    </style>
-    <br>
-    <br>
-    <!-- <section class="coverc">
-        
-    
-    </section> -->
-    <p class="title">Welcome to <u> Food Donate</u> </p>
-    <br>
-    <br>
-    <br>
-        <p class="heading">About us</p>
-        <!-- <p  style=" font-size:30px ; text-align: center;" > ABOUT <span>US</span> </p> -->
-      
-        <!-- <br> -->
-      <div class="para">
-        <!-- <p>"Welcome to Food Donate, India's largest and most trusted donating platform that connects 
-          donors to verified nonprofits. FoodDonate helps you become a ray of hope for people in need.
-           Choose a cause that is close to your heart and join hands with millions of donors
-            like you who aim to make this world a better place."</p> -->
-      
-        <p>We are a team of passionate individuals committed to addressing the issue of food waste in India. 
-          Our goal is to create a system that connects food donors with charities and NGOs, while also reducing
-           the environmental impact of food waste.</p>
-      </div>
-      <br>
-      <br>
-      
-  
+            <!-- Story Section -->
+            <div class="story">
+                <div class="story-text">
+                    <h2>Get Involved</h2>
+                    <p>Whether you are an individual, a restaurant, or an NGO, you can play a vital role in our mission. Donors can share their excess food, and NGOs can help deliver it to those who need it the most. Your small act of kindness can make a big difference in someone's life. Join us today—donate food, reduce waste, and help fight hunger.</p>
+                </div>
+                <div class="story-image">
+                    <img src="img/involved.png" alt="involved">
+                </div>
+            </div>
+        </div>
+    </section>
 
-<p  style=" font-size:30px; color:aliceblue" class="heading"> Location  </p>
+    <section class="lc">
+        <div class="heading">
+            <h2>Location</h2>
+        </div>
 
+        <div style="padding-top: 2%; position: relative; ">
+            <div style="position: relative; padding-bottom: 500px; height: 25px; overflow: hidden;">
+                <iframe style="position: absolute; top: 0; left: 15%; width: 70%; height: 50%; border: 2px solid black;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Burdwan+Institute+Management+%26+Computer+Science&output=embed"></iframe>
+            </div>
+            <a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a>
+        </div>
+    </section>
 
-<div style= "padding-top: 2%;"position: relative;">
-  <div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;">
-  <iframe style="position: absolute; top: 0; left: 15%; width: 70%; height: 50%; border: 2px solid black;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Burdwan+Institute+Management+%26+Computer+Science&output=embed">
-  </iframe>
-</div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>
-
-
-     <!--</div>
-
-
-     <p class="heading"> Our Story</p>
-     <div class="para">
-       <p>Our journey began with a realization that food waste is a significant problem in India. According to a report by the United Nations,
-         India is the world's second-largest food producer, yet it also has one of the highest rates of food waste. This waste has a significant 
-         impact on the environment, as well as on food security in the country.</p>
-     </div> -->
-     <!-- <div class="overview"  style="  text-align: center; padding-bottom: 50px;" >
-      <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=1400 height=800 src="https://edrawcloudpublicus.s3.amazonaws.com/viewer/self/3094230/share/2023-3-2/1677763924/main.svg" id="overview"></iframe>
-     </div> -->
-
-     <footer class="footer">
+    <footer class="footer">
         <div class="footer-left col-md col-sm-6">
-            <p class ="about">
-                <span> About us</span>The basic concept of this project  Food Waste Management 
-                is to collect the excess/leftover  food from donors such as hotels, restaurants, 
-                marriage halls , etc and distribute to  the  needy people .
-     
+            <p class="about">
+                <span>About us</span>The basic concept of this project Food Waste Management 
+                is to collect the excess/leftover food from donors such as hotels, restaurants, 
+                marriage halls, etc and distribute to the needy people.
             </p>
         </div>
 
         <div class="footer-center col-md-4 col-sm-6">
             <div>
-              <p><span> Contact</span> </p>
-              
+                <p><span>Contact</span></p>
             </div>
 
             <div>
-        
-                <p> (+00) 0000 000 000</p>
-                
-              </div>
-              <div>
-                <!-- <i class="fa fa-envelope" style="font-size: 17px;
-                line-height: 38px; color:white;"></i> -->
-                <p><a href="#"> Fooddonate@gmail.com</a></p>
-              </div>
+                <p>(+00) 0000 000 000</p>
+            </div>
+            <div>
+                <p><a href="#">Fooddonate@gmail.com</a></p>
+            </div>
 
-
-              <div class="sociallist">
+            <div class="sociallist">
                 <ul class="social">
-                <li><a href=""><i class="fa fa-facebook" aria-hidden="true" style="font-size:50px; color: black;" ></i></i></a></li>
-                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"  style="font-size:50px; color: black;"></i></a></li>
-                <li><a href=""><i class="fa fa-instagram" aria-hidden="true" style="font-size:50px; color: black;"></i></a></li>
-                <li><a href=""><i class="fa fa-whatsapp" style="font-size:50px; color: black;"></i></a></li>
-               </ul>
-              </div>
-
-
+                    <li><a href=""><i class="fa fa-facebook" aria-hidden="true" style="font-size:50px; color: black;"></i></a></li>
+                    <li><a href=""><i class="fa fa-twitter" aria-hidden="true" style="font-size:50px; color: black;"></i></a></li>
+                    <li><a href=""><i class="fa fa-instagram" aria-hidden="true" style="font-size:50px; color: black;"></i></a></li>
+                    <li><a href=""><i class="fa fa-whatsapp" style="font-size:50px; color: black;"></i></a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="footer-right col-md-4 col-sm-6">
-          <h2> Food<span> Donate</span></h2>
-        <!-- <h2>Food donate</h2> -->
-          <p class="menu">
-           <a href="Home.php"> Home</a> |
-           <a href="About.php"> About</a> |
-           <a href="Contact.php"> Contact</a> |
-          
-         </p>
-       
-       </div>
-      </footer>
+            <h2>Food<span>Donate</span></h2>
+            <p class="menu">
+                <a href="Home.php">Home</a> |
+                <a href="About.php">About</a> |
+                <a href="Contact.php">Contact</a> |
+            </p>
+        </div>
+    </footer>
 
-
-     
 </body>
 </html>
