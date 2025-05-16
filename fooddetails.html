@@ -1,46 +1,3 @@
-<!-- <?php
-include("login.php"); 
-if($_SESSION['name']==''){
-	header("location: signin.php");
-}
-// include("login.php"); 
-$emailid= $_SESSION['email'];
-$connection=mysqli_connect("localhost","root","");
-$db=mysqli_select_db($connection,'demo');
-if(isset($_POST['submit']))
-{
-    $foodname=mysqli_real_escape_string($connection, $_POST['foodname']);
-    $meal=mysqli_real_escape_string($connection, $_POST['meal']);
-    $category=$_POST['image-choice'];
-    $quantity=mysqli_real_escape_string($connection, $_POST['quantity']);
-    // $email=$_POST['email'];
-    $phoneno=mysqli_real_escape_string($connection, $_POST['phoneno']);
-    $district=mysqli_real_escape_string($connection, $_POST['district']);
-    $address=mysqli_real_escape_string($connection, $_POST['address']);
-    $name=mysqli_real_escape_string($connection, $_POST['name']);
-  
-
- 
-
-
-
-    $query="insert into food_donations(email,food,type,category,phoneno,location,address,name,quantity) values('$emailid','$foodname','$meal','$category','$phoneno','$district','$address','$name','$quantity')";
-    $query_run= mysqli_query($connection, $query);
-    if($query_run)
-    {
-
-        echo '<script type="text/javascript">alert("data saved")</script>';
-        header("location:delivery.html");
-    }
-    else{
-        echo '<script type="text/javascript">alert("data not saved")</script>';
-    }
-}
-?> -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,6 +86,20 @@ if(isset($_POST['submit']))
                         <input type="text" name="unit" placeholder="Enter the unit (e.g. kg, liters)" required>
                     </div>
                 </div>
+
+                <div class="food-details">
+                    <div class="input-box file-input-container" style="width: 100%;">
+                        <span class="details">Upload Image</span>
+                        <div class="custom-file-upload">
+                            <input type="file" name="food_image" id="food-image" accept="image/*" class="file-input">
+                            <label for="food-image" class="file-label">
+                                <span class="button-text">Choose File</span>
+                                <span class="file-name">No file chosen</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 
                 <div class="title-1">Contact Details</div>
 
@@ -169,6 +140,12 @@ if(isset($_POST['submit']))
                 const radio = this.querySelector('input[type="radio"]');
                 radio.checked = true;
             });
+        });
+
+        // Script to show the file name when a file is selected
+        document.getElementById('food-image').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'No file chosen';
+            this.nextElementSibling.querySelector('.file-name').textContent = fileName;
         });
     </script>
 </body>
