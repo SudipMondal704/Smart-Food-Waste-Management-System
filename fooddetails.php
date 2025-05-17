@@ -14,7 +14,7 @@
         <div class="title">Food Details Form</div>
         <div class="subtitle">Thank you for taking time to provide food details. We appreciate your contribution.</div>
         <div class="content">
-            <form action="" method="POST">
+            <form action="submit_fooddetails.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="food_details">
                 <div class="food-details">
                     <div class="input-box" style="width: 100%;">
@@ -106,13 +106,13 @@
                 <div class="food-details">
                     <div class="input-box" style="width: 100%;">
                         <span class="details">Donar Name</span>
-                        <input type="text" name="food_name" placeholder="Enter the name of Food Donar" required>
+                        <input type="text" name="donor_name" placeholder="Enter the name of Food Donar" required>
                     </div>
                 </div>
                 
                 <div class="message-box">
                     <span class="details">Address</span>
-                    <textarea name="additional_info" placeholder="Add the address from where food will be picked" required></textarea>
+                    <textarea name="address" placeholder="Add the address from where food will be picked" required></textarea>
                 </div>
 
                 <div class="food-details">
@@ -122,7 +122,7 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Alternative Phone no.</span>
-                        <input type="text" name="email" placeholder="Enter the alternative number" required>
+                        <input type="text" name="altphone" placeholder="Enter the alternative number" required>
                     </div>
                 </div>
 
