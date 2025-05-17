@@ -13,6 +13,7 @@
 	<title>Admin</title>
 </head>
 <body>
-    <?php   include('sidebar.php');   ?>
-    <?php   include('navbar.php');    ?>
+    <?php  include('sidebar.php');   ?>
+    <?php  include('navbar.php');    ?>
+	
     
