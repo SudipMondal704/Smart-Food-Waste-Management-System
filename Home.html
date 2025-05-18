@@ -1,248 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Donation</title>
-    <link rel="Stylesheet" href="Home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <title>Food Donate - Home Page</title>
+
+  <link rel="stylesheet" href="Home.css">
+
 </head>
+
 <body>
-    <header>
-        <div class="logo">Food <b style="color: rgb(38, 211, 188);">Donate</b></div>
-        <div class="hamburger">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
-        <nav class="nav-bar">
-            <ul>
-                <li><a href="" class="active">Home</a></li>
-                <li><a href="About.php">About</a></li>
-                <li><a href="Contact.php">Contact</a></li>
-               
-                <li class="dropdown">
-                 <a href="#" class="dropbtn">Login <i class="fa fa-caret-down"></i></a>
-                 <div class="dropdown-content">
-                 <a href="login.php">Doner</a>
-                <a href="NGOlog.php">NGO</a>
-             </div>
-             </li>
 
-            </ul>
-        </nav>
-        
-    </header>
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-  // Hamburger menu
-    const hamburger = document.querySelector(".hamburger");
-    hamburger.onclick = function () {
-    const navBar = document.querySelector(".nav-bar");
-    navBar.classList.toggle("active");
-     };
-
-    // Dropdown toggle for mobile
-    const dropdown = document.querySelector(".dropdown .dropbtn");
-    dropdown.addEventListener("click", function (e) {
-    e.preventDefault();
-    const dropdownContent = this.nextElementSibling;
-    dropdownContent.style.display =
-      dropdownContent.style.display === "block" ? "none" : "block";
-  });
-});
-</script>
-   
-
-
-
-
-      <div class="banner">
-    <div class="slider">
-        <!-- Slides will be added by JavaScript -->
+  <header class="header">
+    <a href="#" class="logo"><span style="color: #222;">Food</span> <b style="color: rgb(238, 120, 41);">Donate</b></a>
+    
+    <!-- Hamburger Menu Icon for Mobile -->
+    <div class="menu-icon">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <div class="indicators">
-        <!-- Indicators will be added by JavaScript -->
-    </div>
-    <div class="banner-content">
-   </div>
-</div>
-
-<script>
-    // Image URLs - replace with your actual image paths
-    const images = [
-        'img/Pic-1.jpg',
-        'img/Pic-2.jpg', 
-        'img/Pic-3.jpg',
-        'img/Pic-4.jpg',
-        'img/Pic-5.jpg',
-        'img/Pic-6.jpg',
-        'img/UserRegBackground.jpg',
-        'img/NGOReg1left.jpg'
-    ];
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        const slider = document.querySelector('.slider');
-        const indicators = document.querySelector('.indicators');
-        let currentSlide = 0;
-        
-        // Create slides
-        images.forEach((image, index) => {
-            const slide = document.createElement('div');
-            slide.className = `slide ${index === 0 ? 'active' : ''}`;
-            slide.style.backgroundImage = `url('${image}')`;
-            slider.appendChild(slide);
-            
-            // Create indicator
-            const indicator = document.createElement('div');
-            indicator.className = `indicator ${index === 0 ? 'active' : ''}`;
-            indicator.addEventListener('click', () => {
-                goToSlide(index);
-                resetTimer();
-            });
-            indicators.appendChild(indicator);
-        });
-        
-        function goToSlide(index) {
-            // Remove active class from all slides and indicators
-            document.querySelectorAll('.slide').forEach(slide => {
-                slide.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.indicator').forEach(dot => {
-                dot.classList.remove('active');
-            });
-            
-            // Add active class to current slide and indicator
-            document.querySelectorAll('.slide')[index].classList.add('active');
-            document.querySelectorAll('.indicator')[index].classList.add('active');
-            
-            currentSlide = index;
-        }
-        
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % images.length;
-            goToSlide(currentSlide);
-        }
-        
-        let slideInterval;
-        
-        function startSlider() {
-            slideInterval = setInterval(nextSlide, 3000); 
-        }
-        
-        function resetTimer() {
-            clearInterval(slideInterval);
-            startSlider();
-        }
-        
-        // Start the slider
-        startSlider();
-    });
-</script>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="content">
-        <!-- <h2>Love Food</h2>
-        <h3>Hate Wasting</h3> -->
-        <p style="font-size: 23px;">
-            Cutting food waste is a delicious way of saving money, helping to feed the world and protect the planet.
-        </p>
-       
-    </div>
-
-
-    <div class="photo">
-        <br>
-        <p class="heading">Our Works</p>
-        <br>
-        <p style="font-size:18px; text-align: center;">Look what we can do together.</p>
-       <br>
-        <div class="wrapper">
-          <div class="box"><img src="img/p1.jpeg" alt=""></div>
-          <div class="box"><img src="img/p4.jpeg" alt=""></div>
-          <div class="box"><img src="img/p3.jpeg" alt=""></div>
-        </div>
-        <br>
-
-    </div>  
-    
-    
-    <div class="deli" style="display: grid;" >
-        <p class="heading">DOOR PICKUP</p>
-        <br>
-        <p  class="para">"Your donate will be immediately collected and sent to needy people "</p>
-        <img src="img/delivery.gif" alt="" style="margin-left:auto; margin-right: auto;">
   
-      </div>
+    <nav class="navbar">
+      <a href="Home.html" style="--i:1" class="active">Home</a>
+      <a href="About.html" style="--i:2">About</a>
+      <a href="Contact.html" style="--i:3">Contact</a>
+      <a href="#" style="--i:4" id="loginBtn">Login</a>
+    </nav>
+  </header>
 
-    <footer class="footer">
-        <div class="footer-left col-md col-sm-6">
-            <p class ="about">
-                <span> About us</span>The basic concept of this project  Food Waste Management 
-                is to collect the excess/leftover  food from donors such as hotels, restaurants, 
-                marriage halls , etc and distribute to  the  needy people .
-     
+  <!-- Login/Signup Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <!-- Login Container -->
+      <div class="login-container" id="login-container">
+        <div class="form-container sign-up">
+            <form>
+                <h1>Create Account</h1>
+                <input type="text" name="username" placeholder="Name">
+                <div class="gender">
+                    <label><b>Gender :</b></label><br>
+                    <label><input type="radio" name="gender" value="Male" /> Male</label>
+                    <label><input type="radio" name="gender" value="Female"/> Female</label>
+                    <label><input type="radio" name="gender" value="Other" /> Other</label>
+                </div>
+
+                <div class="account-type">
+                    <label><b>Account Type :</b></label><br>
+                    <label><input type="radio" name="acc-type" value="Donar" /> Donor</label>
+                    <label><input type="radio" name="acc-type" value="NGO"/> NGO</label>
+                </div>
+                <input type="email" name="email" placeholder="Email">
+                <input type="tel" name="phone" placeholder="Mobile no.">
+                <input type="password" name="password" placeholder="Password">
+
+                <div class="checkbox">
+                    <label><input type="checkbox" required ></label>
+                    <span>I agree to the <a href="">terms & conditions</a></span>
+                </div>
+                <button>Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form>
+                <h1>Sign In</h1>
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <a href="#">Forget Your Password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="home">
+    <div class="home-content">
+      <h1>Save Food, Share Joy !!</h1>
+      <p>Cutting food waste is a delicious way of saving money, helping to feed the world and protect the planet. So donate extra food to needy people because giving is not charity, it is an expression of Humanity.</p>
+      <a href="#" class="btn" id="donateBtn">Donate Now</a>
+    </div>
+
+    <div class="slider">
+        <div class="list">
+            <div class="item">
+                <img src="img/sliding-image1.jpg" alt="">
+            </div>
+            <div class="item">
+                <img src="img/sliding-image2.jpg" alt="">
+            </div>
+            <div class="item">
+                <img src="img/sliding-image3.jpg" alt="">
+            </div>
+            <div class="item">
+                <img src="img/sliding-image4.jpg" alt="">
+            </div>
+            <div class="item">
+                <img src="img/sliding-image5.jpg" alt="">
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="prev"><</button>
+            <button id="next">></button>
+        </div>
+        <ul class="dots">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+  </section>
+
+  <div class="photo">
+    <p class="heading">Our Works</p>
+    <p class="sub-heading">Look what we can do together.</p>
+       
+    <div class="wrapper">
+      <div class="box"><img src="img/p1.jpeg" alt=""></div>
+      <div class="box"><img src="img/p4.jpeg" alt=""></div>
+      <div class="box"><img src="img/p3.jpeg" alt=""></div>
+    </div>
+  </div>  
+    
+    
+  <div class="photo">
+    <p class="heading">DOOR PICKUP</p>
+    <p  class="sub-heading">"Your donate will be immediately collected and sent to needy people "</p>
+    <div class="deliver"><img src="img/delivery.gif" alt=""></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-left">
+            <h2>About Us</h2>
+            <p class="about">
+                The basic concept of this project <strong>Food Waste Management</strong> 
+                is to collect the excess / leftover food from donors such as hotels, restaurants, 
+                marriage halls, etc. and distribute to the needy people.
+            </p>
+            <p>Join us in our mission to reduce food waste and help those in need.</p>
+        </div>
+
+        <div class="footer-center">
+            <h2>Contact Us</h2>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <p>(+00) 0000 000 000</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <p><a href="mailto:fooddonate@gmail.com">fooddonate@gmail.com</a></p>
+            </div>
+            <ul class="social">
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-whatsapp"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="footer-right">
+            <h2>Food<span>Donate</span></h2>
+            <p>Help us make a difference one meal at a time.</p>
+            <p class="menu">
+                <a href="Home.html">Home</a> |
+                <a href="About.html">About</a> |
+                <a href="#">Contact</a> |
             </p>
         </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; 2025 FoodDonate. All rights reserved.</p>
+    </div>
+</footer>
 
-        <div class="footer-center col-md-4 col-sm-6">
-            <div>
-              <p><span> Contact</span> </p>
-              
-            </div>
+<script>
+// Slider functionality
+let slider = document.querySelector('.slider .list');
+let items = document.querySelectorAll('.slider .list .item');
+let next = document.getElementById('next');
+let prev = document.getElementById('prev');
+let dots = document.querySelectorAll('.slider .dots li');
 
-            <div>
+let lengthItems = items.length - 1;
+let active = 0;
+next.onclick = function(){
+    active = active + 1 <= lengthItems ? active + 1 : 0;
+    reloadSlider();
+}
+prev.onclick = function(){
+    active = active - 1 >= 0 ? active - 1 : lengthItems;
+    reloadSlider();
+}
+let refreshInterval = setInterval(()=> {next.click()}, 3000);
+function reloadSlider(){
+    slider.style.left = -items[active].offsetLeft + 'px';
+    // 
+    let last_active_dot = document.querySelector('.slider .dots li.active');
+    last_active_dot.classList.remove('active');
+    dots[active].classList.add('active');
+
+    clearInterval(refreshInterval);
+    refreshInterval = setInterval(()=> {next.click()}, 3000);
+}
+
+dots.forEach((li, key) => {
+    li.addEventListener('click', ()=>{
+         active = key;
+         reloadSlider();
+    })
+})
+window.onresize = function(event) {
+    reloadSlider();
+};
+
+// Login Modal Functionality
+const modal = document.getElementById('loginModal');
+const loginBtn = document.getElementById('loginBtn');
+const donateBtn = document.getElementById('donateBtn');
+const closeBtn = document.querySelector('.close-btn');
+const registerBtn = document.getElementById('register');
+const loginBackBtn = document.getElementById('login');
+const container = document.getElementById('login-container');
+
+// Show the modal when login button is clicked
+loginBtn.addEventListener('click', function() {
+    modal.style.display = 'flex';
+});
+
+donateBtn.addEventListener('click', function() {
+    modal.style.display = 'flex';
+});
+
+// Close the modal when X is clicked
+closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+    // Reset to sign-in view when closing
+    container.classList.remove("active");
+});
+
+// Close the modal if clicked outside
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+        // Reset to sign-in view when closing
+        container.classList.remove("active");
+    }
+});
+
+// Toggle between sign-in and sign-up
+registerBtn.addEventListener('click', () => {
+    container.classList.add("active");
+});
+
+loginBackBtn.addEventListener('click', () => {
+    container.classList.remove("active");
+});
+
+// Mobile Menu Toggle
+const menuIcon = document.querySelector('.menu-icon');
+const navbar = document.querySelector('.navbar');
+
+menuIcon.addEventListener('click', () => {
+    navbar.classList.toggle('active');
+    // Animate hamburger to X
+    const bars = menuIcon.querySelectorAll('div');
+    bars[0].classList.toggle('bar1-active');
+    bars[1].classList.toggle('bar2-active');
+    bars[2].classList.toggle('bar3-active');
+});
+
+// Close mobile menu when a menu item is clicked
+document.querySelectorAll('.navbar a').forEach(item => {
+    item.addEventListener('click', () => {
+        navbar.classList.remove('active');
+        // Reset hamburger animation
+        const bars = menuIcon.querySelectorAll('div');
+        bars[0].classList.remove('bar1-active');
+        bars[1].classList.remove('bar2-active');
+        bars[2].classList.remove('bar3-active');
+    });
+});
+
+// Fix slider for mobile
+function updateSliderForMobile() {
+    if (window.innerWidth <= 768) {
+        // Fix for mobile slider - ensure each slide takes full width
+        const sliderItems = document.querySelectorAll('.slider .list .item');
+        sliderItems.forEach(item => {
+            item.style.width = window.innerWidth + 'px';
+        });
+    }
+}
+
+// Run on page load and resize
+updateSliderForMobile();
+window.addEventListener('resize', updateSliderForMobile);
+
+// Ensure toggle buttons work properly on small screens
+function handleLoginToggle() {
+    if (window.innerWidth <= 768) {
+        // For mobile, we need to make sure both forms are accessible
+        const signIn = document.querySelector('.sign-in');
+        const signUp = document.querySelector('.sign-up');
         
-                <p> (+00) 0000 000 000</p>
-                
-              </div>
-              <div>
-                <!-- <i class="fa fa-envelope" style="font-size: 17px;
-                line-height: 38px; color:white;"></i> -->
-                <p><a href="#"> Fooddonate@gmail.com</a></p>
-              </div>
+        registerBtn.addEventListener('click', () => {
+            signIn.style.display = 'none';
+            signUp.style.display = 'block';
+        });
+        
+        loginBackBtn.addEventListener('click', () => {
+            signIn.style.display = 'block';
+            signUp.style.display = 'none';
+        });
+    }
+}
 
+// Check screen size on load
+window.addEventListener('load', handleLoginToggle);
+</script>
 
-              <div class="sociallist">
-                <ul class="social">
-                <li><a href=""><i class="fa fa-facebook" aria-hidden="true" style="font-size:50px; color: black;" ></i></i></a></li>
-                <li><a href=""><i class="fa fa-twitter" aria-hidden="true"  style="font-size:50px; color: black;"></i></a></li>
-                <li><a href=""><i class="fa fa-instagram" aria-hidden="true" style="font-size:50px; color: black;"></i></a></li>
-                <li><a href=""><i class="fa fa-whatsapp" style="font-size:50px; color: black;"></i></a></li>
-               </ul>
-              </div>
-
-
-        </div>
-
-        <div class="footer-right col-md-4 col-sm-6">
-          <h2> Food<span> Donate</span></h2>
-        <!-- <h2>Food donate</h2> -->
-          <p class="menu">
-           <a href="Home.php"> Home</a> |
-           <a href="About.php"> About</a> |
-           <a href="Contact.php"> Contact</a> |
-          
-         </p>
-       
-       </div>
-      </footer>
-
-
-
-    
 </body>
 </html>

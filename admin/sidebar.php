@@ -8,7 +8,7 @@
 			<div class="menu">
 				<ul>
 					<li>
-						<a href="#">
+						<a href="#" class="active">
 							<i class='bx bxs-dashboard' ></i>
 							<span class="text">Dashboard</span>
 						</a>
