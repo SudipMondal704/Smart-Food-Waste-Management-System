@@ -26,10 +26,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $quantity = trim($_POST["quantity"]);
         $unit = trim($_POST["unit"]);
 
-        // Handle image file
-        $imageData = null;
+        // Handle image file upload
+        $imagePath = "";
         if (isset($_FILES["food_image"]) && $_FILES["food_image"]["error"] === UPLOAD_ERR_OK) {
-            $imageData = file_get_contents($_FILES["food_image"]["tmp_name"]);
+            $targetDir = "<admin>uploads/";
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0777, true); // Create uploads/ folder if it doesn't exist
+            }
+
+            $filename = uniqid() . "_" . basename($_FILES["food_image"]["name"]);
+            $targetFile = $targetDir . $filename;
+
+            if (move_uploaded_file($_FILES["food_image"]["tmp_name"], $targetFile)) {
+                $imagePath = $targetFile; // Save relative path for DB
+            } else {
+                echo "<script>alert('Image upload failed.'); window.location.href = 'fooddetails.php';</script>";
+                exit;
+            }
         }
 
         // Get user_id from phone
@@ -44,23 +57,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Prepare insert query
             $insert = $conn->prepare("INSERT INTO fooddetails (
-                user_id, donor_name, pickup_address, phone, alternate_phone,
+                user_id, donor_name, pickup_address, phone, alt_phone,
                 food_name, food_type, food_category, quantity, unit, image
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            $null = NULL; // placeholder for blob
-
             $insert->bind_param(
-                "isssssssssb",
+                "issssssssss",
                 $userId, $donor, $address, $phone, $altphone,
-                $foodname, $foodtype, $foodcategory, $quantity, $unit, $null
+                $foodname, $foodtype, $foodcategory, $quantity, $unit, $imagePath
             );
 
-            if ($imageData !== null) {
-                $insert->send_long_data(10, $imageData); // index 10 = 11th param
-            }
-
-            // Execute and check
             if ($insert->execute()) {
                 echo "<script>alert('Thank you! Food details submitted.'); window.location.href = 'fooddetails.php';</script>";
             } else {
@@ -77,4 +83,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 $conn->close();
-?> 
+?>
+
