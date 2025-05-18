@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Feedback Admin Panel</title>
+    <title>Food Details Admin Panel</title>
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+
 <?php
 // Database connection
 $server = "localhost";
@@ -21,7 +22,8 @@ if ($conn->connect_error) {
 $result = mysqli_query($conn, "SELECT * FROM fooddetails");
 
 // HTML table structure
-echo "<table>
+echo "
+<table>
 <tr>
     <th>Food ID</th>
     <th>Donor<br> Name</th>
@@ -35,11 +37,20 @@ echo "<table>
     <th>Date & <br>Time</th>
 </tr>";
 
-// Loop through the result set
 while ($row = mysqli_fetch_assoc($result)) {
-    // Convert image BLOB to base64 string
-    $imageData = base64_encode($row['image']);
-    $imageTag = '<img src="data:image/jpeg;base64,' . $imageData . '"style="width: 75px; height: 75px; border-radius: 0;"/>';
+    $imagePath = htmlspecialchars($row['image']);
+
+    // Ensure the path uses forward slashes
+    $imageURL = !empty($imagePath) ? str_replace('\\', '/', $imagePath) : "";
+
+    // Check if file exists
+    if (!empty($imageURL) && file_exists($imageURL)) {
+    $imageTag = "<img src='$imageURL' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border-radius: 0;'>";
+
+
+    } else {
+        $imageTag = "No Image";
+    }
 
     echo "<tr>
         <td>{$row['fooddetails_id']}</td>
@@ -59,5 +70,6 @@ echo "</table>";
 // Close connection
 $conn->close();
 ?>
+
 </body>
 </html>
