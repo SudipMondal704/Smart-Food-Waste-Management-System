@@ -8,12 +8,16 @@ if (isset($_GET['message'])) {
         ". (!empty($redirect) ? "window.location.href = '$redirect';" : "") ."
     </script>";
 }
+<<<<<<< HEAD
 
 ?>
 
 ?>
 
 
+=======
+?>
+>>>>>>> 6fad8c396b64b3b78d87155536b95b452c63fbc6
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,10 +39,15 @@ if (isset($_GET['message'])) {
           <input type="email" name="email"placeholder="Email" required />
           <input type="tel" name="phone" placeholder="Phone Number" required />
           <input type="password"name="password" placeholder=" Create Password" required />
+<<<<<<< HEAD
           <input type="password" name="confirm_password"placeholder=" Confirm password" required />
          <input type="password" name="confirm_password"placeholder=" Confirm password" required />
 
 
+=======
+
+          <input type="password" name="confirm_password"placeholder=" Confirm password" required />
+>>>>>>> 6fad8c396b64b3b78d87155536b95b452c63fbc6
           <div class="gender">
           <label>Gender:</label><br>
             <label><input type="radio" name="gender"value="Male" /> Male</label>

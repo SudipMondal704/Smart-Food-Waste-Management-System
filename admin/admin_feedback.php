@@ -6,40 +6,38 @@
 </head>
 <body>
   <?php
-    include('header.php');
-  ?>
+    //include('header.php');
+// database connection
+$server = "localhost";
+$user = "root";
+$pass = "";
+$db = "food_waste";
 
-    <div class="content">
-			<div class="head-title">
-				<div class="left">
-					<h2>Feedbacks</h2>
-					<ul class="breadcrumb">
-						<li>
-							<p>Home</p>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Feedback</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-        <div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Feedbacks</h3>
-						<button class="view">View All</button>
-					</div>
-					<table>
-						<thead>
-							<tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Phone No.</th>
-                <th>Feedback</th>
-                <th>Date</th>
-							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
+$conn = new mysqli($server, $user, $pass, $db);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$result = mysqli_query($conn, "SELECT * FROM feedback");
+echo "<table>
+<tr>
+<th>Feedback ID</th>
+<th> Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Feedback</th>
+<th>Feedback Record</th>
+
+</tr>";
+while ($row = mysqli_fetch_assoc($result)) {
+    echo "<tr>
+        <td>{$row['feedback_id']}</td>
+        <td>{$row['full_name']}</td>
+        <td>{$row['email']}</td>
+        <td>{$row['phone_number']}</td>
+		<td>{$row['feedback_text']}</td>
+        <td>{$row['feedback_date']}</td>
+    </tr>";
+}
+echo "</table>";
+?>

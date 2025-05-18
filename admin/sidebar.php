@@ -17,7 +17,7 @@
 					<li>
 						<a href="#">
 							<i class="fi fi-ss-users"></i>
-							<span class="text">Customers</span>
+							<span class="text">Donors</span>
 							<i class='arrow bx bx-chevron-down'></i>	
 						</a>
 								
@@ -29,7 +29,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="admin.php?type=donors">
 									<span class="text">List</span>
 									<i class="sub-fi fi-ss-list"></i>
 								</a>
@@ -53,7 +53,7 @@
 							</li>
 					
 							<li>
-								<a href="#">
+								<a href="admin.php?type=ngos">
 									<span class="text">List</span>
 									<i class="sub-fi fi-ss-list"></i>
 								</a>
@@ -62,21 +62,21 @@
 					</li>
 
 					<li>
-						<a href="admin_fooddetails.php">
+						<a href="admin.php?type=food">
 							<i class='fi fi-ss-hamburger-soda' ></i>
 							<span class="text">Food Details</span>
 						</a>
 					</li>
 
 					<li>
-						<a href="admin_feedback.php">
+						<a href="admin.php?type=feedback">
 							<i class='bx bxs-file' ></i>
 							<span class="text">Feedbacks</span>
 						</a>
 					</li>
 
 					<li>
-						<a href="#" class="logout">
+						<a href="AdminLogout.php" class="logout">
 							<i class="fi fi-ss-sign-out-alt"></i>
 							<span class="text">Logout</span>
 						</a>

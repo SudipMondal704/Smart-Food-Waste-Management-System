@@ -9,12 +9,12 @@ $password = "";
 $dbname = "food_waste"; // your database name
 
 
-//$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-//if ($conn->connect_error) {
-  //  die("Database Connection failed: " . $conn->connect_error);
-//}
+if ($conn->connect_error) {
+   die("Database Connection failed: " . $conn->connect_error);
+}
 
 // Hardcoded Admin credentials
 $admin_credentials = [
@@ -43,12 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         $gender = $_POST['gender'] ?? '';
 
         if ($password === $confirm_password) {
-            $hashed_password = password ($password, PASSWORD_DEFAULT);
+            $hashed_password = password_hash ($password, PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO users (username, address, email, phone, password, gender) 
                     VALUES ('$username', '$address', '$email', '$phone', '$hashed_password', '$gender')";
 
-            if ($conn->query($sql) === TRUE) {
+            if ( $conn->query($sql) === TRUE) {
                 header("Location: registration.php?message=Registration successful!&redirect=login.php");
                 exit();
             } else {
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['username'];
 
-                header("Location: Home.php?message=Login successful!");
+                header("Location: Home.html?message=Login successful!");
                 exit();
             } else {
                 header("Location: login.php?message=Invalid password!");
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
                 $_SESSION['user_id'] = $ngo['id'];
                 $_SESSION['user_name'] = $ngo['ngo_name'];
 
-                header("Location: Home.php?message=NGO Login successful!");
+                header("Location: Home.html?message=NGO Login successful!");
                 exit();
             } else {
                 header("Location: NGOlog.php?message=Invalid password!");
