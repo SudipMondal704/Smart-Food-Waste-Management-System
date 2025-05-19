@@ -64,8 +64,9 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td>$imageTag</td>
         <td>{$row['created_at']}</td>
     </tr>";
+ "</table>";
 }
-echo "</table>";
+//echo "</table>";
 
 // Close connection
 $conn->close();
