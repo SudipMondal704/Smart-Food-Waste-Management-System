@@ -2,10 +2,50 @@
 <html>
 <head>
     <title>Food Details Admin Panel</title>
-    <link rel="stylesheet" href="admin.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 0px 30px 30px 30px;
+            margin: 0;
+        }
+        .table-container {
+            overflow-x: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+            margin: 10px auto;
+            width: 95%;
+        }
+        table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 14px 18px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid #ccc;
+        }
+        th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        img {
+            width: 75px;
+            height: 75px;
+            object-fit: cover;
+        }
+        .not-assigned {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
+<div class="table-container">
 <?php
 // Database connection
 $server = "localhost";
@@ -18,8 +58,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch all food details
-$result = mysqli_query($conn, "SELECT * FROM fooddetails");
+// Fetch all food details and join with NGO info
+$query = "
+    SELECT f.*, n.ngo_name 
+    FROM fooddetails f 
+    LEFT JOIN ngo n ON f.assigned_ngo_id = n.ngo_id
+";
+$result = mysqli_query($conn, $query);
 
 // HTML table structure
 echo "
@@ -35,22 +80,26 @@ echo "
     <th>Unit</th>
     <th>Image</th>
     <th>Date & <br>Time</th>
+    <th>Assigned<br> NGO</th>
 </tr>";
 
 while ($row = mysqli_fetch_assoc($result)) {
-    $imagePath = htmlspecialchars($row['image']);
+    // Extract image filename
+    $storedPath = htmlspecialchars($row['image']); // e.g. admin/uploads/filename.jpg or uploads/filename.jpg
+    $filename = basename($storedPath); // e.g. filename.jpg
 
-    // Ensure the path uses forward slashes
-    $imageURL = !empty($imagePath) ? str_replace('\\', '/', $imagePath) : "";
+    // Paths for checking and displaying image
+    $filePath = __DIR__ . "/uploads/" . $filename;
+    $imgURL = "uploads/" . $filename;
 
-    // Check if file exists
-    if (!empty($imageURL) && file_exists($imageURL)) {
-    $imageTag = "<img src='$imageURL' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border-radius: 0;'>";
-
+    if (file_exists($filePath)) {
+    $imageTag = "<img src='$imgURL' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border: 1px solid #ccc; border-radius:0px;'>";
 
     } else {
         $imageTag = "No Image";
     }
+
+    $ngoName = $row['ngo_name'] ? $row['ngo_name'] : "<span class='not-assigned'>Not Assigned</span>";
 
     echo "<tr>
         <td>{$row['fooddetails_id']}</td>
@@ -63,13 +112,14 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td>{$row['unit']}</td>
         <td>$imageTag</td>
         <td>{$row['created_at']}</td>
+        <td>$ngoName</td>
     </tr>";
 }
 echo "</table>";
 
-// Close connection
 $conn->close();
 ?>
+</div>
 
 </body>
 </html>
