@@ -76,6 +76,19 @@
 					</li>
 
 					<li>
+						<a href="admin.php?type=assign">
+							<i class='bx bxs-file' ></i>
+							<span class="text">NGO Assign Status</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="admin.php?type=request">
+							<i class='bx bxs-file' ></i>
+							<span class="text">Donation requests</span>
+						</a>
+					</li>
+                        <li>
 						<a href="AdminLogout.php" class="logout">
 							<i class="fi fi-ss-sign-out-alt"></i>
 							<span class="text">Logout</span>

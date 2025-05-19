@@ -10,20 +10,13 @@
                         <?php 
                             if (isset($_GET['type'])) {
                                 switch ($_GET['type']) {
-                                    case 'donors': 
-                                        echo "Donors List";
-                                         break;
-                                    case 'ngos':
-                                         echo "NGO List";
-                                          break;
-                                    case 'feedback':
-                                         echo "Feedback List";
-                                          break;
-                                    case 'food':
-                                         echo "Food Details List";
-                                          break;
-                                    default:
-                                     echo "Dashboard";
+                                    case 'donors': echo "Donors"; break;
+                                    case 'ngos': echo "NGOs"; break;
+                                    case 'feedback': echo "Feedbacks"; break;
+                                   // case 'food': echo "Food Details List"; break;
+                                    case 'assign': echo "NGO Assign Status"; break;
+                                    case 'request': echo "Donation Requests"; break;
+                                    default: echo "Dashboard";
                                 }
                             } else {
                                 echo "Dashboard";
@@ -34,63 +27,63 @@
             </ul>
         </div>
     </div>
+
     <div class="table-data">
         <div class="order">
             <div class="head">
                 <h3>
                     <?php 
-                    if (isset($_GET['type'])) {
-                        switch ($_GET['type']) {
-                            case 'donors': 
-                                echo "Donors List";
-                                break;
-                            case 'ngos':
-                                echo "NGO List";
-                                break;
-                            case 'feedback': 
-                                echo "Feedback List"; 
-                                break;
-                            case 'food': 
-                                echo "Food Details List";
-                                break;
-                            default: 
-                                echo "Recent Donates";
+                        if (isset($_GET['type'])) {
+                            switch ($_GET['type']) {
+                                case 'donors': echo "Donors List"; break;
+                                case 'ngos': echo "NGO List"; break;
+                                case 'feedback': echo "Feedback List"; break;
+                               // case 'food': echo "Food Details List"; break;
+                                case 'assign': echo "Assign NGO"; break;
+                                case 'request': echo "Donation Requests"; break;
+                                default: echo "Recent Donates";
+                            }
+                        } else {
+                            echo "Recent Donates";
                         }
-                    } else {
-                        echo "Recent Donates";
-                    }
                     ?>
                 </h3>
                 <button class="view">View All</button>
             </div>
 
             <?php
-            if (isset($_GET['type'])) {
-                $type = $_GET['type'];
-                switch ($type) {
-                    case 'donors':
-                        include("admin_donor.php");
-                        break;
-                    case 'ngos':
-                        include("admin_ngo.php");
-                        break;
-                    case 'feedback':
-                        include("admin_feedback.php");
-                        break;
-                    case 'food':
-                        include("admin_fooddetails.php");
-                        break;
-                    default:
-                        include("admin_recentdonate.php");
+                if (isset($_GET['type'])) {
+                    $type = $_GET['type'];
+                    switch ($type) {
+                        case 'donors':
+                            include("admin_donor.php");
+                            break;
+                        case 'ngos':
+                            include("admin_ngo.php");
+                            break;
+                        case 'feedback':
+                            include("admin_feedback.php");
+                            break;
+                       // case 'food':
+                          //  include("admin_fooddetails.php");
+                         //   break;
+                        case 'assign':
+                            include("assign_ngo.php");
+                            break;
+                        case 'request':
+                            include("admin_fooddetails.php");
+                            break;
+                        default:
+                            include("admin_recentdonate.php");
+                    }
+                } else {
+                    include("admin_recentdonate.php");
                 }
-            } else {
-                include("admin_recentdonate.php");
-            }
             ?>
         </div>
     </div>
-
-    <!-- Jquery -->
+</div>
+ <!-- Jquery -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"
       integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw=="
