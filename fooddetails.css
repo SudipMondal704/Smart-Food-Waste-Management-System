@@ -297,7 +297,7 @@ form .button input:hover {
 
 .button-text {
     display: inline-block;
-    background-color: rgb(104, 123, 207);
+    background-color: #687bcf;
     color: white;
     padding: 0 15px;
     height: 100%;
