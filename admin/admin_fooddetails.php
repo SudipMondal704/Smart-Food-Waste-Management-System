@@ -33,6 +33,7 @@
             background-color: #343a40;
             color: #fff;
         }
+        
         img {
             width: 75px;
             height: 75px;
@@ -77,7 +78,6 @@ echo "
     <th>Food<br> Name</th>
     <th>Food <br>Type</th>
     <th>Quantity</th>
-    <th>Unit</th>
     <th>Image</th>
     <th>Date & <br>Time</th>
     <th>Assigned<br> NGO</th>
@@ -100,6 +100,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 
     $ngoName = $row['ngo_name'] ? $row['ngo_name'] : "<span class='not-assigned'>Not Assigned</span>";
+    
+    // Combine quantity and unit
+    $quantityUnit = $row['quantity'] . $row['unit'];
 
     echo "<tr>
         <td>{$row['fooddetails_id']}</td>
@@ -108,15 +111,13 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td>{$row['phone']}</td>
         <td>{$row['food_name']}</td>
         <td>{$row['food_type']}</td>
-        <td>{$row['quantity']}</td>
-        <td>{$row['unit']}</td>
+        <td>$quantityUnit</td>
         <td>$imageTag</td>
         <td>{$row['created_at']}</td>
         <td>$ngoName</td>
     </tr>";
- "</table>";
 }
-//echo "</table>";
+echo "</table>";
 
 $conn->close();
 ?>

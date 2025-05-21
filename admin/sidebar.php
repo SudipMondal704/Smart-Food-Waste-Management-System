@@ -61,12 +61,7 @@
 						</ul>
 					</li>
 
-					<li>
-						<a href="admin.php?type=food">
-							<i class='fi fi-ss-hamburger-soda' ></i>
-							<span class="text">Food Details</span>
-						</a>
-					</li>
+
 
 					<li>
 						<a href="admin.php?type=feedback">

@@ -19,17 +19,15 @@ if ($memberResult && $memberResult->num_rows > 0) {
 }
 
 // Count total donations
-$donateQuery = "SELECT COUNT(*) as donate_count FROM fooddetails";
+$donateQuery = "SELECT COUNT(*) as donate_count FROM fooddetails WHERE assigned_ngo_id IS NOT NULL";
 $donateResult = $conn->query($donateQuery);
 $donateCount = 0;
 if ($donateResult && $donateResult->num_rows > 0) {
     $donateCount = $donateResult->fetch_assoc()['donate_count'];
 }
 
-// Count pending donations
-// Assuming there's a status column in fooddetails table where 'pending' indicates pending status
-// If your database structure is different, modify this query accordingly
-$pendingQuery = "SELECT COUNT(*) as pending_count FROM fooddetails WHERE status = 'pending'";
+// Count pending donations - fixed query to use assigned_ngo_id
+$pendingQuery = "SELECT COUNT(*) as pending_count FROM fooddetails WHERE assigned_ngo_id IS NULL";
 $pendingResult = $conn->query($pendingQuery);
 $pendingCount = 0;
 if ($pendingResult && $pendingResult->num_rows > 0) {
@@ -52,7 +50,7 @@ $conn->close();
         <i class='bx bxs-group'></i>
         <span class="text">
             <h3><?php echo $memberCount; ?></h3>
-            <p>Members</p>
+            <p>Doners</p>
         </span>
     </li>
     <li>
