@@ -22,7 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user   = $result->fetch_assoc();
 
     if ($user && $password === $user['password']) {
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='Home.html';</script>";
+        $_SESSION['user_id'] = $user['user_id'];  
+        $_SESSION['user_name'] = $user['username']; 
+        $_SESSION['role'] = 'donor';
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='donor_dashboard.php';</script>";
         exit();
     }
 
@@ -34,7 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ngo = $result->fetch_assoc();
 
     if ($ngo && $password === $ngo['password']) {
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='Home.html';</script>";
+        $_SESSION['user_id'] = $ngo['ngo_id'];  
+        $_SESSION['user_name'] = $ngo['ngo_name'];
+        $_SESSION['role'] = 'ngo';
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='ngo_dashboard.php';</script>";
         exit();
     }
 

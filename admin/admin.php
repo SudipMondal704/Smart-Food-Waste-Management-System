@@ -4,7 +4,7 @@ session_start();
 
 // Check if user is logged in as admin
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: ../signup.php?message=Please login as admin.");
+    echo "<script>alert('Login as Admin!.'); window.location.href='../login_signup.php';</script>";
     exit();
 }
 ?>
