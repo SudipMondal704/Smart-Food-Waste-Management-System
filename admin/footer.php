@@ -14,8 +14,9 @@
                                     case 'ngos': echo "NGOs"; break;
                                     case 'feedback': echo "Feedbacks"; break;
                                    // case 'food': echo "Food Details List"; break;
-                                    case 'assign': echo "NGO Assign Status"; break;
-                                    case 'request': echo "Donation Requests"; break;
+                                    case 'pending': echo "Pending Donation Request"; break;
+                                    case 'assign': echo "Assigned Donation Request"; break;
+                                    case 'status': echo "Donation Status"; break;
                                     default: echo "Dashboard";
                                 }
                             } else {
@@ -39,8 +40,9 @@
                                 case 'ngos': echo "NGO List"; break;
                                 case 'feedback': echo "Feedback List"; break;
                                // case 'food': echo "Food Details List"; break;
-                                case 'assign': echo "Assign NGO"; break;
-                                case 'request': echo "Donation Requests"; break;
+                                case 'pending': echo "Pending Donation Request"; break;
+                                case 'assign': echo "Assigned Donation Request"; break;
+                                case 'status': echo "Donation Status"; break;
                                 default: echo "Recent Donates";
                             }
                         } else {
@@ -67,10 +69,13 @@
                        // case 'food':
                           //  include("admin_fooddetails.php");
                          //   break;
-                        case 'assign':
-                            include("assign_ngo.php");
+                        case 'pending':
+                            include("pending_request.php");
                             break;
-                        case 'request':
+                            case 'assign':
+                            include("assigned_request.php");
+                            break;
+                            case 'status':
                             include("admin_fooddetails.php");
                             break;
                         default:

@@ -333,24 +333,19 @@
       <!-- Login Container -->
       <div class="login-container" id="login-container">
         <div class="form-container sign-up">
-          <form>
             <h1>Create Account</h1>
-            <input type="text" name="username" placeholder="Name">
-            <div class="gender">
-              <label><b>Gender :</b></label><br>
-              <label><input type="radio" name="gender" value="Male" /> Male</label>
-              <label><input type="radio" name="gender" value="Female"/> Female</label>
-              <label><input type="radio" name="gender" value="Other" /> Other</label>
-            </div>
+             <form action="signup.php" method="POST">
+            <input type="text" name="username" placeholder="Name"required>
 
             <div class="account-type">
               <label><b>Account Type :</b></label><br>
-              <label><input type="radio" name="acc-type" value="Donar" /> Donor</label>
-              <label><input type="radio" name="acc-type" value="NGO"/> NGO</label>
+              <label><input type="radio" name="acc-type" value="Donar"required /> Donor</label>
+              <label><input type="radio" name="acc-type" value="NGO"required/> NGO</label>
             </div>
-            <input type="email" name="email" placeholder="Email">
-            <input type="tel" name="phone" placeholder="Mobile no.">
-            <input type="password" name="password" placeholder="Password">
+            <input type="text" name="address" placeholder="Address"required>
+            <input type="email" name="email" placeholder="Email"required>
+            <input type="tel" name="phone" placeholder="Mobile no."required>
+            <input type="password" name="password" placeholder="Password"required>
 
             <div class="checkbox">
               <label><input type="checkbox" required ></label>
@@ -360,10 +355,10 @@
           </form>
         </div>
         <div class="form-container sign-in">
-          <form>
-            <h1>Sign In</h1>
-            <input type="email" placeholder="Email">
-            <input type="password" placeholder="Password">
+           <form action="signin.php" method="POST">
+             <h1>Sign In</h1>
+           <input type="email" name="login" placeholder="Email or Mobile Number">
+            <input type="password"name="password" placeholder="Password">
             <a href="forgot_password.php">Forget Your Password?</a>
             <button>Sign In</button>
           </form>

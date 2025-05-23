@@ -61,7 +61,6 @@ echo "<table>
     <th>Address</th>
     <th>Email</th>
     <th>Phone</th>
-    <th>Gender</th>
     <th>Registration Record</th>
 </tr>
 </thead>
@@ -74,7 +73,6 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td>{$row['address']}</td>
         <td>{$row['email']}</td>
         <td>{$row['phone']}</td>
-        <td>{$row['gender']}</td>
         <td>{$row['created_at']}</td>
     </tr>";
 }

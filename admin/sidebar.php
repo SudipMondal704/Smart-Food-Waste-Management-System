@@ -71,16 +71,23 @@
 					</li>
 
 					<li>
+						<a href="admin.php?type=pending">
+							<i class='bx bxs-file' ></i>
+							<span class="text">Pending Donation Requests</span>
+						</a>
+					</li>
+					<li>
 						<a href="admin.php?type=assign">
 							<i class='bx bxs-file' ></i>
-							<span class="text">NGO Assign Status</span>
+							<span class="text">Assigned Donation Requests</span>
 						</a>
 					</li>
 
+
 					<li>
-						<a href="admin.php?type=request">
+						<a href="admin.php?type=status">
 							<i class='bx bxs-file' ></i>
-							<span class="text">Donation requests</span>
+							<span class="text">Donation Status</span>
 						</a>
 					</li>
                         <li>

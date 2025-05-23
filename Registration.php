@@ -11,9 +11,6 @@ if (isset($_GET['message'])) {
 
 ?>
 
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
