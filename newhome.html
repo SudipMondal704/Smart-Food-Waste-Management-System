@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Donate - Save Food Share joy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .top-image {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 50vh;
+        }
+
+        /* Content-Main Section */
+        .content-main {
+            width: 100%;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-main .sub-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            padding: 20px;
+            max-width: 800px;
+            opacity: 0;
+            animation: slideDown 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .content-main .sub-content .title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .content-main .sub-content .description {
+            font-size: 18px;
+            font-weight: 400;
+            color: #e8e8e8;
+        }
+
+        .content-main .sub-content .description a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .section-content {
+            margin: 0 auto;
+            padding: 0 60px;
+            max-width: 1300px;
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 60px 0 100px;
+            text-transform: uppercase;
+            font-size: 24px;
+        }
+
+        /* Fixed button styling */
+        button {
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn {
+            padding: 15px 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .btn i {
+            font-size: 20px;
+        }
+
+        .btn:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+        }
+
+        /* Background slideshow */
+        .background-slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: zoomOut 9s ease-in-out infinite;
+        }
+
+        .bg-slide:nth-child(1) {
+            background-image: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            animation-delay: 0s;
+        }
+
+        .bg-slide:nth-child(2) {
+            background-image: linear-gradient(45deg, #667eea, #764ba2);
+            animation-delay: 3s;
+        }
+
+        .bg-slide:nth-child(3) {
+            background-image: linear-gradient(45deg, #f093fb, #f5576c);
+            animation-delay: 6s;
+        }
+
+        .bg-slide:nth-child(4) {
+            background-image: linear-gradient(45deg, #4facfe, #00f2fe);
+            animation-delay: 9s;
+        }
+
+        /* Dark overlay */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        /* Header styling */
+        header {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Navbar Section */
+        .navbar {
+            display: flex;
+            padding: 10px 30px;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo .logo-text {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            opacity: 0;
+            animation: slideRight 1s ease forwards;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-menu a {
+            padding: 12px 20px;
+            color: #e0e0e0;
+            position: relative;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            opacity: 0;
+            animation: slideDown .5s ease forwards;
+            animation-delay: calc(.2s * var(--i));
+            cursor: pointer;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #34b409;
+        }
+
+        /* Main section */
+        .main-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-section .section-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            animation: slideDown 1s ease forwards;
+            animation-delay: 0.8s;
+            padding: 0 30px;
+        }
+
+        .main-details .title {
+            font-size: 44px;
+            color: #fff;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .main-details .title span {
+            color: #69dbea;
+            display: block;
+            font-size: 36px;
+            margin-top: 10px;
+        }
+
+        .main-details .description {
+            font-size: 16px;
+            color: #e8e8e8;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* Popup Modal Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Login Container Styles */
+        .login-container {
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 90%;
+            min-height: 480px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-overlay.active .login-container {
+            transform: scale(1);
+        }
+
+        .login-container p {
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.3px;
+            margin: 20px 0;
+        }
+
+        .login-container span {
+            font-size: 12px;
+        }
+
+        .login-container a {
+            color: #333;
+            font-size: 13px;
+            text-decoration: none;
+            margin: 15px 0 10px;
+        }
+
+        .login-container button {
+            background-color: #512da8;
+            color: #fff;
+            font-size: 12px;
+            padding: 10px 45px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .login-container button.hidden {
+            background-color: transparent;
+            border-color: #fff;
+        }
+
+        .login-container form {
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            height: 100%;
+        }
+
+        .login-container input {
+            background-color: #eee;
+            border: none;
+            margin: 8px 0;
+            padding: 10px 15px;
+            font-size: 13px;
+            border-radius: 8px;
+            width: 100%;
+            outline: none;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .login-container.active .sign-in {
+            transform: translateX(100%);
+        }
+
+        .sign-up {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .login-container.active .sign-up {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: move 0.6s;
+        }
+
+        @keyframes move {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .account-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            margin: 10px;
+            flex-wrap: wrap;
+        }
+
+        .account-type label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            gap: 10px;
+            margin: 10px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox input {
+            display: flex;
+            align-items: center;
+            width: auto;
+        }
+
+        .checkbox a {
+            color: #512da8;
+            text-decoration: none;
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            border-radius: 150px 0 0 100px;
+            z-index: 1000;
+        }
+
+        .login-container.active .toggle-container {
+            transform: translateX(-100%);
+            border-radius: 0 150px 100px 0;
+        }
+
+        .toggle {
+            background-color: #512da8;
+            height: 100%;
+            background: linear-gradient(to right, #5c6bc0, #512da8);
+            color: #fff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .login-container.active .toggle {
+            transform: translateX(50%);
+        }
+
+        .toggle-panel {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 30px;
+            text-align: center;
+            top: 0;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .toggle-left {
+            transform: translateX(-200%);
+        }
+
+        .login-container.active .toggle-left {
+            transform: translateX(0);
+        }
+
+        .toggle-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .login-container.active .toggle-right {
+            transform: translateX(200%);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s ease;
+        }
+
+        .close-popup:hover {
+            color: #333;
+        }
+
+        /* Animations */
+        @keyframes zoomOut {
+            0% {
+                opacity: 0;
+                transform: scale(1.3);
+            }
+            8.33% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            25% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            33.33% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+
+        @keyframes slideLeft {
+            0% {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideRight {
+            0% {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideTop {
+            0% {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Content -->
+    <!-- Slideshow background -->
+    <div class="background-slideshow">
+        <div class="bg-slide"></div>
+        <div class="bg-slide"></div>
+        <div class="bg-slide"></div>
+        <div class="bg-slide"></div>
+        <div class="bg-slide"></div>
+    </div>
+    <div class="background-overlay"></div>
+    
+    <header>
+        <!-- Navbar Section -->
+        <nav class="navbar">
+            <a href="#" class="nav-logo">
+                <h2 class="logo-text">Food <b style="color: #34b409;">Donate</b></h2>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" style="--i:1" class="active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="Aboutnew.html" style="--i:2">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" style="--i:3">Pages</a>
+                </li>
+                <li class="nav-item">
+                    <a href="Contactnew.html" style="--i:4">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" style="--i:5" id="login-nav-btn">Login</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <main>
+            <!-- Main Section -->
+            <section class="main-section">
+                <div class="section-content">
+                    <div class="main-details">
+                        <h1 class="title">
+                            Let's Make The Change
+                            <span>"Save Food, Share Joy!!"</span>
+                        </h1>
+                        <p class="description">
+                            Cutting food waste is a delicious way of saving money, helping to feed the world and protect the planet.
+                            Donate extra food to needy people because giving is not charity, it is an expression of humanity.
+                            Together, we can build a world where no food goes to waste and no one goes hungry.
+                        </p>
+                    </div>
+                    <div class="button">
+                        <a href="#" class="btn" id="donate-now-btn">Donate Now<i class="fa-solid fa-circle-arrow-right"></i></a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </header>
+
+    <!-- Popup Login Modal -->
+    <div class="popup-overlay" id="login-popup">
+        <div class="login-container" id="login-container">
+            <span class="close-popup" id="close-popup">&times;</span>
+            
+            <div class="form-container sign-up">
+                <h1>Create Account</h1>
+                <form action="signup.php" method="POST">
+                    <input type="text" name="username" placeholder="Name" required>
+
+                    <div class="account-type">
+                        <label><b>Account Type :</b></label><br>
+                        <label><input type="radio" name="acc-type" value="Donar" required /> Donor</label>
+                        <label><input type="radio" name="acc-type" value="NGO" required/> NGO</label>
+                    </div>
+                    <input type="text" name="address" placeholder="Address" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="phone" placeholder="Mobile no." required>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <div class="checkbox">
+                        <label><input type="checkbox" required></label>
+                        <span>I agree to the <a href="">terms & conditions</a></span>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+            
+            <div class="form-container sign-in">
+                <form action="signin.php" method="POST">
+                    <h1>Sign In</h1>
+                    <input type="email" name="login" placeholder="Email or Mobile Number" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="forgot_password.php">Forget Your Password?</a>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+            
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome Back!</h1>
+                        <p>Enter your personal details to use all of site features</p>
+                        <button class="hidden" id="login">Sign In</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>Hello, Friend!</h1>
+                        <p>Register with your personal details to use all of site features</p>
+                        <button class="hidden" id="register">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const donateBtn = document.getElementById('donate-now-btn');
+        const loginNavBtn = document.getElementById('login-nav-btn');
+        const loginPopup = document.getElementById('login-popup');
+        const closePopup = document.getElementById('close-popup');
+        const registerBtn = document.getElementById('register');
+        const loginBackBtn = document.getElementById('login');
+        const container = document.getElementById('login-container');
+
+        // Open popup when clicking Donate Now or Login
+        donateBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginPopup.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        loginNavBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginPopup.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        // Close popup
+        closePopup.addEventListener('click', () => {
+            loginPopup.classList.remove('active');
+            container.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        });
+
+        // Close popup when clicking outside
+        loginPopup.addEventListener('click', (e) => {
+            if (e.target === loginPopup) {
+                loginPopup.classList.remove('active');
+                container.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        });
+
+        // Toggle between sign-in and sign-up
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBackBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && loginPopup.classList.contains('active')) {
+                loginPopup.classList.remove('active');
+                container.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

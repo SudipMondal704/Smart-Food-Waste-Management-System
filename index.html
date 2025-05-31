@@ -38,7 +38,7 @@
                     <a href="Contactnew.html" style="--i:4">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" style="--i:5">Login</a>
+                    <a href="#" style="--i:5" id="loginNavBtn">Login</a>
                 </li>
             </ul>
         </nav>
@@ -58,7 +58,7 @@
                         </p>
                     </div>
                     <div class="button">
-                        <a href="#" class="btn">Donate Now<i class="fa-solid fa-circle-arrow-right"></i></a>
+                        <a href="#" class="btn" id="donateNowBtn">Donate Now<i class="fa-solid fa-circle-arrow-right"></i></a>
                     </div>
                 </div>
             </section>
@@ -303,6 +303,61 @@
             </button>
         </main>
     </header>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-container" id="login-container">
+            <button class="modal-close" id="closeModal">&times;</button>
+            
+            <div class="form-container sign-up">
+                <h1>Create Account</h1>
+                <form action="signup.php" method="POST">
+                    <input type="text" name="username" placeholder="Name" required>
+
+                    <div class="account-type">
+                        <label><b>Account Type :</b></label><br>
+                        <label><input type="radio" name="acc-type" value="Donar" required /> Donor</label>
+                        <label><input type="radio" name="acc-type" value="NGO" required/> NGO</label>
+                    </div>
+                    <input type="text" name="address" placeholder="Address" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="tel" name="phone" placeholder="Mobile no." required>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <div class="checkbox">
+                        <label><input type="checkbox" required ></label>
+                        <span>I agree to the <a href="">terms & conditions</a></span>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
+            
+            <div class="form-container sign-in">
+                <form action="signin.php" method="POST">
+                    <h1>Sign In</h1>
+                    <input type="email" name="login" placeholder="Email or Mobile Number" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <a href="forgot_password.php">Forget Your Password?</a>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+            
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Welcome Back!</h1>
+                        <p>Enter your personal details to use all of site features</p>
+                        <button class="hidden" id="login" type="button">Sign In</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>Hello, Friend!</h1>
+                        <p>Register with your personal details to use all of site features</p>
+                        <button class="hidden" id="register" type="button">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
