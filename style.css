@@ -1054,7 +1054,7 @@ header {
     transform: translateY(-1px);
 }
 
-/* Contact Page - FIXED STYLES */
+/* Contact Page -  STYLES */
 .contact-section {
     padding: 80px 0 100px;
     background: #f6f6cf;
@@ -1346,5 +1346,5 @@ header {
 .chat input:focus {
     border-color: #030303;
 }
-
+.fixed-top{border-bottom:2px solid #00f985;background:#000000}
 

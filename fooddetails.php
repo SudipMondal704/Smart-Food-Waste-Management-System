@@ -8,7 +8,6 @@
 </head>
 <body>
   <div class="container">
-        <button type="button" class="add-food-btn" onclick="addFoodItem()">+ Add Another Food Item</button>
         
         <div class="logo">
             <img src="" alt="Food Details Logo">
@@ -137,6 +136,11 @@
                     </div>
                 </div>
 
+                <!-- Add Food Button moved here, above Submit button -->
+                <div style="text-align: center; margin: 20px 0;">
+                    <button type="button" class="add-food-btn" onclick="addFoodItem()" style="position: relative; top: auto; right: auto; width: auto; display: inline-block;">+ Add Another Food Item</button>
+                </div>
+        
                 <div class="button">
                     <input type="submit" value="Submit Food Details">
                 </div>
@@ -205,7 +209,7 @@ function addFoodItem() {
                         <img src="img/Cooke-food.jpg" alt="Cooked Food" class="card-img">
                     </div>
                     <div class="card-details">
-                        <h2 class="name">Cooked Food</h2>
+                        <h2 name="name">Cooked Food</h2>
                     </div>
                 </div>
             </div>
@@ -312,4 +316,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
     </script>
 </body>
-</html>  
+</html>
