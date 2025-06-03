@@ -7,7 +7,7 @@
     <title>contact</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<link rel="stylesheet" href="chatbot.css">
+	<link rel="stylesheet" href="">
 </head>
 <body>
 	<header>
@@ -69,30 +69,45 @@
                     </div>
                 </div>
             </section>
-            <section class="chatbot-section" style="padding: 30px; background-color: rgba(151, 243, 199, 0.5);">
-                <p style="font-size: 23px; text-align: center;">ChatBot Support</p>
-                <div id="container" class="container">
-                    <div id="chat" class="chat">
-                    <div id="messages" class="messages"></div>
-                    <input id="input" type="text" placeholder="Say something..." autocomplete="off" />
+                <section class="chatbot-section">
+            <p>ChatBot Support <i class="fa-solid fa-robot"></i></p>
+            <div class="container">
+                <div class="chat">
+                    <div class="chat-header">
+                        <h3>Food Donate Support Bot</h3>
+                    </div>
+                    <div class="messages" id="messages">
+                        <div class="response bot">
+                            <div ></div>
+                             </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input id="input" type="text" placeholder="Type your message here..." autocomplete="off" />
                     </div>
                 </div>
+            </div>
+
                 <div class="help">
                     <p style="font-size: 23px; text-align: center; padding:10px;">Help & FAQs?</p>
-                    <button class="accordion">how to donate food ?</button>
+                    <button class="accordion">How to donate food ?</button>
                     <div class="panel">
-                    <p>1. Click on <a href="fooddonate.html">Donate Now</a> in Home Page </p>
-                    <p>2. Fill the details </p>
-                    <p>3. Click on submit</p>
+                    <p style="font-size: 15px;">1. Click on <a href="index.html">Donate Now</a> in Home Page </p>
+                    <p style="font-size: 15px;">2. Fill the details </p>
+                    <p style="font-size: 15px;">3. Click on submit</p>
                     <img src=" " alt="" width="100%">
                     </div>
                     <button class="accordion">How will my donation be used?</button>
                     <div class="panel">
-                    <p style="padding: 10px;"> Your donation will be used to support our mission and the various programs and initiatives that we have in place. Your donation will help us to continue providing assistance and support to those in need. You can find more information about our programs and initiatives on our website. If you have any specific questions or concerns, please feel free to contact us</p>
+                    <p style="padding: 10px; font-size: 15px;">Your donation will be used to support our mission and the various programs 
+                        and initiatives that we have in place. Your donation will help us to continue providing assistance 
+                        and support to those in need. You can find more information about our programs and initiatives on our website.
+                         If you have any specific questions or concerns, please feel free to contact us</p>
                     </div>
                     <button class="accordion">What should I do if my food donation is near or past its expiration date?</button>
                     <div class="panel">
-                    <p style="padding: 10px;">We appreciate your willingness to donate, but to ensure the safety of our clients we can't accept food that is near or past its expiration date. We recommend checking expiration dates before making a donation or contact us for further guidance</p>
+                    <p style="padding: 10px; font-size: 15px;">We appreciate your willingness to donate, but to ensure the safety of our clients 
+                        we can't accept food that is near or past its expiration date. We recommend checking expiration dates
+                         before making a donation or contact us for further guidance</p>
                     </div>
                 </div>
             </section>
@@ -158,9 +173,6 @@
                 <i class="fas fa-chevron-up"></i>
             </button>
   </header>
+  </body>
   <script src="script.js"></script>
-  <script type="text/javascript" src="chatbot/chatbot.js" ></script>
-  <script type="text/javascript" src="chatbot/constants.js" ></script>
-  <script type="text/javascript" src="chatbot/speech.js" ></script>
-</body>
 </html>
