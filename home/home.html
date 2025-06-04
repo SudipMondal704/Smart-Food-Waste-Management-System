@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Donate - Save Food Share joy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
     <!-- Header Content -->
@@ -22,20 +22,21 @@
         <!-- Navbar Section -->
         <nav class="navbar">
             <a href="#" class="nav-logo">
-                <h2 class="logo-text">Food <b style="color: #34b409 ;">Donate</b></h2>
+                <img src="img/logo.png" alt="Food Donate Logo">
+                <h2 class="logo-text">easy<b style="color: #34b409;">Donate</b></h2>
             </a>
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="#" style="--i:1" class="active">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Aboutnew.html" style="--i:2">About</a>
+                    <a href="About.html" style="--i:2">About</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" style="--i:3">Pages</a>
                 </li>
                 <li class="nav-item">
-                    <a href="Contactnew.html" style="--i:4">Contact</a>
+                    <a href="Contact.html" style="--i:4">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a href="newlogin.php" style="--i:5" id="loginNavBtn">Login</a>
@@ -71,7 +72,6 @@
                         <div class="button">
                             <a href="About.html" class="btn">Read More<i class="fa-solid fa-circle-arrow-right"></i></a>
                         </div>
-                       
                     </div>
                     <div class="about-image-wrapper">
                         <img src="img/About-us.jpg" alt="About" class="about-image">
@@ -112,46 +112,36 @@
                     </div>
                 </div>
             </div>
-
-            <!-- How It Works Section -->
+            <!-- How Does It Work Section -->
             <div class="how-it-works-section section">
-                <p class="sub-heading">Simple and effective process.</p>
-                <h2 class="heading">How It Works</h2>
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card__image">
-                            <div class="step-icon">🍱</div>
+                <div class="container">
+                    <h2 class="section-title">How does easyDonate works?</h2>
+                    
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3 class="step-title">Food is <b style="color: #3c973f">DONATED</b></h3>
+                            <p class="step-description">Farms, restaurants, cafeterias, hotels, stadiums, and grocery stores post excess food in under a minute on the Food Donate website.</p>
                         </div>
-                        <div class="card__content">
-                            <span class="card__title">Food is <b style="color: #3c973f">DONATED</b></span>
-                            <p class="card__text">Farms, restaurants, cafeterias, hotels, stadiums, and grocery stores post excess food in under a minute on the Food Donate website.</p>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3 class="step-title">Food is <b style="color: #3c973f">SECURED</b></h3>
+                            <p class="step-description">Registered charities immediately get notified about food donations and can claim any donations they can use to serve the needy peoples.</p>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card__image">
-                            <div class="step-icon">🔒</div>
-                        </div>
-                        <div class="card__content">
-                            <span class="card__title">Food is <b style="color: #3c973f">SECURED</b></span>
-                            <p class="card__text">Registered charities immediately get notified about food donations and can claim any donations they can use to serve the needy peoples.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card__image">
-                            <div class="step-icon">🚛</div>
-                        </div>
-                        <div class="card__content">
-                            <span class="card__title">Food is <b style="color: #3c973f">PICKED UP</b></span>
-                            <p class="card__text">The charities picks up the food from the provided locaion by the donor and serves it to the needy peoples.</p>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3 class="step-title">Food is <b style="color: #3c973f">PICKED UP</b></h3>
+                            <p class="step-description">The charities picks up the food from the provided locaion by the donor and serves it to the needy peoples.</p>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- Food Facts Section -->
             <div class="food-facts-section section">
-                <p class="sub-heading">Understanding the problem.</p>
-                <h2 class="heading">A Solvable Problem</h2>
+                <!-- <p class="sub-heading">Understanding the problem.</p> -->
+                <h2 class="heading">What type of excess food we donate?</h2>
                 <div class="cards-container">
                     <div class="card">
                         <div class="card__image">
@@ -244,16 +234,20 @@
             <footer class="footer-section">
                 <div class="section-content">
                     <div class="footer-left">
-                        <h2 class="footer-title">Food <b style="color: green;">Donate</b></h2>
-                        <p class="text">
-                            The basic concept of this project <b style="color: green;">Food Waste Management</b>
-                            is to collect the excess / leftover food from donors such as hotels, restaurants,
-                            marriage halls, etc. and distribute to the needy people.
-                            <span>Join us in our mission to reduce food waste and help those in need.</span>
-                        </p>
-                        <div class="button">
-                            <a href="#" class="btn">Read More</a>
+                        <div class="footer-title">
+                            <img src="img/logo.png" alt="Food Donate Logo">
+                            <h2 class="logo-text">easy <b style="color: green;">Donate</b></h2>
                         </div>
+                            <p class="text">
+                                The basic concept of this project <b style="color: green;">Food Waste Management</b>
+                                is to collect the excess / leftover food from donors such as hotels, restaurants,
+                                marriage halls, etc. and distribute to the needy people.
+                                <span>Join us in our mission to reduce food waste and help those in need.</span>
+                            </p>
+                            <div class="button">
+                                <a href="#" class="btn">Read More</a>
+                            </div>
+                        
                     </div>
                     <div class="footer-center">
                     </div>
@@ -299,62 +293,6 @@
             </button>
         </main>
     </header>
-
-    <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="login-container" id="login-container">
-            <button class="modal-close" id="closeModal">&times;</button>
-            
-            <div class="form-container sign-up">
-                <h1>Create Account</h1>
-                <form action="signup.php" method="POST">
-                    <input type="text" name="username" placeholder="Name" required>
-
-                    <div class="account-type">
-                        <label><b>Account Type :</b></label><br>
-                        <label><input type="radio" name="acc-type" value="Donar" required /> Donor</label>
-                        <label><input type="radio" name="acc-type" value="NGO" required/> NGO</label>
-                    </div>
-                    <input type="text" name="address" placeholder="Address" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <input type="tel" name="phone" placeholder="Mobile no." required>
-                    <input type="password" name="password" placeholder="Password" required>
-
-                    <div class="checkbox">
-                        <label><input type="checkbox" required ></label>
-                        <span>I agree to the <a href="">terms & conditions</a></span>
-                    </div>
-                    <button type="submit">Sign Up</button>
-                </form>
-            </div>
-            
-            <div class="form-container sign-in">
-                <form action="signin.php" method="POST">
-                    <h1>Sign In</h1>
-                    <input type="email" name="login" placeholder="Email or Mobile Number" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <a href="forgot_password.php">Forget Your Password?</a>
-                    <button type="submit">Sign In</button>
-                </form>
-            </div>
-            
-            <div class="toggle-container">
-                <div class="toggle">
-                    <div class="toggle-panel toggle-left">
-                        <h1>Welcome Back!</h1>
-                        <p>Enter your personal details to use all of site features</p>
-                        <button class="hidden" id="login" type="button">Sign In</button>
-                    </div>
-                    <div class="toggle-panel toggle-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Register with your personal details to use all of site features</p>
-                        <button class="hidden" id="register" type="button">Sign Up</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
