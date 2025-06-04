@@ -18,9 +18,6 @@ while ($ngo = $ngoResult->fetch_assoc()) {
 // Handle Edit (Update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $id = $_POST['id'];
-    $donor_name = $_POST['donor_name'];
-    $pickup_address = $_POST['pickup_address'];
-    $phone = $_POST['phone'];
     $food_name = $_POST['food_name'];
     $food_type = $_POST['food_type'];
     $quantity = $_POST['quantity'];
@@ -28,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $assigned_ngo_id = $_POST['assigned_ngo_id'] ?: NULL; // NULL if none selected
 
     $stmt = $conn->prepare("UPDATE fooddetails SET 
-        donor_name=?, pickup_address=?, phone=?, food_name=?, food_type=?, quantity=?, unit=?, assigned_ngo_id=?
+        food_name=?, food_type=?, quantity=?, unit=?, assigned_ngo_id=?
         WHERE fooddetails_id=?");
-    $stmt->bind_param("ssssssiii", $donor_name, $pickup_address, $phone, $food_name, $food_type, $quantity, $unit, $assigned_ngo_id, $id);
+    $stmt->bind_param("sssiii", $food_name, $food_type, $quantity, $unit, $assigned_ngo_id, $id);
     $stmt->execute();
     $stmt->close();
 }
@@ -206,9 +203,6 @@ while ($row = $res->fetch_assoc()) {
          <h2>Edit Donation Status</h2>
         <form method="post" id="modalForm">
             <input type="hidden" name="id" id="modal_id">
-            <input type="text" name="donor_name" id="modal_donor_name" placeholder="Donor Name" required>
-            <input type="text" name="pickup_address" id="modal_pickup_address" placeholder="Pickup Address" required>
-            <input type="text" name="phone" id="modal_phone" placeholder="Phone" required>
             <input type="text" name="food_name" id="modal_food_name" placeholder="Food Name" required>
             <input type="text" name="food_type" id="modal_food_type" placeholder="Food Type" required>
             <input type="number" name="quantity" id="modal_quantity" placeholder="Quantity" required>
@@ -231,9 +225,6 @@ while ($row = $res->fetch_assoc()) {
 
     function openModal(data) {
         document.getElementById('modal_id').value = data.fooddetails_id;
-        document.getElementById('modal_donor_name').value = data.donor_name;
-        document.getElementById('modal_pickup_address').value = data.pickup_address;
-        document.getElementById('modal_phone').value = data.phone;
         document.getElementById('modal_food_name').value = data.food_name;
         document.getElementById('modal_food_type').value = data.food_type;
         document.getElementById('modal_quantity').value = data.quantity;

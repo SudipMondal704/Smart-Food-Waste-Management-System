@@ -557,7 +557,7 @@
               </div>
             </form>
             
-            <form  action="signup.php" method="POST" autocomplete="off" class="sign-up-form">
+            <form  action="signup.php" method="POST" autocomplete="off" class="sign-up-form"enctype="multipart/form-data">
               <div class="logo">
                 <img src="https://via.placeholder.com/35x35/512da8/white?text=ED" alt="easyclass" />
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
@@ -603,7 +603,7 @@
                   <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
                   <label>Password</label>
                 </div>
-                
+                <input type="file" name="image" accept="image/*">
                 <div class="checkbox-wrap">
                   <label class="checkbox-label">
                     <input type="checkbox" required />
