@@ -138,22 +138,22 @@ button {
 }
 
 .bg-slide:nth-child(1) {
-    background-image: url('img/sliding-image1.jpg');
+    background-image: url('../img/sliding-image1.jpg');
     animation-delay: 0s;
 }
 
 .bg-slide:nth-child(2) {
-    background-image: url('img/sliding-image2.jpg');
+    background-image: url('../img/sliding-image2.jpg');
     animation-delay: 3s;
 }
 
 .bg-slide:nth-child(3) {
-    background-image: url('img/sliding-image3.jpg');
+    background-image: url('../img/sliding-image3.jpg');
     animation-delay: 6s;
 }
 
 .bg-slide:nth-child(4) {
-    background-image: url('img/sliding-image5.jpg');
+    background-image: url('../img/sliding-image5.jpg');
     animation-delay: 9s;
 }
 
