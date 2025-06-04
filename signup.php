@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address  = $_POST['address'];
     $password = $_POST['password'];
 
-    if ($type == "Donar") {
+    if ($type == "Donor") {
         // Insert into users (Donor) table
         $stmt = $conn->prepare("INSERT INTO users (username, address, email, phone, password) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $name, $address, $email, $phone, $password);
