@@ -7,7 +7,7 @@
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f4;
-            padding: 10px 30px 30px 30px; /* Reduced top padding */
+            padding: 0px 30px 30px 30px;
             margin: 0;
         }
         .table-container {

@@ -1,5 +1,4 @@
 <?php
-// Database connection
 $server = "localhost";
 $user = "root";
 $pass = "";
@@ -10,46 +9,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST["action"] ?? '';
 
     if ($action === "food_details") {
-        // Get form data
-        $donor        = trim($_POST["donor_name"]);
-        $address      = trim($_POST["address"]);
-        $phone        = trim($_POST["phone"]);
-        $altphone     = trim($_POST["altphone"]);
-        $foodname     = trim($_POST["food_name"]);
-        $foodtype     = trim($_POST["food_type"]);
-        $foodcategory = trim($_POST["food_category"]);
-        $quantity     = trim($_POST["quantity"]);
-        $unit         = trim($_POST["unit"]);
+        $donor    = trim($_POST["donor_name"]);
+        $address  = trim($_POST["address"]);
+        $phone    = trim($_POST["phone"]);
+        $altphone = trim($_POST["altphone"]);
 
-        // Image upload handling
-        $imagePath = "";
-        if (isset($_FILES["food_image"]) && $_FILES["food_image"]["error"] === UPLOAD_ERR_OK) {
-            $uploadFolder = "admin/uploads/";                 // Folder in file system
-            $savePath = "uploads/";                           // Path saved in DB (relative to admin/ folder)
-            $fullPath = __DIR__ . "/" . $uploadFolder;
-
-            // Create upload folder if not exists
-            if (!is_dir($fullPath)) {
-                mkdir($fullPath, 0777, true);
-            }
-
-            $filename = uniqid() . "_" . basename($_FILES["food_image"]["name"]);
-            $targetFile = $fullPath . $filename;
-
-            if (move_uploaded_file($_FILES["food_image"]["tmp_name"], $targetFile)) {
-                $imagePath = $savePath . $filename; // Store correct relative path for DB
-            } else {
-                echo "<script>alert('Image upload failed.'); window.location.href = 'fooddetails.php';</script>";
-                exit;
-            }
+        // Validate required fields
+        if (empty($donor) || empty($address) || empty($phone) || empty($altphone)) {
+            echo "<script>alert('Please fill all required contact details.'); window.location.href = 'fooddetails.php';</script>";
+            exit;
         }
 
-        // Check if user exists by phone
+        // Check if user is already registered
         $checkUser = $conn->prepare("SELECT user_id FROM users WHERE phone = ?");
         $checkUser->bind_param("s", $phone);
         $checkUser->execute();
@@ -59,31 +34,136 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $user = $result->fetch_assoc();
             $userId = $user["user_id"];
 
-            // Insert food details into DB
-            $insert = $conn->prepare("INSERT INTO fooddetails (
-                user_id, donor_name, pickup_address, phone, alt_phone,
-                food_name, food_type, food_category, quantity, unit, image
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            // Insert submission record
+            $subInsert = $conn->prepare("INSERT INTO submissions (user_id, donor_name, pickup_address, phone, alt_phone, submission_time) VALUES (?, ?, ?, ?, ?, NOW())");
+            $subInsert->bind_param("issss", $userId, $donor, $address, $phone, $altphone);
+            
+            if (!$subInsert->execute()) {
+                echo "<script>alert('Failed to create submission record: " . $subInsert->error . "'); window.location.href = 'fooddetails.php';</script>";
+                exit;
+            }
+            
+            $submission_id = $conn->insert_id;
+            $subInsert->close();
 
-            $insert->bind_param(
-                "issssssssss",
-                $userId, $donor, $address, $phone, $altphone,
-                $foodname, $foodtype, $foodcategory, $quantity, $unit, $imagePath
-            );
+            // Process food items
+            $food_names      = $_POST['food_name'] ?? [];
+            $quantities      = $_POST['quantity'] ?? [];
+            $units           = $_POST['unit'] ?? [];
+            $images          = $_FILES['food_image'] ?? [];
 
-            if ($insert->execute()) {
-                echo "<script>alert('Thank you! Food details submitted.'); window.location.href = 'fooddetails.php';</script>";
-            } else {
-                echo "<script>alert('Submission failed: " . $insert->error . "'); window.location.href = 'fooddetails.php';</script>";
+            if (empty($food_names)) {
+                echo "<script>alert('Please add at least one food item.'); window.location.href = 'fooddetails.php';</script>";
+                exit;
             }
 
-            $insert->close();
+            $total_items = count($food_names);
+            $successful_inserts = 0;
+
+            for ($i = 0; $i < $total_items; $i++) {
+                // Get food type for this item
+                $food_type = '';
+                $food_type_key = 'food_type_' . ($i + 1);
+                if (isset($_POST[$food_type_key])) {
+                    $food_type = trim($_POST[$food_type_key]);
+                }
+
+                // Get food category for this item
+                $food_category = '';
+                $food_category_key = 'food_category_' . ($i + 1);
+                if (isset($_POST[$food_category_key])) {
+                    $food_category = trim($_POST[$food_category_key]);
+                }
+
+                $food_name = trim($food_names[$i]);
+                $quantity  = trim($quantities[$i]);
+                $unit      = trim($units[$i]);
+
+                // Validate required fields for this food item
+                if (empty($food_name) || empty($quantity) || empty($unit)) {
+                    echo "<script>alert('Please fill all required fields for food item " . ($i + 1) . ".'); window.location.href = 'fooddetails.php';</script>";
+                    exit;
+                }
+
+                // Handle image upload
+                $imagePath = "";
+                if (isset($images["name"][$i]) && !empty($images["name"][$i]) && $images["error"][$i] === UPLOAD_ERR_OK) {
+                    $uploadFolder = "admin/uploads/";
+                    $savePath     = "uploads/";
+                    $fullPath     = __DIR__ . "/" . $uploadFolder;
+
+                    // Create upload directory if it doesn't exist
+                    if (!is_dir($fullPath)) {
+                        if (!mkdir($fullPath, 0777, true)) {
+                            echo "<script>alert('Failed to create upload directory.'); window.location.href = 'fooddetails.php';</script>";
+                            exit;
+                        }
+                    }
+
+                    // Generate unique filename
+                    $fileExtension = strtolower(pathinfo($images["name"][$i], PATHINFO_EXTENSION));
+                    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                    
+                    if (!in_array($fileExtension, $allowedExtensions)) {
+                        echo "<script>alert('Invalid file type for food item " . ($i + 1) . ". Only JPG, JPEG, PNG, GIF, and WEBP files are allowed.'); window.location.href = 'fooddetails.php';</script>";
+                        exit;
+                    }
+
+                    // Check file size (limit to 5MB)
+                    if ($images["size"][$i] > 5 * 1024 * 1024) {
+                        echo "<script>alert('File size too large for food item " . ($i + 1) . ". Maximum size is 5MB.'); window.location.href = 'fooddetails.php';</script>";
+                        exit;
+                    }
+
+                    $filename = uniqid() . "_" . time() . "." . $fileExtension;
+                    $targetFile = $fullPath . $filename;
+
+                    if (move_uploaded_file($images["tmp_name"][$i], $targetFile)) {
+                        $imagePath = $savePath . $filename;
+                    } else {
+                        echo "<script>alert('Image upload failed for food item " . ($i + 1) . ".'); window.location.href = 'fooddetails.php';</script>";
+                        exit;
+                    }
+                }
+
+                // Insert into fooddetails table
+                $insert = $conn->prepare("INSERT INTO fooddetails (
+                    submission_id, user_id, donor_name, pickup_address, phone, alt_phone,
+                    food_name, food_type, food_category, quantity, unit, image, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+
+                $insert->bind_param(
+                    "iissssssssss",
+                    $submission_id, $userId, $donor, $address, $phone, $altphone,
+                    $food_name, $food_type, $food_category, $quantity, $unit, $imagePath
+                );
+
+                if ($insert->execute()) {
+                    $successful_inserts++;
+                } else {
+                    echo "<script>alert('Failed to insert food item " . ($i + 1) . ": " . $insert->error . "'); window.location.href = 'fooddetails.php';</script>";
+                    exit;
+                }
+
+                $insert->close();
+            }
+
+            if ($successful_inserts === $total_items) {
+                echo "<script>alert('Food Donation Request submitted successfully! Total items: $successful_inserts'); window.location.href = 'fooddetails.php';</script>";
+            } else {
+                echo "<script>alert('Partial success: $successful_inserts out of $total_items items were saved.'); window.location.href = 'fooddetails.php';</script>";
+            }
+
         } else {
             echo "<script>alert('Phone number not found. Please register first.'); window.location.href = 'fooddetails.php';</script>";
         }
 
         $checkUser->close();
+    } else {
+        echo "<script>alert('Invalid action.'); window.location.href = 'fooddetails.php';</script>";
     }
+} else {
+    echo "<script>alert('Invalid request method.'); window.location.href = 'fooddetails.php';</script>";
 }
 
 $conn->close();

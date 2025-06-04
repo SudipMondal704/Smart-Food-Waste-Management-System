@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address  = $_POST['address'];
     $password = $_POST['password'];
 
-    if ($type == "Donar") {
+    if ($type == "Donor") {
         // Insert into users (Donor) table
         $stmt = $conn->prepare("INSERT INTO users (username, address, email, phone, password) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $name, $address, $email, $phone, $password);
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Execute and check result
     if ($stmt->execute()) {
-        echo "<script>alert('Registration Successful! Please Login.'); window.location.href='login_signup.php';</script>";
+        echo "<script>alert('Registration Successful! Please Login.'); window.location.href='newlogin.php';</script>";
     } else {
         echo "Error: " . $stmt->error;
     }

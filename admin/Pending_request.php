@@ -12,33 +12,33 @@ if ($conn->connect_error) {
 
 $message = "";
 
-// Handle NGO assignment
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['food_id']) && isset($_POST['ngo_id'])) {
-    $food_id = $_POST['food_id'];
+// Handle NGO assignment to all unassigned foods of the donor
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['ngo_id'])) {
+    $donor_id = $_POST['user_id'];
     $ngo_id = $_POST['ngo_id'];
 
-    $update_sql = "UPDATE fooddetails SET assigned_ngo_id = $ngo_id WHERE fooddetails_id = $food_id";
+    $update_sql = "UPDATE fooddetails SET assigned_ngo_id = $ngo_id WHERE user_id = $donor_id AND assigned_ngo_id IS NULL";
     if ($conn->query($update_sql)) {
-        $message = "NGO assigned successfully.";
+        $message = "NGO assigned to all pending foods of the donor.";
     } else {
         $message = "Failed to assign NGO.";
     }
 }
 
-// Get unassigned food donations
-$sql_unassigned = "SELECT * FROM fooddetails WHERE assigned_ngo_id IS NULL";
-$result_unassigned = $conn->query($sql_unassigned);
+// Get all unassigned donor details (one row per donor)
+$sql_unassigned_donors = "SELECT user_id, donor_name, pickup_address FROM fooddetails WHERE assigned_ngo_id IS NULL GROUP BY user_id";
+$result_unassigned = $conn->query($sql_unassigned_donors);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pending Food Donations</title>
+    <title>Pending Food Requests</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f9f9f9;
-            padding: 20px;
+            padding: 0px 30px 30px 30px;
         }
         h2 {
             color: #333;
@@ -55,10 +55,10 @@ $result_unassigned = $conn->query($sql_unassigned);
             width: 100%;
             border-collapse: collapse;
             background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         th, td {
             padding: 12px;
-            border: none; /* No borders */
             text-align: center;
         }
         th {
@@ -66,7 +66,7 @@ $result_unassigned = $conn->query($sql_unassigned);
             color: white;
         }
         select, button {
-            padding: 5px;
+            padding: 6px;
             font-size: 14px;
         }
         button {
@@ -79,11 +79,14 @@ $result_unassigned = $conn->query($sql_unassigned);
         button:hover {
             background-color: darkgreen;
         }
+        form {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
 
-    <?php if ($message): ?>
+<?php if ($message): ?>
         <div class="message"><?php echo $message; ?></div>
     <?php endif; ?>
 
@@ -92,8 +95,6 @@ $result_unassigned = $conn->query($sql_unassigned);
             <tr>
                 <th>Donor Name</th>
                 <th>Pickup Address</th>
-                <th>Food Name</th>
-                <th>Quantity</th>
                 <th>Select NGO</th>
                 <th>Assign</th>
             </tr>
@@ -102,32 +103,45 @@ $result_unassigned = $conn->query($sql_unassigned);
             <?php
             if ($result_unassigned->num_rows > 0) {
                 while ($row = $result_unassigned->fetch_assoc()) {
+                    $donor_id = $row['user_id'];
+                    $donor_name = htmlspecialchars($row['donor_name']);
+                    $pickup_address = htmlspecialchars($row['pickup_address']);
+
                     echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['donor_name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['pickup_address']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['food_name']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['quantity'] . " " . $row['unit']) . "</td>";
-                    echo "<td>";
                     echo "<form method='POST'>";
-                    echo "<input type='hidden' name='food_id' value='" . $row['fooddetails_id'] . "'>";
+                    echo "<td>$donor_name</td>";
+                    echo "<td>$pickup_address</td>";
+                    echo "<td>";
                     echo "<select name='ngo_id' required>";
                     echo "<option value=''>-- Select NGO --</option>";
 
-                    $addr = $conn->real_escape_string($row['pickup_address']);
-                    $ngo_sql = "SELECT * FROM ngo WHERE address = '$addr'";
+                    // Fetch NGOs with the same pickup address
+                    $addr_safe = $conn->real_escape_string($pickup_address);
+                    $ngo_sql = "SELECT * FROM ngo WHERE address = '$addr_safe'";
                     $ngo_result = $conn->query($ngo_sql);
-                    while ($ngo = $ngo_result->fetch_assoc()) {
-                        echo "<option value='" . $ngo['ngo_id'] . "'>" . htmlspecialchars($ngo['ngo_name']) . " (" . htmlspecialchars($ngo['address']) . ")</option>";
+
+                    if ($ngo_result && $ngo_result->num_rows > 0) {
+                        while ($ngo = $ngo_result->fetch_assoc()) {
+                            $ngo_id = $ngo['ngo_id'];
+                            $ngo_name = htmlspecialchars($ngo['ngo_name']);
+                            $ngo_address = htmlspecialchars($ngo['address']);
+                            echo "<option value='$ngo_id'>$ngo_name ($ngo_address)</option>";
+                        }
+                    } else {
+                        echo "<option value=''>No NGO found at this address</option>";
                     }
 
                     echo "</select>";
                     echo "</td>";
-                    echo "<td><button type='submit'>Assign</button></td>";
+                    echo "<td>";
+                    echo "<input type='hidden' name='user_id' value='$donor_id'>";
+                    echo "<button type='submit'>Assign</button>";
+                    echo "</td>";
                     echo "</form>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6'>No pending food requests found.</td></tr>";
+                echo "<tr><td colspan='4'>No pending food requests found.</td></tr>";
             }
             ?>
         </tbody>

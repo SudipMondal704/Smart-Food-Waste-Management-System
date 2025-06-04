@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'donor') {
-    header("Location:signup.php");
+echo "<script>alert('Login as Donor!.'); window.location.href='newlogin.php';</script>";
     exit;
 }
 
