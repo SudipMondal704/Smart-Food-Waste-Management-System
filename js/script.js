@@ -202,7 +202,7 @@ class LoginModal {
     
     showMessage(message, type = 'info') {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `modal-message ${type}`;
+        messageDiv.className = modal-message ${type};
         messageDiv.textContent = message;
         
         const existingMessage = this.modal.querySelector('.modal-message');
@@ -469,7 +469,7 @@ class Chatbot {
     
     addMessage(message, isUser = false) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `response ${isUser ? 'user' : 'bot'}`;
+        messageDiv.className = response ${isUser ? 'user' : 'bot'};
         
         const avatar = document.createElement('div');
         avatar.className = 'avatar';
