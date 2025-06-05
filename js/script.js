@@ -202,7 +202,7 @@ class LoginModal {
     
     showMessage(message, type = 'info') {
         const messageDiv = document.createElement('div');
-        messageDiv.className = modal-message ${type};
+        messageDiv.className = `modal-message ${type}`;
         messageDiv.textContent = message;
         
         const existingMessage = this.modal.querySelector('.modal-message');
@@ -372,8 +372,8 @@ class Chatbot {
         this.botReplies = {
             greetings: [
                 'Hello! Welcome to our food donation platform. How can I help you today?',
-               
-                
+                'Hi there! I\'m here to help you with food donations. What would you like to know?',
+                'Good day! Thanks for visiting our food donation site. How can I assist you?'
             ],
             donate: [
                 'To donate food, click "Donate Now" on our homepage and fill out the form. We\'ll contact you within 24 hours!',
@@ -469,7 +469,7 @@ class Chatbot {
     
     addMessage(message, isUser = false) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = response ${isUser ? 'user' : 'bot'};
+        messageDiv.className = `response ${isUser ? 'user' : 'bot'}`;
         
         const avatar = document.createElement('div');
         avatar.className = 'avatar';

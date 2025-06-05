@@ -200,8 +200,8 @@ $conn->close();
         <?php endif; ?>
         
         <form method="post" action="">
-            <div class="form-group">
-                <label for="email">Email</label>
+            <div class="form-group">             
+                <label for="email">Email</label>   
                 <input type="email" id="email" name="email" required>
             </div>
             <button type="submit" name="forgot_password_submit">Send OTP</button>
