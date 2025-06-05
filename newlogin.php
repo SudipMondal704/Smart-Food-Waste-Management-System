@@ -50,7 +50,7 @@
         position: relative;
         width: 100%;
         max-width: 900px;
-        height: 500px;
+        height: 560px;
         background-color: #fffdfd;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
         border: 1px solid #ddd;
@@ -603,7 +603,9 @@
                   <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
                   <label>Password</label>
                 </div>
-                <input type="file" name="image" accept="image/*">
+                <div class="input-wrap">
+                  <input type="file" name="image" accept="image/*">
+                </div>
                 <div class="checkbox-wrap">
                   <label class="checkbox-label">
                     <input type="checkbox" required />
