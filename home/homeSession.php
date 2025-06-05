@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 
@@ -185,14 +184,38 @@ $conn->close();
             font-size: 14px;
         }
         
+        /* Logout button styled as info item */
+        .profile-info-item.logout-item {
+            cursor: pointer;
+            padding: 12px 0;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .profile-info-item.logout-item:hover {
+            background-color: #fff5f5;
+        }
+        
+        .profile-info-item.logout-item i {
+            color: #dc3545;
+        }
+        
+        .profile-info-item.logout-item span {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        
         .profile-actions {
             display: flex;
-            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
         }
         
         .profile-btn {
-            flex: 1;
-            padding: 10px;
+            padding: 12px 24px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -200,6 +223,7 @@ $conn->close();
             transition: all 0.3s ease;
             text-decoration: none;
             text-align: center;
+            font-weight: 500;
         }
         
         .edit-profile-btn {
@@ -209,15 +233,6 @@ $conn->close();
         
         .edit-profile-btn:hover {
             background: #2a9206;
-        }
-        
-        .logout-btn {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .logout-btn:hover {
-            background: #c82333;
         }
         
         /* Hide login nav item when user is logged in */
@@ -348,14 +363,17 @@ $conn->close();
                 <i class="fas fa-user-tag"></i>
                 <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
             </div>
+            <!-- Logout button moved to left side under other icons -->
+            <div class="profile-info-item logout-item" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </div>
         </div>
+        <!-- Edit Profile button moved to bottom -->
         <div class="profile-actions">
-    <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
-    <button class="profile-btn logout-btn" id="logout-btn">
-        <i class="fas fa-sign-out-alt"></i>
-    </button>
-</div>
-</div>
+            <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
+        </div>
+    </div>
 </li>
 <?php endif; ?>
         </nav>
@@ -640,7 +658,7 @@ $conn->close();
                 logoutBtn.addEventListener('click', function() {
                     if (confirm('Are you sure you want to logout?')) {
                         // Redirect to logout script
-                        window.location.href = '../logout.php';
+                        window.location.href = 'logout.php';
                     }
                 });
             }
