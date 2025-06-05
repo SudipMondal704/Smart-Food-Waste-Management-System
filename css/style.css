@@ -828,64 +828,7 @@ header {
 .scroll-to-top:active {
     transform: translateY(-1px);
 }
-   /* === About Us Section === */
-.about-section-page {
-    padding: 6px 5px;
-  
-   
-}
 
-.about-section-page .about-container {
-    max-width: 1200px;
-    margin: auto;
-}
-
-.intro,
-.mission-story,
-.story {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 60px;
-}
-
-.intro-text,
-.mission-text,
-.story-text {
-    flex: 1 1 50%;
-    padding: 100px;
-    opacity: 0;
-    animation: slideDown 1s ease forwards
-}
-
-.intro-image,
-.mission-image,
-.story-image {
-    flex: 1 1 15%;
-    padding: 15px;
-}
-
-.intro-image img,
-.mission-image img,
-.story-image img {
-    width:100%;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.2);
-}
-
-.about-section-page h1,
-.about-section-page h2 {
-    color: #000000;
-    margin-bottom: 15px;
-    font-size:xx-large;
-}
-
-.about-section-page p {
-    color: #2b2a2a;
-    font-size:large;
-    line-height: 1.6;
-}
 /* Contact Page -  STYLES */
 .contact-section {
     padding: 80px 0 100px;
