@@ -5,16 +5,17 @@ $user = "root";
 $pass = "";
 $dbname = "food_waste";
 
+// Database connection
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $input    = $_POST['login'];      // email or phone
-    $password = $_POST['password'];   // plain text password
+    $input    = trim($_POST['login']);    // email or phone
+    $password = trim($_POST['password']); // plain text password
 
-    // Check in users table
+    // --------- Check Donor (users table) ---------
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
@@ -22,11 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user   = $result->fetch_assoc();
 
     if ($user && $password === $user['password']) {
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='Home.html';</script>";
+        $_SESSION['user_id']    = $user['user_id'];
+        $_SESSION['user_name']  = $user['username'];
+        $_SESSION['user_type']  = 'Donor';
+
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
         exit();
     }
 
-    // Check in ngo table
+    // --------- Check NGO ---------
     $stmt = $conn->prepare("SELECT * FROM ngo WHERE email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
@@ -34,11 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ngo = $result->fetch_assoc();
 
     if ($ngo && $password === $ngo['password']) {
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='Home.html';</script>";
+        $_SESSION['user_id']    = $ngo['ngo_id'];
+        $_SESSION['user_name']  = $ngo['ngo_name'];
+        $_SESSION['user_type']  = 'NGO';
+
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
         exit();
     }
 
-    // Check in admin table
+    // --------- Check Admin ---------
     $stmt = $conn->prepare("SELECT * FROM admin WHERE admin_email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
@@ -46,14 +55,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $admin = $result->fetch_assoc();
 
     if ($admin && $password === $admin['password']) {
-        $_SESSION['admin_id'] = $admin['id'];       
-        $_SESSION['admin_name'] = $admin['admin_name'];
-        $_SESSION['user_role'] = 'admin';
-        echo "<script>alert('Admin Signin Successful! Welcome back'); window.location.href='admin/admin.php';</script>";
+        $_SESSION['admin_id']    = $admin['id'];
+        $_SESSION['admin_name']  = $admin['admin_name'];
+        $_SESSION['user_role']   = 'admin';
+
+        echo "<script>alert('Admin Signin Successful!'); window.location.href='admin/admin.php';</script>";
         exit();
     }
 
-    // If no match found
+    // --------- No match found ---------
     echo "<script>alert('Invalid login credentials!'); window.location.href='index.html';</script>";
 }
 

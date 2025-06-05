@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'ngo') {
-    header("Location: login.php");
+    echo "<script>alert('Login as NGO!.'); window.location.href='newlogin.php';</script>";
     exit;
 }
 
