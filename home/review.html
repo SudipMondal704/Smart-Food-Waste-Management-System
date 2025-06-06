@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Customers Testimonial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .testimonial-container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 1200px;
+            width: 1200px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .testimonial-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .testimonial-label {
+            color: #2dd4bf;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-title {
+            color: #1f2937;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .title-underline {
+            width: 60px;
+            height: 4px;
+            background: #2dd4bf;
+            margin: 0 auto;
+        }
+
+        .testimonials-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #2dd4bf;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .nav-arrow:hover {
+            background: #14b8a6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 212, 191, 0.4);
+        }
+
+        .nav-arrow:active {
+            transform: translateY(0);
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .testimonials-slider {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 200%;
+        }
+
+        .testimonial-slide {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            width: 50%;
+            flex-shrink: 0;
+        }
+
+        .testimonial-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 30px;
+            flex: 1;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #2dd4bf;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .testimonial-text {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 15px;
+            font-style: italic;
+            padding-right: 40px;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .customer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .customer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .customer-avatar .initial {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .customer-details {
+            flex: 1;
+        }
+
+        .customer-name {
+            color: #1f2937;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .customer-role {
+            color: #2dd4bf;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .star-rating {
+            color: #fbbf24;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #2dd4bf;
+            transform: scale(1.2);
+        }
+
+        .dot:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="testimonial-container">
+        <div class="testimonial-header">
+            <div class="testimonial-label">TESTIMONIAL</div>
+            <h2 class="testimonial-title">Donor Stories</h2>
+            <div class="title-underline"></div>
+        </div>
+
+        <div class="testimonials-wrapper">
+            <button class="nav-arrow" id="prevBtn">‹</button>
+            
+            <div class="testimonials-slider">
+                <div class="testimonials-track" id="testimonialsTrack">
+                    <!-- Slide 1 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">This food donation platform has transformed how we help our community. The process is seamless and we can see exactly where our donations go. It's wonderful to know we're making a real difference.</p>
+                            <div class="customer-info">
+                                <div class="customer-avatar">
+                                    <span class="initial">S</span>
+                                </div>
+                                <div class="customer-details">
+                                    <div class="customer-name">SARAH MARTINEZ</div>
+                                    <div class="customer-role">Community Volunteer</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">As a restaurant owner, this platform makes it so easy to donate our excess food instead of wasting it. The pickup service is reliable and we love contributing to feeding families in need.</p>
+                            <div class="customer-info">
+                                <div class="customer-avatar">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Ahmed Hassan" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <span class="initial" style="display: none;">A</span>
+                                </div>
+                                <div class="customer-details">
+                                    <div class="customer-name">AHMED HASSAN</div>
+                                    <div class="customer-role">Restaurant Owner</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <div class="star-rating">★★★★☆</div>
+                            <p class="testimonial-text">The transparency and efficiency of this donation system is remarkable. We can track our contributions and see the impact we're making in fighting hunger in our local community.</p>
+                            <div class="customer-info">
+                                <div class="customer-avatar">
+                                    <span class="initial">L</span>
+                                </div>
+                                <div class="customer-details">
+                                    <div class="customer-name">LISA THOMPSON</div>
+                                    <div class="customer-role">NGO Coordinator</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="testimonial-slide">
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">This platform connected us with so many generous donors. We've been able to distribute fresh meals to hundreds of families thanks to the efficient donation system and caring community.</p>
+                            <div class="customer-info">
+                                <div class="customer-avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b95bb8d5?w=100&h=100&fit=crop&crop=face" alt="Jennifer Patel" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <span class="initial" style="display: none;">J</span>
+                                </div>
+                                <div class="customer-details">
+                                    <div class="customer-name">JENNIFER PATEL</div>
+                                    <div class="customer-role">Food Bank Director</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">As a corporate donor, we appreciate how simple it is to coordinate large-scale food donations. The platform handles logistics perfectly and ensures nothing goes to waste.</p>
+                            <div class="customer-info">
+                                <div class="customer-avatar">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Michael Chang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <span class="initial" style="display: none;">M</span>
+                                </div>
+                                <div class="customer-details">
+                                    <div class="customer-name">MICHAEL CHANG</div>
+                                    <div class="customer-role">CSR Manager</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="quote-icon">"</div>
+                            <div class="star-rating">★★★★☆</div>
+                            <p class="testimonial-text">The real-time tracking and impact reports help us understand exactly how our donations are helping the community. It's inspiring to see the difference we're making together.</p>
+                            <div class="customer-info">
+                                <div class="customer-avatar">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Rachel Williams" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <span class="initial" style="display: none;">R</span>
+                                </div>
+                                <div class="customer-details">
+                                    <div class="customer-name">RACHEL WILLIAMS</div>
+                                    <div class="customer-role">Charity Organizer</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-arrow" id="nextBtn">›</button>
+        </div>
+
+        <div class="navigation">
+            <div class="dots-container">
+                <div class="dot active" data-slide="0"></div>
+                <div class="dot" data-slide="1"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TestimonialSlider {
+            constructor() {
+                this.currentSlide = 0;
+                this.totalSlides = 2;
+                this.isAnimating = false;
+                this.autoSlideInterval = null;
+                
+                // Get DOM elements
+                this.track = document.getElementById('testimonialsTrack');
+                this.dots = document.querySelectorAll('.dot');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                
+                this.init();
+            }
+            
+            init() {
+                // Add event listeners
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                
+                // Dot navigation
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') {
+                        this.prevSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        this.nextSlide();
+                    }
+                });
+                
+                // Touch/swipe support
+                this.addTouchSupport();
+                
+                // Start auto-slide
+                this.startAutoSlide();
+                
+                // Pause auto-slide on hover
+                this.track.parentElement.addEventListener('mouseenter', () => this.stopAutoSlide());
+                this.track.parentElement.addEventListener('mouseleave', () => this.startAutoSlide());
+            }
+            
+            updateSlide(slideIndex) {
+                if (this.isAnimating || slideIndex === this.currentSlide) return;
+                
+                this.isAnimating = true;
+                this.currentSlide = slideIndex;
+                
+                // Calculate transform percentage (50% per slide for 2 slides)
+                const translateX = -slideIndex * 50;
+                this.track.style.transform = `translateX(${translateX}%)`;
+                
+                // Update dots
+                this.dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === slideIndex);
+                });
+                
+                // Update button states
+                this.updateButtonStates();
+                
+                // Reset animation flag after transition
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, 500);
+            }
+            
+            updateButtonStates() {
+                // Optional: disable buttons at start/end
+                // this.prevBtn.disabled = this.currentSlide === 0;
+                // this.nextBtn.disabled = this.currentSlide === this.totalSlides - 1;
+            }
+            
+            nextSlide() {
+                const next = (this.currentSlide + 1) % this.totalSlides;
+                this.updateSlide(next);
+            }
+            
+            prevSlide() {
+                const prev = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.updateSlide(prev);
+            }
+            
+            goToSlide(slideIndex) {
+                if (slideIndex >= 0 && slideIndex < this.totalSlides) {
+                    this.updateSlide(slideIndex);
+                }
+            }
+            
+            startAutoSlide() {
+                this.stopAutoSlide();
+                this.autoSlideInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 5000);
+            }
+            
+            stopAutoSlide() {
+                if (this.autoSlideInterval) {
+                    clearInterval(this.autoSlideInterval);
+                    this.autoSlideInterval = null;
+                }
+            }
+            
+            addTouchSupport() {
+                let startX = 0;
+                let endX = 0;
+                
+                this.track.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+                
+                this.track.addEventListener('touchend', (e) => {
+                    endX = e.changedTouches[0].clientX;
+                    this.handleSwipe();
+                });
+                
+                this.handleSwipe = () => {
+                    const swipeThreshold = 50;
+                    const diff = startX - endX;
+                    
+                    if (Math.abs(diff) > swipeThreshold) {
+                        if (diff > 0) {
+                            this.nextSlide();
+                        } else {
+                            this.prevSlide();
+                        }
+                    }
+                };
+            }
+        }
+        
+        // Initialize slider when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new TestimonialSlider();
+        });
+    </script>
+</body>
+</html>
