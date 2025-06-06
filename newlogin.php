@@ -533,7 +533,7 @@
           <div class="forms-wrap">
             <form  action="signin.php" method="POST"  autocomplete="off" class="sign-in-form">
               <div class="logo">
-                <img src="https://via.placeholder.com/35x35/512da8/white?text=ED" alt="easyclass" />
+                <img src="img/logo.png">
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
               </div>
               <div class="heading">
@@ -559,7 +559,7 @@
             
             <form  action="signup.php" method="POST" autocomplete="off" class="sign-up-form"enctype="multipart/form-data">
               <div class="logo">
-                <img src="https://via.placeholder.com/35x35/512da8/white?text=ED" alt="easyclass" />
+                <img src="img/logo.png">
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
               </div>
               <div class="heading">
@@ -620,9 +620,9 @@
 
           <div class="carousel">
             <div class="images-wrapper">
-              <img src="https://via.placeholder.com/500x400/ff6b6b/white?text=Raw+Food" class="image img-1 show" alt="" />
-              <img src="https://via.placeholder.com/500x400/4ecdc4/white?text=Packaged+Food" class="image img-2" alt="" />
-              <img src="https://via.placeholder.com/500x400/45b7d1/white?text=Cooked+Food" class="image img-3" alt="" />
+              <img src="img/sliding-image1.jpg" class="image img-1 show" alt="" />
+              <img src="img/sliding-image2.jpg" class="image img-2" alt="" />
+              <img src="img/sliding-image3.jpg" class="image img-3" alt="" />
             </div>
           </div>
           
