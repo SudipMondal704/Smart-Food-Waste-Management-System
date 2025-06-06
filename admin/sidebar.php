@@ -8,7 +8,7 @@
 			<div class="menu">
 				<ul>
 					<li>
-						<a href="#" class="active">
+						<a href="admin.php?type=default" class="active">
 							<i class='bx bxs-dashboard' ></i>
 							<span class="text">Dashboard</span>
 						</a>
@@ -23,7 +23,7 @@
 								
 						<ul class="sub-menu">
 							<li>
-								<a href="#">
+								<a href="admin.php?type=create_donor">
 									<span class="text">Create</span>
 									<i class="sub-fi fi-ss-plus"></i>
 								</a>
@@ -46,7 +46,7 @@
 								
 						<ul class="sub-menu">
 							<li>
-								<a href="#">
+								<a href="admin.php?type=create_ngo">
 									<span class="text">Create</span>
 									<i class="sub-fi fi-ss-plus"></i>
 								</a>
@@ -72,13 +72,13 @@
 
 					<li>
 						<a href="admin.php?type=pending">
-							<i class='bx bxs-file' ></i>
+							<i class='bx bxs-pending' ></i>
 							<span class="text">Pending Donation Requests</span>
 						</a>
 					</li>
 					<li>
 						<a href="admin.php?type=assign">
-							<i class='bx bxs-file' ></i>
+							<i class='bx bxs-assigned ngo-icon' ></i>
 							<span class="text">Assigned Donation Requests</span>
 						</a>
 					</li>
@@ -86,7 +86,7 @@
 
 					<li>
 						<a href="admin.php?type=status">
-							<i class='bx bxs-file' ></i>
+							<i class='bx bxs-progess status ngo-icon' ></i>
 							<span class="text">Donation Status</span>
 						</a>
 					</li>
