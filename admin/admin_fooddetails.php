@@ -4,11 +4,16 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch all NGOs with their address for filtering
-$ngoResult = $conn->query("SELECT ngo_id, ngo_name, address FROM ngo ORDER BY ngo_name");
+// Fetch all NGOs with their address for filtering - based on pickup addresses from fooddetails
+$ngoResult = $conn->query("
+    SELECT DISTINCT n.ngo_id, n.ngo_name, n.address, f.pickup_address
+    FROM ngo n 
+    LEFT JOIN fooddetails f ON LOWER(n.address) = LOWER(f.pickup_address)
+    ORDER BY n.ngo_name
+");
 $ngosByAddress = [];
 while ($ngo = $ngoResult->fetch_assoc()) {
-    $addr = $ngo['address'] ?? '';  // assuming ngo_address column exists
+    $addr = $ngo['pickup_address'] ?? $ngo['address'];  // use pickup_address if available
     if (!isset($ngosByAddress[$addr])) {
         $ngosByAddress[$addr] = [];
     }
@@ -38,12 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $conn->query("DELETE FROM fooddetails WHERE fooddetails_id='$delete_id'");
 }
 
-// Fetch Food Details with assigned NGO name (if any)
+// Fetch Food Details with assigned NGO name (if any) and group by username and address
 $submissions = [];
-$res = $conn->query("SELECT f.*, n.ngo_name FROM fooddetails f LEFT JOIN ngo n ON f.assigned_ngo_id = n.ngo_id ORDER BY f.submission_id, f.fooddetails_id");
+$res = $conn->query("
+    SELECT f.*, n.ngo_name, u.username, u.address as user_address 
+    FROM fooddetails f 
+    LEFT JOIN ngo n ON f.assigned_ngo_id = n.ngo_id 
+    JOIN users u ON f.user_id = u.user_id
+    ORDER BY u.username, f.pickup_address, f.submission_id, f.fooddetails_id
+");
 while ($row = $res->fetch_assoc()) {
-    $submissionId = $row['submission_id'];
-    $submissions[$submissionId][] = $row;
+    $groupKey = $row['username'] . '|' . $row['user_address'] . '|' . $row['pickup_address'];
+    $submissions[$groupKey][] = $row;
 }
 ?>
 
@@ -55,92 +66,180 @@ while ($row = $res->fetch_assoc()) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-             font-family: Arial; 
-             background: #f4f4f4;
-             padding: 0px 30px 30px 30px;
-             }
-        .submission-box {
-             background: white;
-              padding: 20px;
-               margin-bottom: 30px;
-                border-radius: 10px;
-                 box-shadow: 0 0 8px rgba(0,0,0,0.2);
-                 }
-        table {
-             width: 100%; 
-             border-collapse: collapse;
-              margin-top: 10px;
-             }
-        th, td { 
-            padding: 10px;
-             border: 1px solid #ddd;
-              text-align: center; }
-        th { background: #343a40; 
-            color: white; 
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 0px 30px 30px 30px;
+            margin: 0;
         }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: -30px -30px 30px -30px;
+            text-align: center;
+        }
+        
+        .submission-box {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .group-header {
+            background: linear-gradient(135deg,rgb(9, 3, 94) 0%,rgb(11, 11, 11) 100%);
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .donor-info {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .donor-info > div {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .group-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .group-header p {
+            margin: 2px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .food-count {
+            background: #007bff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%; 
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td { 
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        
+        th { 
+           background: linear-gradient(135deg,rgb(9, 3, 94));
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
         img {
-             width: 70px;
-              height: 70px;
-               object-fit: cover;
-             }
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
         .edit-btn, .delete-btn { 
             padding: 5px 8px;
-             border: none;
-              border-radius: 4px; 
-              color: white;
-               cursor: pointer;
-             }
+            border: none;
+            border-radius: 4px; 
+            color: white;
+            cursor: pointer;
+        }
+        
         .edit-btn {
-             background: #28a745; 
-            }
+            background: #28a745; 
+        }
+        
         .edit-btn:hover { 
             background: #218838; 
         }
+        
         .delete-btn {
-             background: #dc3545;
-             }
+            background: #dc3545;
+        }
+        
         .delete-btn:hover {
-             background: #c82333;
-             }
+            background: #c82333;
+        }
+        
         .not-assigned {
-             color: red;
-             }
+            color: red;
+        }
+        
         .modal { 
             display: none;
-             position: fixed;
-              z-index: 999;
-               left: 0;
-                top: 0; 
-                width: 100%;
-                 height: 100%;
-                  background-color: rgba(0,0,0,0.5);
-                 }
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0; 
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
         .modal-content {
-             background-color: #fff;
-             margin: 5% auto;
-              padding: 20px;
-               border-radius: 10px;
-                width: 400px; 
-                position: relative; 
-            }
-        .close { position: absolute; 
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px; 
+            position: relative; 
+        }
+        
+        .close { 
+            position: absolute; 
             right: 15px;
             top: 10px;
-             font-size: 25px;
-              font-weight: bold;
-               color: #333;
-               cursor: pointer; 
-            }
+            font-size: 25px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer; 
+        }
+        
         .modal-content form {
-             display: flex;
-              flex-direction: column;
-               gap: 10px;
-             }
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
         .modal-content input, .modal-content select {
-             padding: 8px;
-              border: 1px solid #ccc;
-               border-radius: 6px; 
-            }
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px; 
+        }
+        
         .modal-content button { 
            background-color: #28a745;
             color: #fff;
@@ -149,29 +248,73 @@ while ($row = $res->fetch_assoc()) {
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-             }
+        }
+        
         .update-btn {
-             background: #28a745;
-             }
+            background: #28a745;
+        }
+        
         .delete-btn-modal {
-             background: #dc3545; 
+            background: #dc3545; 
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
             }
+            
+            .donor-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<?php foreach ($submissions as $submissionId => $foods): ?>
+<?php foreach ($submissions as $groupKey => $foods): 
+    $keyParts = explode('|', $groupKey);
+    $username = $keyParts[0];
+    $userAddress = $keyParts[1];
+    $pickupAddress = $keyParts[2];
+?>
 <div class="submission-box">
-    <h3> Donor: <?= htmlspecialchars($foods[0]['donor_name']) ?></h3>
+    <div class="group-header">
+        <div class="donor-info">
+            <div>
+                <h3>Username</h3>
+                <p><?= htmlspecialchars($username) ?></p>
+            </div>
+            <div>
+                <h3>User Address</h3>
+                <p><?= htmlspecialchars($userAddress) ?></p>
+            </div>
+            <div>
+                <h3>Pickup Address</h3>
+                <p><?= htmlspecialchars($pickupAddress) ?></p>
+            </div>
+        </div>
+        <div>
+            <span class="food-count"><?= count($foods) ?> items</span>
+        </div>
+    </div>
 
     <table>
         <tr>
             <th>Food Name</th><th>Food Type</th><th>Qty</th><th>Unit</th>
-            <th>Pickup Address</th><th>Phone</th><th>Image</th><th>Request Date</th><th>Assigned NGO</th><th>Edit</th><th>Delete</th>
+            <th>Donor Name</th><th>Phone</th><th>Image</th><th>Request Date</th><th>Assigned NGO</th><th>Edit</th><th>Delete</th>
         </tr>
         <?php foreach ($foods as $row):
             $img = "uploads/" . basename($row['image']);
-            $imageTag = file_exists($img) ? "<img src='$img' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border: 1px solid #ccc; border-radius:0px;'>" : "No Image";
+            $imageTag = file_exists($img) ? "<img src='$img' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border: 1px solid #ccc; border-radius:4px;'>" : "No Image";
             $ngo = $row['ngo_name'] ? htmlspecialchars($row['ngo_name']) : "<span class='not-assigned'>Not Assigned</span>";
         ?>
         <tr>
@@ -179,7 +322,7 @@ while ($row = $res->fetch_assoc()) {
             <td><?= htmlspecialchars($row['food_type']) ?></td>
             <td><?= htmlspecialchars($row['quantity']) ?></td>
             <td><?= htmlspecialchars($row['unit']) ?></td>
-            <td><?= htmlspecialchars($row['pickup_address']) ?></td>
+            <td><?= htmlspecialchars($row['donor_name']) ?></td>
             <td><?= htmlspecialchars($row['phone']) ?></td>
             <td><?= $imageTag ?></td>
             <td><?= $row['created_at'] ?></td>
@@ -241,7 +384,7 @@ while ($row = $res->fetch_assoc()) {
 
         // ngosByAddress keys are original addresses, so we check for matching ignoring case
         for (const addr in ngosByAddress) {
-            if (addr.toLowerCase() === pickupAddr) {
+            if (addr && addr.toLowerCase() === pickupAddr) {
                 matchedNGOs = ngosByAddress[addr];
                 break;
             }
@@ -249,12 +392,12 @@ while ($row = $res->fetch_assoc()) {
 
         // If no exact match found, show "No NGO found" option or keep empty
         if (matchedNGOs.length === 0) {
-            ngoSelect.innerHTML += '<option disabled>No NGOs available for this address</option>';
+            ngoSelect.innerHTML += '<option disabled>No NGOs available for this pickup address</option>';
         } else {
             matchedNGOs.forEach(ngo => {
                 const opt = document.createElement('option');
                 opt.value = ngo.ngo_id;
-                opt.textContent = ngo.ngo_name;
+                opt.textContent = ngo.ngo_name + ' (' + ngo.address + ')';
                 ngoSelect.appendChild(opt);
             });
         }

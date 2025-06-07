@@ -26,7 +26,15 @@ if ($donateResult && $donateResult->num_rows > 0) {
     $donateCount = $donateResult->fetch_assoc()['donate_count'];
 }
 
-// Count pending donations - fixed query to use assigned_ngo_id
+// Count total NGOs
+$ngoQuery = "SELECT COUNT(*) as ngo_count FROM ngo";
+$ngoResult = $conn->query($ngoQuery);
+$ngoCount = 0;
+if ($ngoResult && $ngoResult->num_rows > 0) {
+    $ngoCount = $ngoResult->fetch_assoc()['ngo_count'];
+}
+
+// Count pending donations
 $pendingQuery = "SELECT COUNT(*) as pending_count FROM fooddetails WHERE assigned_ngo_id IS NULL";
 $pendingResult = $conn->query($pendingQuery);
 $pendingCount = 0;
@@ -37,6 +45,58 @@ if ($pendingResult && $pendingResult->num_rows > 0) {
 // Close connection
 $conn->close();
 ?>
+
+<style>
+.box-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.box-info li {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    min-width: 200px;
+    flex: 1;
+}
+
+.box-info li i {
+    font-size: 36px;
+    margin-right: 15px;
+    color: #3498db;
+}
+
+.box-info li .text h3 {
+    font-size: 28px;
+    margin: 0;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.box-info li .text p {
+    margin: 5px 0 0 0;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .box-info {
+        flex-direction: column;
+    }
+    
+    .box-info li {
+        min-width: auto;
+    }
+}
+</style>
 
 <ul class="box-info">
     <li>
@@ -50,7 +110,14 @@ $conn->close();
         <i class='bx bxs-group'></i>
         <span class="text">
             <h3><?php echo $memberCount; ?></h3>
-            <p>Doners</p>
+            <p>Donors</p>
+        </span>
+    </li>
+    <li>
+        <i class="fi fi-ss-building"></i>
+        <span class="text">
+            <h3><?php echo $ngoCount; ?></h3>
+            <p>Total NGOs</p>
         </span>
     </li>
     <li>

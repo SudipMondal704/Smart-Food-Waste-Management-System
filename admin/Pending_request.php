@@ -16,17 +16,23 @@ $message = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id']) && isset($_POST['ngo_id'])) {
     $donor_id = $_POST['user_id'];
     $ngo_id = $_POST['ngo_id'];
+    $pickup_address = $_POST['pickup_address'];
 
-    $update_sql = "UPDATE fooddetails SET assigned_ngo_id = $ngo_id WHERE user_id = $donor_id AND assigned_ngo_id IS NULL";
+    $update_sql = "UPDATE fooddetails SET assigned_ngo_id = $ngo_id WHERE user_id = $donor_id AND pickup_address = '$pickup_address' AND assigned_ngo_id IS NULL";
     if ($conn->query($update_sql)) {
-        $message = "NGO assigned to all pending foods of the donor.";
+        $message = "NGO assigned to all pending foods of the donor at this address.";
     } else {
         $message = "Failed to assign NGO.";
     }
 }
 
-// Get all unassigned donor details (one row per donor)
-$sql_unassigned_donors = "SELECT user_id, donor_name, pickup_address FROM fooddetails WHERE assigned_ngo_id IS NULL GROUP BY user_id";
+// Get all unassigned donor details (one row per donor per address)
+$sql_unassigned_donors = "
+    SELECT f.user_id, f.donor_name, f.pickup_address, u.username, u.address as user_address 
+    FROM fooddetails f 
+    JOIN users u ON f.user_id = u.user_id 
+    WHERE f.assigned_ngo_id IS NULL 
+    GROUP BY f.user_id, f.pickup_address";
 $result_unassigned = $conn->query($sql_unassigned_donors);
 ?>
 
@@ -62,8 +68,11 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
             text-align: center;
         }
         th {
-            background-color: #343a40;
+          background: linear-gradient(135deg,rgb(9, 3, 94));
             color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
         }
         select, button {
             padding: 6px;
@@ -93,6 +102,8 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
     <table>
         <thead>
             <tr>
+                <th>Username (Phone)</th>
+                <th>User Address</th>
                 <th>Donor Name</th>
                 <th>Pickup Address</th>
                 <th>Select NGO</th>
@@ -106,18 +117,25 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                     $donor_id = $row['user_id'];
                     $donor_name = htmlspecialchars($row['donor_name']);
                     $pickup_address = htmlspecialchars($row['pickup_address']);
+                    $username = htmlspecialchars($row['username']);
+                    $user_address = htmlspecialchars($row['user_address']);
 
                     echo "<tr>";
                     echo "<form method='POST'>";
+                    echo "<td>$username</td>";
+                    echo "<td>$user_address</td>";
                     echo "<td>$donor_name</td>";
                     echo "<td>$pickup_address</td>";
                     echo "<td>";
                     echo "<select name='ngo_id' required>";
                     echo "<option value=''>-- Select NGO --</option>";
 
-                    // Fetch NGOs with the same pickup address
+                    // Fetch NGOs with the same pickup address from fooddetails table
                     $addr_safe = $conn->real_escape_string($pickup_address);
-                    $ngo_sql = "SELECT * FROM ngo WHERE address = '$addr_safe'";
+                    $ngo_sql = "SELECT DISTINCT n.* FROM ngo n 
+                               JOIN fooddetails f ON LOWER(n.address) = LOWER('$addr_safe') 
+                               UNION 
+                               SELECT * FROM ngo WHERE LOWER(address) = LOWER('$addr_safe')";
                     $ngo_result = $conn->query($ngo_sql);
 
                     if ($ngo_result && $ngo_result->num_rows > 0) {
@@ -128,20 +146,21 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                             echo "<option value='$ngo_id'>$ngo_name ($ngo_address)</option>";
                         }
                     } else {
-                        echo "<option value=''>No NGO found at this address</option>";
+                        echo "<option value=''>No NGO found for this pickup address</option>";
                     }
 
                     echo "</select>";
                     echo "</td>";
                     echo "<td>";
                     echo "<input type='hidden' name='user_id' value='$donor_id'>";
+                    echo "<input type='hidden' name='pickup_address' value='$pickup_address'>";
                     echo "<button type='submit'>Assign</button>";
                     echo "</td>";
                     echo "</form>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='4'>No pending food requests found.</td></tr>";
+                echo "<tr><td colspan='6'>No pending food requests found.</td></tr>";
             }
             ?>
         </tbody>

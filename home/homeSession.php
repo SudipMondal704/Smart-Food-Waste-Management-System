@@ -484,8 +484,8 @@ $conn->close();
                             <div class="fact-icon">🍎</div>
                         </div>
                         <div class="card__content">
-                            <span class="card__title">RAW FOOD WASTE</span>
-                            <p class="card__text">40% of all food is thrown away or plowed over. In California, 100 billion pounds of raw food go to waste annually, representing a massive opportunity for redirection.</p>
+                            <span class="card__title">RAW FOOD</span>
+                            <p class="card__text">In India, a significant portion of fruits and vegetables is wasted at the farm level due to poor infrastructure and supply chain issues. Donating raw food helps reduce this loss and nourishes many in need.</p>
                         </div>
                     </div>
                     <div class="card">
@@ -493,17 +493,17 @@ $conn->close();
                             <div class="fact-icon">🍽️</div>
                         </div>
                         <div class="card__content">
-                            <span class="card__title"><b>PREPARED</b> FOOD WASTE</span>
-                            <p class="card__text">In California alone, over 5 billion pounds of prepared food is thrown away every year, while millions of people face food insecurity daily.</p>
+                            <span class="card__title">PREPARED / COOKED FOOD </span>
+                            <p class="card__text">Every day, thousands of kilograms of cooked food go to waste in Indian households, restaurants, and events. This surplus food can instead be redirected to feed the millions who go to bed hungry.</p>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card__image">
-                            <div class="fact-icon">🤝</div>
+                            <div class="fact-icon">📦</div>
                         </div>
                         <div class="card__content">
-                            <span class="card__title"><b>HUNGER</b> SOLUTION</span>
-                            <p class="card__text">If only one-third of California's excess food were diverted, it would resolve the hunger crisis and create a sustainable food ecosystem for all.</p>
+                            <span class="card__title">PACKAGED FOOD</span>
+                            <p class="card__text">Excess packaged food nearing expiry is often discarded by retailers and consumers. By collecting and donating it safely, we can support food banks and reduce India's mounting food waste problem.</p>
                         </div>
                     </div>
                 </div>
@@ -520,48 +520,129 @@ $conn->close();
                     </div>
                 </div>
             </section>
-            <!-- Testimonials Section -->
-            <div class="testimonials-section section">
-                <p class="sub-heading">Voices from our community.</p>
-                <h2 class="heading">What Our Users Are Saying</h2>
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card__image">
-                            <div class="quote-icon">"</div>
-                        </div>
-                        <div class="card__content">
-                            <span class="card__title"><b>RESTAURANT</b> PARTNERSHIP</span>
-                            <p class="card__text">Plumed Horse is thrilled to partner with Waste No Food. For the distribution of our artisanal & locally sourced surplus products.</p>
-                            <div class="author-info">
-                                <div class="author-name">Josh Weeks</div>
-                                <div class="author-title">General Manager, Plumed Horse</div>
-                            </div>
-                        </div>
+            <!-- Review Testimonials Section -->
+            <div class="review-testimonials-section">
+                <div class="review-testimonial-container">
+                    <div class="review-testimonial-header">
+                        <div class="review-testimonial-label">Voices of our community !!</div>
+                        <h2 class="review-testimonial-title">What are our Users saying ?</h2>
+                        <div class="review-title-underline"></div>
                     </div>
-                    <div class="card">
-                        <div class="card__image">
-                            <div class="quote-icon">"</div>
-                        </div>
-                        <div class="card__content">
-                            <span class="card__title"><b>PIONEERING</b> SUPPORT</span>
-                            <p class="card__text">Dio Deka is pleased to be the first donor to Waste No Food's worthy cause. We are also happy to see it being adopted by many other restaurants.</p>
-                            <div class="author-info">
-                                <div class="author-name">Sakis Platis</div>
-                                <div class="author-title">Partner at Dio Deka</div>
+
+                    <div class="review-testimonials-wrapper">
+                        <button class="review-nav-arrow" id="reviewPrevBtn">‹</button>
+                        
+                        <div class="review-testimonials-slider">
+                            <div class="review-testimonials-track" id="reviewTestimonialsTrack">
+                                <!-- Slide 1 -->
+                                <div class="review-testimonial-slide">
+                                    <div class="review-testimonial-card">
+                                        <div class="review-quote-icon">"</div>
+                                        <div class="review-star-rating">★★★★★</div>
+                                        <p class="review-testimonial-text">This food donation platform has transformed how we help our community. The process is seamless and we can see exactly where our donations go. It's wonderful to know we're making a real difference.</p>
+                                        <div class="review-customer-info">
+                                            <div class="review-customer-avatar">
+                                                <span class="review-initial">S</span>
+                                            </div>
+                                            <div class="review-customer-details">
+                                                <div class="review-customer-name">SARAH MARTINEZ</div>
+                                                <div class="review-customer-role">Community Volunteer</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-testimonial-card">
+                                        <div class="review-quote-icon">"</div>
+                                        <div class="review-star-rating">★★★★★</div>
+                                        <p class="review-testimonial-text">As a restaurant owner, this platform makes it so easy to donate our excess food instead of wasting it. The pickup service is reliable and we love contributing to feeding families in need.</p>
+                                        <div class="review-customer-info">
+                                            <div class="review-customer-avatar">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Ahmed Hassan" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <span class="review-initial" style="display: none;">A</span>
+                                            </div>
+                                            <div class="review-customer-details">
+                                                <div class="review-customer-name">AHMED HASSAN</div>
+                                                <div class="review-customer-role">Restaurant Owner</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-testimonial-card">
+                                        <div class="review-quote-icon">"</div>
+                                        <div class="review-star-rating">★★★★☆</div>
+                                        <p class="review-testimonial-text">The transparency and efficiency of this donation system is remarkable. We can track our contributions and see the impact we're making in fighting hunger in our local community.</p>
+                                        <div class="review-customer-info">
+                                            <div class="review-customer-avatar">
+                                                <span class="review-initial">L</span>
+                                            </div>
+                                            <div class="review-customer-details">
+                                                <div class="review-customer-name">LISA THOMPSON</div>
+                                                <div class="review-customer-role">NGO Coordinator</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide 2 -->
+                                <div class="review-testimonial-slide">
+                                    <div class="review-testimonial-card">
+                                        <div class="review-quote-icon">"</div>
+                                        <div class="review-star-rating">★★★★★</div>
+                                        <p class="review-testimonial-text">This platform connected us with so many generous donors. We've been able to distribute fresh meals to hundreds of families thanks to the efficient donation system and caring community.</p>
+                                        <div class="review-customer-info">
+                                            <div class="review-customer-avatar">
+                                                <img src="https://images.unsplash.com/photo-1494790108755-2616b95bb8d5?w=100&h=100&fit=crop&crop=face" alt="Jennifer Patel" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <span class="review-initial" style="display: none;">J</span>
+                                            </div>
+                                            <div class="review-customer-details">
+                                                <div class="review-customer-name">JENNIFER PATEL</div>
+                                                <div class="review-customer-role">Food Bank Director</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-testimonial-card">
+                                        <div class="review-quote-icon">"</div>
+                                        <div class="review-star-rating">★★★★★</div>
+                                        <p class="review-testimonial-text">As a corporate donor, we appreciate how simple it is to coordinate large-scale food donations. The platform handles logistics perfectly and ensures nothing goes to waste.</p>
+                                        <div class="review-customer-info">
+                                            <div class="review-customer-avatar">
+                                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Michael Chang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <span class="review-initial" style="display: none;">M</span>
+                                            </div>
+                                            <div class="review-customer-details">
+                                                <div class="review-customer-name">MICHAEL CHANG</div>
+                                                <div class="review-customer-role">CSR Manager</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-testimonial-card">
+                                        <div class="review-quote-icon">"</div>
+                                        <div class="review-star-rating">★★★★☆</div>
+                                        <p class="review-testimonial-text">The real-time tracking and impact reports help us understand exactly how our donations are helping the community. It's inspiring to see the difference we're making together.</p>
+                                        <div class="review-customer-info">
+                                            <div class="review-customer-avatar">
+                                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Rachel Williams" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                <span class="review-initial" style="display: none;">R</span>
+                                            </div>
+                                            <div class="review-customer-details">
+                                                <div class="review-customer-name">RACHEL WILLIAMS</div>
+                                                <div class="review-customer-role">Charity Organizer</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
+                        <button class="review-nav-arrow" id="reviewNextBtn">›</button>
                     </div>
-                    <div class="card">
-                        <div class="card__image">
-                            <div class="quote-icon">"</div>
-                        </div>
-                        <div class="card__content">
-                            <span class="card__title"><b>AWARD-WINNING</b> ENDORSEMENT</span>
-                            <p class="card__text">Manresa is happy to be associated with Waste No Food and its mission. We are glad to help the program continue to grow.</p>
-                            <div class="author-info">
-                                <div class="author-name">David Kinch</div>
-                                <div class="author-title">James Beard award winning chef owner of Manresa</div>
-                            </div>
+
+                    <div class="review-navigation">
+                        <div class="review-dots-container">
+                            <div class="review-dot active" data-slide="0"></div>
+                            <div class="review-dot" data-slide="1"></div>
                         </div>
                     </div>
                 </div>
