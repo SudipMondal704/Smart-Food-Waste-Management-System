@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodShare - NGO Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c4f55 0%, #4a7c59 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #b40909, #c0ca62);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50px, -50px) rotate(360deg); }
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            margin-bottom: 1px;
+            z-index: 2;
+            position: relative;
+           
+        }
+        .header .container .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: slideRight 1s ease forwards;
+        }
+
+        .nav-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+            min-width: 140px;
+        }
+
+        .nav-tab.active {
+            color: #34b409;
+            background: white;
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #34b409, #4a7c59);
+        }
+
+        .nav-tab:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .stat-card {
+            text-align: center;
+            background: linear-gradient(135deg, #34b409, #4a7c59);
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .urgent-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .donation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #34b409;
+        }
+
+        .donation-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .donation-item.urgent {
+            border-left-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .donation-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-claimed {
+            background: #cce7ff;
+            color: #004085;
+        }
+
+        .status-collected {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-urgent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #34b409, #4a7c59);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(52, 180, 9, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .volunteer-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .volunteer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #34b409, #4a7c59);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #34b409, #4a7c59);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .impact-metric {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 15px;
+            margin: 10px 0;
+        }
+
+        .impact-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            background: white;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quick-stat {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .quick-stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #34b409;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav-logo">
+                 <a href="#" class="nav-logo">
+                <img src="./img/logo.png" alt="Food Donate Logo">
+                 </a> 
+                <h2 class="logo-text">easy<b style="color: #34b409;">Donate</b></h2>
+            </div>
+            <h1>NGO Dashboard</h1>
+            <p>Coordinating food rescue and distribution</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">Overview</button>
+            <button class="nav-tab" onclick="showTab('donations')">Available Donations</button>
+            <button class="nav-tab" onclick="showTab('claimed')">Claimed Items</button>
+            <button class="nav-tab" onclick="showTab('volunteers')">Volunteers</button>
+            <button class="nav-tab" onclick="showTab('impact')">Impact Report</button>
+        </div>
+
+        <div class="content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <div class="quick-stat-number">23</div>
+                        <div>Available Today</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-number">8</div>
+                        <div>Urgent (< 2 hours)</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-number">15</div>
+                        <div>Active Volunteers</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-number">342</div>
+                        <div>Meals This Week</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card stat-card">
+                        <h3>Total Rescued</h3>
+                        <div class="stat-number">1,247</div>
+                        <p>Meals saved this month</p>
+                    </div>
+                    
+                    <div class="card urgent-card">
+                        <h3>⚡ Urgent Pickups</h3>
+                        <div class="stat-number">8</div>
+                        <p>Expiring within 2 hours</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📊 Monthly Progress</h3>
+                        <p><strong>Target: 1,500 meals</strong></p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 83%"></div>
+                        </div>
+                        <p>83% complete (1,247 / 1,500)</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🚀 Recent Activity</h3>
+                        <div style="max-height: 200px; overflow-y: auto;">
+                            <div class="donation-item">
+                                <div>
+                                    <strong>Fresh Vegetables</strong><br>
+                                    <small>From: Green Grocer - 15 mins ago</small>
+                                </div>
+                                <span class="donation-status status-available">Available</span>
+                            </div>
+                            <div class="donation-item urgent">
+                                <div>
+                                    <strong>Prepared Meals</strong><br>
+                                    <small>From: City Restaurant - 45 mins ago</small>
+                                </div>
+                                <span class="donation-status status-urgent">Urgent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Donations Tab -->
+            <div id="donations" class="tab-content">
+                <div class="card">
+                    <h3>🥗 Available Food Donations</h3>
+                    
+                    <div class="filter-section">
+                        <select class="filter-select" id="foodTypeFilter">
+                            <option value="">All Food Types</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="prepared">Prepared Meals</option>
+                            <option value="bread">Bread & Bakery</option>
+                            <option value="canned">Canned Goods</option>
+                        </select>
+                        
+                        <select class="filter-select" id="urgencyFilter">
+                            <option value="">All Urgency</option>
+                            <option value="urgent">Urgent (< 2 hours)</option>
+                            <option value="soon">Soon (< 6 hours)</option>
+                            <option value="normal">Normal</option>
+                        </select>
+                        
+                        <button class="btn btn-primary btn-small" onclick="applyFilters()">Apply Filters</button>
+                    </div>
+                    
+                    <div id="availableDonations">
+                        <!-- Donations will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claimed Items Tab -->
+            <div id="claimed" class="tab-content">
+                <div class="card">
+                    <h3>📦 Claimed Items</h3>
+                    <div id="claimedItems">
+                        <!-- Claimed items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Volunteers Tab -->
+            <div id="volunteers" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>👥 Active Volunteers</h3>
+                        <div id="volunteerList">
+                            <!-- Volunteers will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📈 Volunteer Stats</h3>
+                        <div class="impact-metric">
+                            <div class="impact-number">15</div>
+                            <div>Active Today</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">47</div>
+                            <div>Total Volunteers</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">89%</div>
+                            <div>Pickup Success Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Report Tab -->
+            <div id="impact" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>🌍 Environmental Impact</h3>
+                        <div class="impact-metric">
+                            <div class="impact-number">2.3</div>
+                            <div>Tons of Food Saved</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">1,847</div>
+                            <div>kg CO2 Prevented</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>👨‍👩‍👧‍👦 Social Impact</h3>
+                        <div class="impact-metric">
+                            <div class="impact-number">3,456</div>
+                            <div>People Fed This Month</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">127</div>
+                            <div>Families Supported</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>📊 Monthly Trends</h3>
+                        <p><strong>Growth Rate:</strong></p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%"></div>
+                        </div>
+                        <p>+23% increase from last month</p>
+                        
+                        <p><strong>Efficiency:</strong></p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 89%"></div>
+                        </div>
+                        <p>89% of donations successfully distributed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        let availableDonations = [
+            {
+                id: 1,
+                foodType: 'Fresh Vegetables',
+                quantity: 25,
+                donor: 'Green Grocer Market',
+                location: 'Downtown',
+                expiryTime: '2 hours',
+                status: 'urgent',
+                description: 'Mixed seasonal vegetables, good quality'
+            },
+            {
+                id: 2,
+                foodType: 'Prepared Meals',
+                quantity: 15,
+                donor: 'City Restaurant',
+                location: 'Business District',
+                expiryTime: '1 hour',
+                status: 'urgent',
+                description: 'Cooked rice, curry, and bread'
+            },
+            {
+                id: 3,
+                foodType: 'Bread & Bakery',
+                quantity: 30,
+                donor: 'Corner Bakery',
+                location: 'Residential Area',
+                expiryTime: '6 hours',
+                status: 'normal',
+                description: 'Fresh bread, pastries, and baked goods'
+            },
+            {
+                id: 4,
+                foodType: 'Canned Goods',
+                quantity: 20,
+                donor: 'Supermarket Chain',
+                location: 'Mall Area',
+                expiryTime: '30 days',
+                status: 'normal',
+                description: 'Assorted canned vegetables and fruits'
+            }
+        ];
+
+        let claimedItems = [
+            {
+                id: 1,
+                foodType: 'Prepared Meals',
+                quantity: 12,
+                donor: 'Hotel Paradise',
+                volunteer: 'Sarah Johnson',
+                claimedTime: '30 mins ago',
+                status: 'collected'
+            },
+            {
+                id: 2,
+                foodType: 'Fresh Fruits',
+                quantity: 18,
+                donor: 'Fruit Vendor',
+                volunteer: 'Mike Chen',
+                claimedTime: '1 hour ago',
+                status: 'claimed'
+            }
+        ];
+
+        let volunteers = [
+            {
+                name: 'Sarah Johnson',
+                status: 'active',
+                pickups: 23,
+                rating: 4.9
+            },
+            {
+                name: 'Mike Chen',
+                status: 'active',
+                pickups: 18,
+                rating: 4.8
+            },
+            {
+                name: 'Emma Wilson',
+                status: 'available',
+                pickups: 31,
+                rating: 5.0
+            },
+            {
+                name: 'David Kumar',
+                status: 'active',
+                pickups: 15,
+                rating: 4.7
+            }
+        ];
+
+        // Tab switching functionality
+        function showTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Render available donations
+        function renderAvailableDonations() {
+            const container = document.getElementById('availableDonations');
+            container.innerHTML = '';
+            
+            availableDonations.forEach(donation => {
+                const urgencyClass = donation.status === 'urgent' ? 'urgent' : '';
+                const statusClass = `status-${donation.status}`;
+                
+                const donationDiv = document.createElement('div');
+                donationDiv.className = `donation-item ${urgencyClass}`;
+                donationDiv.innerHTML = `
+                    <div style="flex: 1;">
+                        <strong>${donation.foodType}</strong> - ${donation.quantity} servings
+                        <br>
+                        <small>From: ${donation.donor} | Location: ${donation.location}</small>
+                        <br>
+                        <small>Expires in: ${donation.expiryTime}</small>
+                        <br>
+                        <small style="color: #666;">${donation.description}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="donation-status ${statusClass}">${donation.status.toUpperCase()}</span>
+                        <br>
+                        <button class="btn btn-primary btn-small" onclick="claimDonation(${donation.id})">
+                            Claim
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(donationDiv);
+            });
+        }
+
+        // Render claimed items
+        function renderClaimedItems() {
+            const container = document.getElementById('claimedItems');
+            container.innerHTML = '';
+            
+            claimedItems.forEach(item => {
+                const statusClass = `status-${item.status}`;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'donation-item';
+                itemDiv.innerHTML = `
+                    <div style="flex: 1;">
+                        <strong>${item.foodType}</strong> - ${item.quantity} servings
+                        <br>
+                        <small>From: ${item.donor}</small>
+                        <br>
+                        <small>Volunteer: ${item.volunteer} | ${item.claimedTime}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="donation-status ${statusClass}">${item.status.toUpperCase()}</span>
+                        <br>
+                        <button class="btn btn-secondary btn-small" onclick="updateStatus(${item.id})">
+                            Update Status
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(itemDiv);
+            });
+        }
+
+        // Render volunteers
+        function renderVolunteers() {
+            const container = document.getElementById('volunteerList');
+            container.innerHTML = '';
+            
+            volunteers.forEach(volunteer => {
+                const statusColor = volunteer.status === 'active' ? '#34b409' : '#6c757d';
+                
+                const volunteerDiv = document.createElement('div');
+                volunteerDiv.className = 'volunteer-item';
+                volunteerDiv.innerHTML = `
+                    <div class="volunteer-avatar">
+                        ${volunteer.name.charAt(0)}
+                    </div>
+                    <div style="flex: 1;">
+                        <strong>${volunteer.name}</strong>
+                        <br>
+                        <small style="color: ${statusColor};">● ${volunteer.status.toUpperCase()}</small>
+                        <br>
+                        <small>${volunteer.pickups} pickups | ⭐ ${volunteer.rating}</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-small">
+                            Contact
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(volunteerDiv);
+            });
+        }
+
+        // Claim donation function
+        function claimDonation(id) {
+            const donation = availableDonations.find(d => d.id === id);
+            if (donation) {
+                // Move to claimed items
+                const claimedItem = {
+                    id: claimedItems.length + 1,
+                    foodType: donation.foodType,
+                    quantity: donation.quantity,
+                    donor: donation.donor,
+                    volunteer: 'Auto-assigned',
+                    claimedTime: 'Just now',
+                    status: 'claimed'
+                };
+                
+                claimedItems.unshift(claimedItem);
+                
+                // Remove from available donations
+                availableDonations = availableDonations.filter(d => d.id !== id);
+                
+                // Re-render both lists
+                renderAvailableDonations();
+                renderClaimedItems();
+                
+                // Show success message
+                alert('Donation claimed successfully! A volunteer has been notified.');
+            }
+        }
+
+        // Update status function
+        function updateStatus(id) {
+            const item = claimedItems.find(i => i.id === id);
+            if (item) {
+                if (item.status === 'claimed') {
+                    item.status = 'collected';
+                    item.claimedTime = 'Just collected';
+                } else if (item.status === 'collected') {
+                    item.status = 'distributed';
+                    item.claimedTime = 'Just distributed';
+                }
+                renderClaimedItems();
+            }
+        }
+
+        // Apply filters function
+        function applyFilters() {
+            const foodTypeFilter = document.getElementById('foodTypeFilter').value;
+            const urgencyFilter = document.getElementById('urgencyFilter').value;
+            
+            // This is a simplified filter - in a real app, you'd filter the data
+            console.log('Applying filters:', { foodTypeFilter, urgencyFilter });
+            alert('Filters applied! (This is a demo - filters would work in a real application)');
+        }
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAvailableDonations();
+            renderClaimedItems();
+            renderVolunteers();
+            
+            // Add some animations
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // Auto-refresh data every 30 seconds (in a real app, this would fetch from API)
+        setInterval(() => {
+            // Simulate new donation
+            if (Math.random() > 0.7) {
+                const newDonation = {
+                    id: availableDonations.length + 1,
+                    foodType: 'New Donation',
+                    quantity: Math.floor(Math.random() * 20) + 5,
+                    donor: 'New Donor',
+                    location: 'Various',
+                    expiryTime: '3 hours',
+                    status: 'normal',
+                    description: 'Fresh donation just added'
+                };
+                
+                availableDonations.unshift(newDonation);
+                renderAvailableDonations();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

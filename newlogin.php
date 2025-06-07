@@ -533,7 +533,7 @@
           <div class="forms-wrap">
             <form  action="signin.php" method="POST"  autocomplete="off" class="sign-in-form">
               <div class="logo">
-                <img src="https://via.placeholder.com/35x35/512da8/white?text=ED" alt="easyclass" />
+                <img src="img/logo.png" alt="easyclass" />
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
               </div>
               <div class="heading">
@@ -559,7 +559,7 @@
             
             <form  action="signup.php" method="POST" autocomplete="off" class="sign-up-form"enctype="multipart/form-data">
               <div class="logo">
-                <img src="https://via.placeholder.com/35x35/512da8/white?text=ED" alt="easyclass" />
+                <img src="img/logo.png" alt="easyclass" />
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
               </div>
               <div class="heading">
