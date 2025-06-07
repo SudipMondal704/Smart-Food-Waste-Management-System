@@ -490,8 +490,8 @@
         bottom: 1rem;
         left: 1rem;
         right: 1rem;
-        height: 40%;
-        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8));
+        height: 70%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
         pointer-events: none;
       }
 
