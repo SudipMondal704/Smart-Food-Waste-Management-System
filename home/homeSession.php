@@ -309,11 +309,11 @@ $conn->close();
             $profile_image_src = $file_path;
         } else {
             // Fallback to placeholder if file doesn't exist
-            $profile_image_src = 'https://via.placeholder.com/40x40/34b409/ffffff?text=' . strtoupper(substr($user_data['name'], 0, 2));
+            $profile_image_src = '../img/user.png' . strtoupper(substr($user_data['name'], 0, 2));
         }
     } else {
         // Default placeholder for users without profile image
-        $profile_image_src = 'https://via.placeholder.com/40x40/34b409/ffffff?text=' . strtoupper(substr($user_data['name'], 0, 2));
+        $profile_image_src = '../img/user.png' . strtoupper(substr($user_data['name'], 0, 2));
     }
     
     // Same logic for popup image
@@ -323,22 +323,22 @@ $conn->close();
         if (file_exists($file_path)) {
             $popup_image_src = $file_path;
         } else {
-            $popup_image_src = 'https://via.placeholder.com/80x80/34b409/ffffff?text=' . strtoupper(substr($user_data['name'], 0, 2));
+            $popup_image_src = '' . strtoupper(substr($user_data['name'], 0, 2));
         }
     } else {
-        $popup_image_src = 'https://via.placeholder.com/80x80/34b409/ffffff?text=' . strtoupper(substr($user_data['name'], 0, 2));
+        $popup_image_src = '' . strtoupper(substr($user_data['name'], 0, 2));
     }
     ?>
     
     <img src="<?php echo $profile_image_src; ?>" 
          alt="User Avatar" class="user-avatar" id="user-avatar" 
-         onerror="this.src='https://via.placeholder.com/40x40/34b409/ffffff?text=<?php echo strtoupper(substr($user_data['name'], 0, 2)); ?>'">
+         onerror="this.src='<?php echo strtoupper(substr($user_data['name'], 0, 2)); ?>'">
     
     <div class="profile-popup" id="profile-popup">
         <div class="profile-header">
             <img src="<?php echo $popup_image_src; ?>" 
                  alt="User Profile" id="profile-image"
-                 onerror="this.src='https://via.placeholder.com/80x80/34b409/ffffff?text=<?php echo strtoupper(substr($user_data['name'], 0, 2)); ?>'">
+                 onerror="this.src='<?php echo strtoupper(substr($user_data['name'], 0, 2)); ?>'">
             <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
             <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
         </div>

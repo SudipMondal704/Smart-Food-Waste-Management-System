@@ -2,10 +2,10 @@
     <div class="topbar">
         <i class="bx bx-menu toggle-menu"></i>
 
-        <div class="search">
+       <!-- <div class="search">
             <input type="search" placeholder="Search here....">
             <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-        </div>
+        </div>-->
 
         <a href="#" class="notification" id="notification-bell">
             <i class='bx bxs-bell'></i>
@@ -14,10 +14,7 @@
 
         <div class="user">
             <img src="https://via.placeholder.com/36" alt="User">
-            <div>
-                <h4>Anjan Saha</h4>
-                <small>Super Admin</small>
-            </div>
+            
         </div>
 
         <!-- Notification Popup -->

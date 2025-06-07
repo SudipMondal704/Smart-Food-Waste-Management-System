@@ -370,10 +370,10 @@ $conn->close();
                     if (file_exists($file_path)) {
                         $image_src = $file_path;
                     } else {
-                        $image_src = 'https://via.placeholder.com/80x80/34b409/ffffff?text=' . strtoupper(substr($current_data['name'], 0, 2));
+                        $image_src = '../img/user.png' . strtoupper(substr($current_data['name'], 0, 2));
                     }
                 } else {
-                    $image_src = 'https://via.placeholder.com/80x80/34b409/ffffff?text=' . strtoupper(substr($current_data['name'], 0, 2));
+                    $image_src = '../img/user/png' . strtoupper(substr($current_data['name'], 0, 2));
                 }
                 ?>
                 <img src="<?php echo $image_src; ?>" alt="Current Profile" class="current-image" 
