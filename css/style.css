@@ -231,27 +231,267 @@ header {
     font-weight: 500;
 }
 
+/* Navigation Menu Fixes */
 .nav-menu {
     display: flex;
     gap: 15px;
+    align-items: center; /* Ensure all items are vertically centered */
+}
+
+.nav-menu .nav-item {
+    display: flex;
+    align-items: center;
 }
 
 .nav-menu a {
-    padding: 0px 20px;
+    padding: 12px 20px;
     color: #e0e0e0;
     position: relative;
     font-weight: 500;
+    text-transform: uppercase;
     transition: all 0.3s ease;
     border-radius: 25px;
     opacity: 0;
     animation: slideDown .5s ease forwards;
     animation-delay: calc(.2s * var(--i));
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .nav-menu a:hover,
 .nav-menu a.active {
     color: #34b409;
+}
+
+/* User Profile Navigation Item Fixes */
+.nav-menu .nav-item.user-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    animation: slideDown .5s ease forwards;
+    animation-delay: 1s; /* Animate in after other nav items */
+}
+
+.nav-menu .nav-item.user-profile.active {
+    opacity: 1;
+}
+
+/* User Avatar Styling */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #34b409;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    display: block; /* Ensure it displays as block element */
+}
+
+.user-avatar:hover {
+    transform: scale(1.05);
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(52, 180, 9, 0.3);
+}
+
+/* Profile Popup Positioning Fix */
+.profile-popup {
+    position: absolute;
+    top: calc(100% + 15px); /* Add more space from avatar */
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    min-width: 280px;
+    z-index: 1000;
+    transform: translateY(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-popup.show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.profile-popup::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+}
+
+/* Profile Header */
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 3px solid #34b409;
+    object-fit: cover;
+}
+
+.profile-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.profile-header p {
+    margin: 5px 0 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Profile Info Items */
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 0;
+}
+
+.profile-info-item i {
+    width: 20px;
+    color: #34b409;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.profile-info-item span {
+    color: #333;
+    font-size: 14px;
+}
+
+/* Logout Button Styling */
+.profile-info-item.logout-item {
+    cursor: pointer;
+    padding: 12px 0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.profile-info-item.logout-item:hover {
+    background-color: #fff5f5;
+}
+
+.profile-info-item.logout-item i {
+    color: #dc3545;
+}
+
+.profile-info-item.logout-item span {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* Profile Actions */
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.profile-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+}
+
+.edit-profile-btn {
+    background: #34b409;
+    color: white;
+}
+
+.edit-profile-btn:hover {
+    background: #2a9206;
+    transform: translateY(-2px);
+}
+
+/* Hide login nav item when user is logged in */
+.nav-menu .nav-item.login-item {
+    display: list-item;
+}
+
+.nav-menu .nav-item.login-item.hidden {
+    display: none !important;
+}
+
+/* Responsive Navigation */
+@media screen and (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        gap: 10px;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-menu .nav-item.user-profile {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-popup {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        margin-top: 15px;
+        box-shadow: none;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-popup::before {
+        display: none;
+    }
 }
 
 /* Dropdown Menu Styling */
