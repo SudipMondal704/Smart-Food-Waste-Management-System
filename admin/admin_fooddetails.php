@@ -29,13 +29,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $unit = $_POST['unit'];
     $pickup_address = $_POST['pickup_address'];
     $assigned_ngo_id = $_POST['assigned_ngo_id'] ?: NULL; // NULL if none selected
+    
+    // Additional fields for submissions table
+    $donor_name = $_POST['donor_name'];
+    $phone = $_POST['phone'];
+    $alt_phone = $_POST['alt_phone'];
 
+    // Update fooddetails table
     $stmt = $conn->prepare("UPDATE fooddetails SET 
-        food_name=?, food_type=?, quantity=?, unit=?, pickup_address=?, assigned_ngo_id=?
+        food_name=?, food_type=?, quantity=?, unit=?, pickup_address=?, assigned_ngo_id=?, donor_name=?, phone=?
         WHERE fooddetails_id=?");
-    $stmt->bind_param("ssissii", $food_name, $food_type, $quantity, $unit, $pickup_address, $assigned_ngo_id, $id);
+    $stmt->bind_param("ssississi", $food_name, $food_type, $quantity, $unit, $pickup_address, $assigned_ngo_id, $donor_name, $phone, $id);
     $stmt->execute();
     $stmt->close();
+    
+    // Get submission_id from fooddetails to update submissions table
+    $submissionResult = $conn->query("SELECT submission_id FROM fooddetails WHERE fooddetails_id='$id'");
+    if ($submissionRow = $submissionResult->fetch_assoc()) {
+        $submission_id = $submissionRow['submission_id'];
+        
+        // Update submissions table
+        $stmt2 = $conn->prepare("UPDATE submissions SET 
+            donor_name=?, pickup_address=?, phone=?, alt_phone=?
+            WHERE submission_id=?");
+        $stmt2->bind_param("ssssi", $donor_name, $pickup_address, $phone, $alt_phone, $submission_id);
+        $stmt2->execute();
+        $stmt2->close();
+    }
 }
 
 // Handle Delete
@@ -52,10 +72,12 @@ $res = $conn->query("
                WHEN f.assigned_ngo_id = 'NGO NOT FOUND' THEN 'NGO NOT FOUND'
                ELSE n.ngo_name 
            END as ngo_name, 
-           u.username, u.address as user_address 
+           u.username, u.address as user_address,
+           s.alt_phone
     FROM fooddetails f 
     LEFT JOIN ngo n ON f.assigned_ngo_id = n.ngo_id 
     JOIN users u ON f.user_id = u.user_id
+    LEFT JOIN submissions s ON f.submission_id = s.submission_id
     ORDER BY u.username, f.pickup_address, f.submission_id, f.fooddetails_id
 ");
 while ($row = $res->fetch_assoc()) {
@@ -174,6 +196,9 @@ while ($row = $res->fetch_assoc()) {
             <input type="text" name="food_type" id="modal_food_type" placeholder="Food Type" required>
             <input type="number" name="quantity" id="modal_quantity" placeholder="Quantity" required>
             <input type="text" name="unit" id="modal_unit" placeholder="Unit" required>
+            <input type="text" name="donor_name" id="modal_donor_name" placeholder="Donor Name" required>
+            <input type="text" name="phone" id="modal_phone" placeholder="Phone" required>
+            <input type="text" name="alt_phone" id="modal_alt_phone" placeholder="Alternative Phone">
             <input type="text" name="pickup_address" id="modal_pickup_address" placeholder="Pickup Address" required>
 
             <select name="assigned_ngo_id" id="modal_assigned_ngo_id">
@@ -198,6 +223,9 @@ while ($row = $res->fetch_assoc()) {
         document.getElementById('modal_food_type').value = data.food_type;
         document.getElementById('modal_quantity').value = data.quantity;
         document.getElementById('modal_unit').value = data.unit;
+        document.getElementById('modal_donor_name').value = data.donor_name;
+        document.getElementById('modal_phone').value = data.phone;
+        document.getElementById('modal_alt_phone').value = data.alt_phone || '';
         document.getElementById('modal_pickup_address').value = data.pickup_address;
 
         const ngoSelect = document.getElementById('modal_assigned_ngo_id');
