@@ -65,20 +65,20 @@
 
 					<li>
 						<a href="admin.php?type=feedback">
-							<i class='bx bxs-file' ></i>
+							<i class='fas fa-comments' ></i>
 							<span class="text">Feedbacks</span>
 						</a>
 					</li>
 
 					<li>
 						<a href="admin.php?type=pending">
-							<i class='bx bxs-pending' ></i>
+							<i class='fas fa-clock' ></i>
 							<span class="text">Pending Donation Requests</span>
 						</a>
 					</li>
 					<li>
 						<a href="admin.php?type=assign">
-							<i class='bx bxs-assigned ngo-icon' ></i>
+							<i class='fas fa-tasks ngo-icon' ></i>
 							<span class="text">Assigned Donation Requests</span>
 						</a>
 					</li>
@@ -86,7 +86,7 @@
 
 					<li>
 						<a href="admin.php?type=status">
-							<i class='bx bxs-progess status ngo-icon' ></i>
+							<i class='fas fa-chart-line status ngo-icon' ></i>
 							<span class="text">Donation Status</span>
 						</a>
 					</li>
