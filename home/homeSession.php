@@ -74,189 +74,6 @@ $conn->close();
     <title>Food Donate - Save Food Share joy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="../css/style.css" rel="stylesheet">
-    <style>
-        /* User Profile Styles */
-        .user-profile {
-            position: relative;
-            display: none; /* Hidden by default, shown after login */
-        }
-        
-        .user-profile.active {
-            display: block;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid #34b409;
-            object-fit: cover;
-            transition: all 0.3s ease;
-        }
-        
-        .user-avatar:hover {
-            transform: scale(1.05);
-            border-color: #fff;
-        }
-        
-        .profile-popup {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            min-width: 280px;
-            z-index: 1000;
-            transform: translateY(10px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .profile-popup.show {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .profile-popup::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            right: 20px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 8px solid white;
-        }
-        
-        .profile-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .profile-header img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            border: 3px solid #34b409;
-            object-fit: cover;
-        }
-        
-        .profile-header h3 {
-            margin: 0;
-            color: #333;
-            font-size: 18px;
-        }
-        
-        .profile-header p {
-            margin: 5px 0 0 0;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .profile-info {
-            margin-bottom: 20px;
-        }
-        
-        .profile-info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 8px 0;
-        }
-        
-        .profile-info-item i {
-            width: 20px;
-            color: #34b409;
-            margin-right: 10px;
-        }
-        
-        .profile-info-item span {
-            color: #333;
-            font-size: 14px;
-        }
-        
-        /* Logout button styled as info item */
-        .profile-info-item.logout-item {
-            cursor: pointer;
-            padding: 12px 0;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-        
-        .profile-info-item.logout-item:hover {
-            background-color: #fff5f5;
-        }
-        
-        .profile-info-item.logout-item i {
-            color: #dc3545;
-        }
-        
-        .profile-info-item.logout-item span {
-            color: #dc3545;
-            font-weight: 500;
-        }
-        
-        .profile-actions {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        
-        .profile-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        .edit-profile-btn {
-            background: #34b409;
-            color: white;
-        }
-        
-        .edit-profile-btn:hover {
-            background: #2a9206;
-        }
-        
-        /* Hide login nav item when user is logged in */
-        .nav-menu .nav-item.login-item {
-            display: list-item;
-        }
-        
-        .nav-menu .nav-item.login-item.hidden {
-            display: none !important;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .profile-popup {
-                right: -20px;
-                min-width: 250px;
-            }
-            
-            .user-avatar {
-                width: 35px;
-                height: 35px;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Header Content -->
@@ -294,6 +111,7 @@ $conn->close();
                 <li class="nav-item login-item">
                     <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
                 </li>
+            
                 <?php endif; ?>
            
            <!-- User Profile - Show only when logged in -->
@@ -379,23 +197,56 @@ $conn->close();
         </nav>
         <main>
             <!-- Main Section -->
-            <section class="main-section">
+             <section class="main-section">
                 <div class="section-content">
                     <div class="main-details">
-                        <h1 class="title">
-                            Let's Make The Change
-                            <span>"Save Food, Share Joy!!"</span>
-                        </h1>
-                        <p class="description">
-                            Cutting food waste is a delicious way of saving money, helping to feed the world and protect the planet.
-                            Donate extra food to needy people because giving is not charity, it is an expression of humanity.
-                            Together, we can build a world where no food goes to waste and no one goes hungry.
-                        </p>
+                        <!-- Content Section 1 -->
+                        <div class="content-section">
+                            <h1 class="title">
+                                Let's Make The Change
+                                <span>"Save Food, Share Joy!!"</span>
+                            </h1>
+                            <p class="description">
+                                Join our mission to end food waste and hunger. Every meal you donate makes a difference in someone's life. Together, we can create a world where surplus food reaches those who need it most.
+                            </p>
+                        </div>
+                        
+                        <!-- Content Section 2 -->
+                        <div class="content-section">
+                            <h1 class="title">
+                                Transform Lives Through Food
+                                <span>"Every Donation Counts!!"</span>
+                            </h1>
+                            <p class="description">
+                                Transform your extra food into hope for families in need. Our platform connects generous donors with local communities, ensuring fresh meals reach hungry hearts across the city.
+                            </p>
+                        </div>
+                        
+                        <!-- Content Section 3 -->
+                        <div class="content-section">
+                            <h1 class="title">
+                                Building Sustainable Communities
+                                <span>"Be The Change Today!!"</span>
+                            </h1>
+                            <p class="description">
+                                Be the change you want to see. From restaurants to home kitchens, every contribution counts. Help us build a sustainable future where no good food goes to waste and no one sleeps hungry.
+                            </p>
+                        </div>
+                        
+                        <!-- Content Section 4 -->
+                        <div class="content-section">
+                            <h1 class="title">
+                                Nourish Souls, Strengthen Hearts
+                                <span>"Start Your Journey Now!!"</span>
+                            </h1>
+                            <p class="description">
+                                Your kindness feeds more than just bodies - it nourishes souls and strengthens communities. Start your donation journey today and become part of a movement that's changing lives, one meal at a time.
+                            </p>
+                        </div>
                     </div>
                     <div class="button">
-                        <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/fooddetails.php" class="btn" id="donateNowBtn">
-                            Donate Food<i class="fa-solid fa-circle-arrow-right"></i>
-                        </a>
+                        <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/fooddetails.php" class="btn" id="donateNowBtn">Donate Food<i class="fa-solid fa-circle-arrow-right"></i>
+                        </a>                    
                     </div>
                 </div>
             </section>
