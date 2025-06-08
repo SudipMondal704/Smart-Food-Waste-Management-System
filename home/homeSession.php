@@ -100,8 +100,14 @@ $conn->close();
                 <li class="nav-item">
                     <a href="About.html" style="--i:2">About</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" style="--i:3">Pages</a>
+                <li class="nav-item dropdown">
+                    <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#">Service</a>
+                        <a href="#">Donate</a>
+                        <a href="#">Our Team</a>
+                        <a href="#">Voices of Community</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="Contact.html" style="--i:4">Contact</a>
@@ -127,7 +133,7 @@ $conn->close();
             $profile_image_src = $file_path;
         } else {
             // Fallback to placeholder if file doesn't exist
-            $profile_image_src = '../img/user.png' . strtoupper(substr($user_data['name'], 0, 2));
+            $profile_image_src =   '../img/user.png' . strtoupper(substr($user_data['name'], 0, 2));
         }
     } else {
         // Default placeholder for users without profile image
@@ -267,8 +273,11 @@ $conn->close();
             </section>
             <!-- Ambition Section -->
              <div class="ambitions-section section">
-                <p class="sub-heading">Look what we can do together.</p>
-                <h2 class="heading">Our Ambitions</h2>
+                <div class="ambition-header">
+                    <p class="ambition-label">Look what we can do together.</p>
+                    <h2 class="ambition-title">Our Ambitions</h2>
+                    <div class="ambition-underline"></div>
+                </div>
                 <div class="cards-container">
                     <div class="card">
                         <div class="card__image">
@@ -302,7 +311,7 @@ $conn->close();
             <!-- How Does It Work Section -->
             <div class="how-it-works-section section">
                 <div class="container">
-                    <h2 class="section-title">How does easyDonate works?</h2>
+                    <h2 class="how-it-works-title">How does easyDonate works?</h2>
                     
                     <div class="steps-container">
                         <div class="step">
@@ -332,7 +341,7 @@ $conn->close();
                 <div class="cards-container">
                     <div class="card">
                         <div class="card__image">
-                            <div class="fact-icon">🍎</div>
+                            <img src="../img/Raw-food.jpg">
                         </div>
                         <div class="card__content">
                             <span class="card__title">RAW FOOD</span>
@@ -341,7 +350,7 @@ $conn->close();
                     </div>
                     <div class="card">
                         <div class="card__image">
-                            <div class="fact-icon">🍽️</div>
+                            <img src="../img/Cooke-food.jpg">
                         </div>
                         <div class="card__content">
                             <span class="card__title">PREPARED / COOKED FOOD </span>
@@ -350,7 +359,7 @@ $conn->close();
                     </div>
                     <div class="card">
                         <div class="card__image">
-                            <div class="fact-icon">📦</div>
+                            <img src="../img/Packaged-food.jpg">
                         </div>
                         <div class="card__content">
                             <span class="card__title">PACKAGED FOOD</span>
@@ -550,9 +559,9 @@ $conn->close();
                             <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
                         </ul>
                     </div>
-                    <div class="copyright">
-                        <p> © Copyright 2025 Food Donate. All rights reserved.</p>
-                    </div>
+                </div>
+                <div class="copyright">
+                    <p> © Copyright 2025 Food Donate. All rights reserved.</p>
                 </div>
             </footer>
             <!-- Back to Top Scrollbar -->
