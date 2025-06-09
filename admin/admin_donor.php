@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $conn->query("DELETE FROM users WHERE user_id = $delete_id");
-    header("Location: admin_donor.php");
+    header("Location:admin.php?type=donors");
     exit;
 }
 
@@ -43,98 +43,10 @@ $result = $conn->query("SELECT * FROM users");
     <title>Donor List</title>
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            padding: 0px 30px 30px 30px;
-            margin: 0;
-        }
-        .table-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #ccc;
-            width: 95%;
-            margin: auto;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: center;
-        }
-        th {
-            background-color: #343a40;
-            color: #fff;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .btn {
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 8px;
-        }
-        .btn i {
-            font-size: 16px;
-        }
-        .btn-edit { background-color: rgb(99, 216, 45); }
-        .btn-delete { background-color: #dc3545; }
-        .btn-edit:hover { background-color: #6cc142; }
-        .btn-delete:hover { background-color: #b12a2a; }
 
-        .modal {
-           display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-           background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            width: 400px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-        }
-        .modal-content input {
-             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .modal-content button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .modal-content button:hover {
-           background-color: #218838;
-        }
-         .close-btn {
-            background-color: #dc3545;
-            margin-top: 10px;
-        }
-        .close-btn:hover {
-            background-color: #c82333;
-        }
-    </style>
+    
+        
+      
 </head>
 <body>
 
@@ -162,7 +74,7 @@ $result = $conn->query("SELECT * FROM users");
                     </button>
                 </td>
                 <td>
-                    <a class="btn btn-delete" href="admin_donor.php?delete_id=<?= $row['user_id'] ?>" onclick="return confirm('Are you sure you want to delete this user?');">
+                    <a class="btn btn-delete" href="admin_donor.php? delete_id=<?= $row['user_id'] ?>" onclick="return confirm('Are you sure you want to delete this user?');">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>

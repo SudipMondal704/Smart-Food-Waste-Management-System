@@ -620,9 +620,9 @@
 
           <div class="carousel">
             <div class="images-wrapper">
-              <img src="img/sliding-image1.jpg" class="image img-1 show" alt="" />
+              <img src="img/Home1.jpg" class="image img-1 show" alt="" />
               <img src="img/sliding-image2.jpg" class="image img-2" alt="" />
-              <img src="img/sliding-image3.jpg" class="image img-3" alt="" />
+              <img src="img/home2.jpg" class="image img-3" alt="" />
             </div>
           </div>
           

@@ -35,17 +35,19 @@ if ($ngoResult && $ngoResult->num_rows > 0) {
 }
 
 // Count pending donations
-$pendingQuery = "SELECT COUNT(*) as pending_count FROM fooddetails WHERE assigned_ngo_id IS NULL";
+// Count pending donations (both NGO NOT FOUND and unassigned)
+$pendingQuery = "SELECT COUNT(*) as pending_count FROM fooddetails WHERE assigned_ngo_id IS NULL OR assigned_ngo_id = 0";
 $pendingResult = $conn->query($pendingQuery);
 $pendingCount = 0;
 if ($pendingResult && $pendingResult->num_rows > 0) {
     $pendingCount = $pendingResult->fetch_assoc()['pending_count'];
 }
 
+
 // Close connection
 $conn->close();
 ?>
-
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 .box-info {
     display: flex;

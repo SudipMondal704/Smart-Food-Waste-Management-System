@@ -18,6 +18,7 @@
             background-attachment: fixed;
             background-size: cover;
             overflow-y: scroll;
+            overflow-x: hidden;
         }
 
         .container {
@@ -28,6 +29,36 @@
             border-radius: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
+        }
+
+
+         .nav-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            margin-bottom: 1px;
+            z-index: 2;
+            position: relative;
+           
+        }
+        .header .container .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: slideRight 1s ease forwards;
+        }
+
+        .nav-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 2.2em;
+            font-weight: 300;
         }
 
         /* Add Food Button in Top Corner */
