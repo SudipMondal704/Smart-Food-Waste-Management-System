@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // --------- No match found ---------
-    echo "<script>alert('Invalid login credentials!'); window.location.href='index.html';</script>";
+    echo "<script>alert('Invalid login credentials!'); window.location.href='home/homeSession.php';</script>";
 }
 
 $conn->close();

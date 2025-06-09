@@ -48,10 +48,10 @@ function sendOTPEmail($email, $otp) {
         $mail->isSMTP();                                      // Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                 // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                             // Enable SMTP authentication
-        $mail->Username   = 'sudipmondal704777@gmail.com';           // SMTP username (your Gmail email)
-        $mail->Password   = 'avyj scad yvfm ekjn';              // SMTP password (use App Password, not your regular password)
+        $mail->Username   = 'sudipmondal704777@gmail.com';           // SMTP username 
+        $mail->Password   = 'avyj scad yvfm ekjn';              // SMTP password 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption
-        $mail->Port       = 587;                              // TCP port to connect to (use 465 for SSL)
+        $mail->Port       = 587;                              // TCP port to connect 
         
         // Recipients
         $mail->setFrom('sudipmondal704777@gmail.com', 'Smart Food Waste Management System');

@@ -9,9 +9,12 @@
 <body>
   <div class="container">
         
-        <div class="logo">
-            <img src="" alt="Food Details Logo">
-        </div>
+        <div class="nav-logo">
+                 <a href="#" class="nav-logo">
+                <img src="./img/logo.png" alt="Food Donate Logo">
+                 </a> 
+                <h2 class="logo-text">easy<b style="color: #34b409;">Donate</b></h2>
+            </div>
         <div class="title">Food Details Form</div>
         <div class="subtitle">Thank you for taking time to provide food details. We appreciate your contribution.</div>
         <div class="content">

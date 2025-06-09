@@ -219,7 +219,7 @@ body {
 .topbar .notification {
     font-size: 20px;
     position: relative;
-    margin-right: 15px;
+    margin-right: 25px;
     color: var(--dark);
     cursor: pointer;
 }
