@@ -1,29 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'donor') {
-echo "<script>alert('Login as Donor!.'); window.location.href='newlogin.php';</script>";
-    exit;
-}
-
-$user_id = $_SESSION['user_id'];
-
-// Database connection
-$conn = new mysqli("localhost", "root", "", "food_waste");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Fetch donor name
-$name_result = $conn->query("SELECT username FROM users WHERE user_id = $user_id");
-$donor_name = "";
-if ($name_result && $name_result->num_rows > 0) {
-    $donor_row = $name_result->fetch_assoc();
-    $donor_name = $donor_row['username'];
-}
-
-// Fetch donations
-$donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
-?>
 
 
 <!DOCTYPE html>
@@ -427,7 +401,7 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             </div>
             <h1>Donor Dashboard</h1>
             <p>Making a difference, one meal at a time</p>
-            <h2>Welcome, <?= htmlspecialchars($donor_name) ?>!</h2>
+            
         </div>
 
         <div class="nav-tabs">
