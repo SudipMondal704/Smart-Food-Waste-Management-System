@@ -105,7 +105,7 @@ $conn->close();
                     <div class="dropdown-content">
                         <a href="#">Service</a>
                         <a href="#">Donate</a>
-                        <a href="#">Our Team</a>
+                        <a href="team.html">Our Team</a>
                         <a href="#">Voices of Community</a>
                     </div>
                 </li>

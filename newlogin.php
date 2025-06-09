@@ -552,7 +552,7 @@
                 </div>
                 <input type="submit" value="Sign In" class="sign-btn" />
                 <p class="text">
-                  <a href="#">Forgotten your password?</a>
+                  <a href="forgot_password.php">Forgotten your password?</a>
                 </p>
               </div>
             </form>

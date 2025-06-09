@@ -208,7 +208,7 @@ $conn->close();
         </form>
         
         <p style="text-align: center; margin-top: 15px;">
-            <a href="login_signup.html">Back to Login</a>
+            <a href="newlogin.php">Back to Login</a>
         </p>
     </div>
 </body>
