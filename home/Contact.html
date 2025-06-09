@@ -11,7 +11,7 @@
         /* Contact Page -  STYLES */
         .contact-section {
             padding: 80px 0 100px;
-            background: #f6f6cf;
+            background: #fff;
         }
 
         .contact-section .section-content {
@@ -112,24 +112,25 @@
             margin-left: 5px;
         }
         .accordion:hover {
-            background-color: #ccc;
+            background-color: #5ff54b;
+            color: #fff;
         }
 
         .accordion.active {
             background-color: #34b409;
-            color: rgb(211, 201, 201);
+            color: rgb(230, 228, 228);
         }
 
         /* Add an icon to show expand/collapse state */
         .accordion:after {
             content: '\002B'; /* Plus sign */
-            color: #777;
+            color: #4a4949;
             font-weight: bold;
             float: right;
             margin-left: 5px;
             transition: transform 0.3s ease;
         }
-
+        
         .accordion.active:after {
             content: '\2212'; /* Minus sign */
             color: white;
@@ -183,13 +184,21 @@
         /* Chatbot Section */
         .chatbot-section {
             padding: 30px;
-            background-color: rgba(151, 243, 199, 0.5);
+            background-image: url(../img/footer-map.png);
+            align-items: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-color: #516781;
         }
 
         .chatbot-section p {
             font-size: 23px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 50px;
+            color: #ececec;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         /* Fixed Chatbot Styles */
@@ -208,13 +217,13 @@
             display: flex;
             flex-direction: column;
             border-radius: 10px;
-            background: rgb(146, 86, 86);
+            background: rgb(205, 252, 204);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
         .chat-header {
-            background-color: #4d1616;
+            background-color: #95b320;
             color: white;
             text-align: center;
             padding: 15px;
@@ -227,7 +236,6 @@
             overflow-y: auto;
             height: 100%;
             width: 100%;
-            background-color: #f1d392;
             padding: 15px;
             gap: 10px;
         }
@@ -254,12 +262,12 @@
             flex-direction: row-reverse;
         }
         .response.user .message {
-            background: #65209e;
+            background: #e340b2;
             color: white;
             margin-left: auto;
         }
         .response.bot .message {
-            background: rgb(53, 207, 182);
+            background: rgb(65, 218, 242);
             color: #333;
             border: 1px solid #e0e0e0;
         }
@@ -285,8 +293,6 @@
         }
         .chat-input-container {
             padding: 15px;
-            background: white;
-            border-top: 1px solid #e0e0e0;
         }
         .chat input {
             width: 100%;
@@ -332,7 +338,7 @@
                     <a href="Contact.html" style="--i:4" class="active">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a href="login.html" style="--i:5">Login</a>
+                    <a href="../newlogin.php" style="--i:5">Login</a>
                 </li>
             </ul>
         </nav>
@@ -370,7 +376,9 @@
                     </div>
                 </div>
             </section>
-                <section class="chatbot-section">
+
+            <!-- chatbot -->
+            <section class="chatbot-section">
             <p>ChatBot Support <i class="fa-solid fa-robot"></i></p>
             <div class="container">
                 <div class="chat">
@@ -392,7 +400,7 @@
                     <p style="font-size: 23px; text-align: center; padding:10px;">Help & FAQs?</p>
                     <button class="accordion">How to donate food ?</button>
                     <div class="panel">
-                    <p style="font-size: 15px;">1. Click on <a href="index.html">Donate Now</a> in Home Page </p>
+                    <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Now</a> in Home Page </p>
                     <p style="font-size: 15px;">2. Fill the details </p>
                     <p style="font-size: 15px;">3. Click on submit</p>
                     <img src=" " alt="" width="100%">

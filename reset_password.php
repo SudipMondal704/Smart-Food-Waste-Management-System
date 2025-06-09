@@ -50,7 +50,7 @@ if (isset($_POST['reset_password_submit'])) {
             unset($_SESSION['reset_email']);
             
             // Auto-redirect after successful password reset (optional)
-            header("refresh:3;url=login.php");
+            header("refresh:3;url=newlogin.php");
         } else {
             $error_message = "Failed to reset password. Please try again.";
         }
