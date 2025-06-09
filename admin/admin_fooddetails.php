@@ -27,12 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $food_type = $_POST['food_type'];
     $quantity = $_POST['quantity'];
     $unit = $_POST['unit'];
+    $pickup_address = $_POST['pickup_address'];
     $assigned_ngo_id = $_POST['assigned_ngo_id'] ?: NULL; // NULL if none selected
 
     $stmt = $conn->prepare("UPDATE fooddetails SET 
-        food_name=?, food_type=?, quantity=?, unit=?, assigned_ngo_id=?
+        food_name=?, food_type=?, quantity=?, unit=?, pickup_address=?, assigned_ngo_id=?
         WHERE fooddetails_id=?");
-    $stmt->bind_param("sssiii", $food_name, $food_type, $quantity, $unit, $assigned_ngo_id, $id);
+    $stmt->bind_param("ssissii", $food_name, $food_type, $quantity, $unit, $pickup_address, $assigned_ngo_id, $id);
     $stmt->execute();
     $stmt->close();
 }
@@ -46,7 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 // Fetch Food Details with assigned NGO name (if any) and group by username and address
 $submissions = [];
 $res = $conn->query("
-    SELECT f.*, n.ngo_name, u.username, u.address as user_address 
+    SELECT f.*, 
+           CASE 
+               WHEN f.assigned_ngo_id = 'NGO NOT FOUND' THEN 'NGO NOT FOUND'
+               ELSE n.ngo_name 
+           END as ngo_name, 
+           u.username, u.address as user_address 
     FROM fooddetails f 
     LEFT JOIN ngo n ON f.assigned_ngo_id = n.ngo_id 
     JOIN users u ON f.user_id = u.user_id
@@ -65,218 +71,36 @@ while ($row = $res->fetch_assoc()) {
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
-            padding: 0px 30px 30px 30px;
-            margin: 0;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            margin: -30px -30px 30px -30px;
-            text-align: center;
-        }
-        
-        .submission-box {
-            background: white;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .group-header {
-            background: linear-gradient(135deg,rgb(9, 3, 94) 0%,rgb(11, 11, 11) 100%);
-            color: white;
-            padding: 15px;
-            margin: -20px -20px 20px -20px;
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .donor-info {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .donor-info > div {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .group-header h3 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .group-header p {
-            margin: 2px 0 0 0;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .food-count {
-            background: #007bff;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-        
-        table {
-            width: 100%; 
-            border-collapse: collapse;
-            margin-top: 10px;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        th, td { 
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            text-align: center;
-        }
-        
-        th { 
-           background: linear-gradient(135deg,rgb(9, 3, 94));
-            color: white;
-            font-weight: bold;
-        }
-        
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-        
-        .edit-btn, .delete-btn { 
-            padding: 5px 8px;
-            border: none;
-            border-radius: 4px; 
-            color: white;
-            cursor: pointer;
-        }
-        
-        .edit-btn {
-            background: #28a745; 
-        }
-        
-        .edit-btn:hover { 
-            background: #218838; 
-        }
-        
-        .delete-btn {
-            background: #dc3545;
-        }
-        
-        .delete-btn:hover {
-            background: #c82333;
-        }
-        
-        .not-assigned {
-            color: red;
-        }
-        
-        .modal { 
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0; 
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 400px; 
-            position: relative; 
-        }
-        
-        .close { 
-            position: absolute; 
-            right: 15px;
-            top: 10px;
-            font-size: 25px;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer; 
-        }
-        
-        .modal-content form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .modal-content input, .modal-content select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px; 
-        }
-        
-        .modal-content button { 
-           background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-        
-        .update-btn {
-            background: #28a745;
-        }
-        
-        .delete-btn-modal {
-            background: #dc3545; 
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .donor-info {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            table {
-                font-size: 0.9em;
-            }
-            
-            th, td {
-                padding: 8px;
-            }
-        }
-    </style>
+.ngo-not-found {
+    color: white !important;
+    font-weight: bold !important;
+    background-color: #dc3545 !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+}
+
+
+.ngo-assigned {
+    color:black;
+    
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.not-assigned {
+    color:rgb(255, 0, 0); /* Bootstrap's gray */
+    background-color:rgb(255, 254, 253); /* Bootstrap's yellow */
+    font-weight:bolder;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+</style>
+
+   
 </head>
 <body>
 
@@ -289,17 +113,8 @@ while ($row = $res->fetch_assoc()) {
 <div class="submission-box">
     <div class="group-header">
         <div class="donor-info">
-            <div>
-                <h3>Username</h3>
-                <p><?= htmlspecialchars($username) ?></p>
-            </div>
-            <div>
-                <h3>User Address</h3>
-                <p><?= htmlspecialchars($userAddress) ?></p>
-            </div>
-            <div>
-                <h3>Pickup Address</h3>
-                <p><?= htmlspecialchars($pickupAddress) ?></p>
+            <div class="donor-info-horizontal">
+                User Name: <?= htmlspecialchars($username) ?> | Address: <?= htmlspecialchars($userAddress) ?>
             </div>
         </div>
         <div>
@@ -310,12 +125,20 @@ while ($row = $res->fetch_assoc()) {
     <table>
         <tr>
             <th>Food Name</th><th>Food Type</th><th>Qty</th><th>Unit</th>
-            <th>Donor Name</th><th>Phone</th><th>Image</th><th>Request Date</th><th>Assigned NGO</th><th>Edit</th><th>Delete</th>
+            <th>Donor Name</th><th>Phone</th><th>Pickup Address</th><th>Image</th><th>Request Date</th><th>Assigned NGO</th><th>Edit</th><th>Delete</th>
         </tr>
         <?php foreach ($foods as $row):
             $img = "uploads/" . basename($row['image']);
             $imageTag = file_exists($img) ? "<img src='$img' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border: 1px solid #ccc; border-radius:4px;'>" : "No Image";
-            $ngo = $row['ngo_name'] ? htmlspecialchars($row['ngo_name']) : "<span class='not-assigned'>Not Assigned</span>";
+            
+            // Handle different NGO status display
+            if ($row['assigned_ngo_id'] === 'NGO NOT FOUND') {
+                $ngo = "<span class='ngo-not-found'>NGO NOT FOUND</span>";
+            } elseif ($row['ngo_name']) {
+                $ngo = "<span class='ngo-assigned'>" . htmlspecialchars($row['ngo_name']) . "</span>";
+            } else {
+                $ngo = "<span class='not-assigned'>Not Assigned</span>";
+            }
         ?>
         <tr>
             <td><?= htmlspecialchars($row['food_name']) ?></td>
@@ -324,6 +147,7 @@ while ($row = $res->fetch_assoc()) {
             <td><?= htmlspecialchars($row['unit']) ?></td>
             <td><?= htmlspecialchars($row['donor_name']) ?></td>
             <td><?= htmlspecialchars($row['phone']) ?></td>
+            <td><?= htmlspecialchars($row['pickup_address']) ?></td>
             <td><?= $imageTag ?></td>
             <td><?= $row['created_at'] ?></td>
             <td><?= $ngo ?></td>
@@ -350,9 +174,11 @@ while ($row = $res->fetch_assoc()) {
             <input type="text" name="food_type" id="modal_food_type" placeholder="Food Type" required>
             <input type="number" name="quantity" id="modal_quantity" placeholder="Quantity" required>
             <input type="text" name="unit" id="modal_unit" placeholder="Unit" required>
+            <input type="text" name="pickup_address" id="modal_pickup_address" placeholder="Pickup Address" required>
 
             <select name="assigned_ngo_id" id="modal_assigned_ngo_id">
                 <option value="">-- Select Assigned NGO (Optional) --</option>
+                <option value="NGO NOT FOUND">NGO NOT FOUND</option>
                 <!-- Options will be populated dynamically based on pickup address -->
             </select>
                 <button type="submit" name="update" class="update-btn">Update</button>
@@ -372,9 +198,10 @@ while ($row = $res->fetch_assoc()) {
         document.getElementById('modal_food_type').value = data.food_type;
         document.getElementById('modal_quantity').value = data.quantity;
         document.getElementById('modal_unit').value = data.unit;
+        document.getElementById('modal_pickup_address').value = data.pickup_address;
 
         const ngoSelect = document.getElementById('modal_assigned_ngo_id');
-        ngoSelect.innerHTML = '<option value="">-- Select Assigned NGO (Optional) --</option>'; // reset options
+        ngoSelect.innerHTML = '<option value="">-- Select Assigned NGO (Optional) --</option><option value="NGO NOT FOUND">NGO NOT FOUND</option>'; // reset options
 
         // Get NGOs matching the pickup address (case-insensitive)
         let pickupAddr = data.pickup_address.toLowerCase();
@@ -390,10 +217,8 @@ while ($row = $res->fetch_assoc()) {
             }
         }
 
-        // If no exact match found, show "No NGO found" option or keep empty
-        if (matchedNGOs.length === 0) {
-            ngoSelect.innerHTML += '<option disabled>No NGOs available for this pickup address</option>';
-        } else {
+        // Add matched NGOs to dropdown
+        if (matchedNGOs.length > 0) {
             matchedNGOs.forEach(ngo => {
                 const opt = document.createElement('option');
                 opt.value = ngo.ngo_id;
@@ -403,7 +228,11 @@ while ($row = $res->fetch_assoc()) {
         }
 
         // Set currently assigned NGO if present
-        ngoSelect.value = data.assigned_ngo_id || "";
+        if (data.assigned_ngo_id === 'NGO NOT FOUND') {
+            ngoSelect.value = "NGO NOT FOUND";
+        } else {
+            ngoSelect.value = data.assigned_ngo_id || "";
+        }
 
         document.getElementById('editModal').style.display = 'block';
     }

@@ -3,36 +3,8 @@
 <head>
     <title>Feedback Admin Panel</title>
     <link rel="stylesheet" href="admin.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            padding: 0px 30px 30px 30px;
-            margin: 0;
-        }
-        .table-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #ccc;
-            margin: 10px auto; /* Reduced margin to shift table up */
-            width: 95%;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: auto;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: center;
-        }
-        th {
-            background-color: #343a40;
-            color: #fff;
-        }
-    </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
 </head>
 <body>
 

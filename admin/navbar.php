@@ -13,7 +13,7 @@
         </a>
 
         <div class="user">
-            <img src="https://via.placeholder.com/36" alt="User">
+            <img src="../img/user.png" alt="User">
             
         </div>
 
