@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -55,6 +56,47 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
         border: 1px solid #ddd;
         overflow: hidden;
+      }
+
+      /* Exit Icon Styles */
+      .exit-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 25px;
+        height: 25px;
+        background-color: #ff4444;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .exit-icon:hover {
+        background-color: #ff6666;
+        transform: scale(1.1);
+      }
+
+      .exit-icon::before,
+      .exit-icon::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 2px;
+        background-color: white;
+        border-radius: 1px;
+      }
+
+      .exit-icon::before {
+        transform: rotate(45deg);
+      }
+
+      .exit-icon::after {
+        transform: rotate(-45deg);
       }
 
       .inner-box {
@@ -524,11 +566,108 @@
         background-color: #512da8;
         color: white;
       }
+
+      /* FIXED FILE UPLOAD STYLES */
+      .file-input-wrap {
+        position: relative;
+        margin-bottom: 18px;
+      }
+
+      .file-upload-container {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #fff;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .file-upload-container:hover {
+        border-color: #512da8;
+      }
+
+      .file-upload-container.active {
+        border-color: #512da8;
+        box-shadow: 0 0 5px rgba(81, 45, 168, 0.3);
+      }
+
+      .file-input-hidden {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+      }
+
+      .file-upload-display {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        pointer-events: none;
+      }
+
+      .file-upload-button {
+        background-color: #512da8;
+        color: white;
+        padding: 0 12px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .file-upload-text {
+        padding: 0 10px;
+        color: #666;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+      }
+
+      .file-upload-label {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.85rem;
+        color: #bbb;
+        pointer-events: none;
+        transition: 0.4s;
+        z-index: 1;
+      }
+
+      .file-upload-container.has-file .file-upload-label {
+        font-size: 0.75rem;
+        top: -8px;
+        color: #512da8;
+        background-color: #fff;
+        padding: 0 4px;
+        left: 6px;
+      }
+
     </style>
   </head>
   <body>
     <main>
       <div class="box">
+        <a href="home/homeSession.php" class="exit-icon" title="Exit"></a>
         <div class="inner-box">
           <div class="forms-wrap">
             <form  action="signin.php" method="POST"  autocomplete="off" class="sign-in-form">
@@ -603,9 +742,19 @@
                   <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
                   <label>Password</label>
                 </div>
-                <div class="input-wrap">
-                  <input type="file" name="image" accept="image/*">
+                
+                <!-- FIXED FILE UPLOAD SECTION -->
+                <div class="file-input-wrap">
+                  <div class="file-upload-container">
+                    <input type="file" name="food_image[]" accept="image/*" class="file-input-hidden" required>
+                    <div class="file-upload-display">
+                      <div class="file-upload-button">Choose File</div>
+                      <div class="file-upload-text">No file selected</div>
+                    </div>
+                    <!-- <label class="file-upload-label">Profile Image</label> -->
+                  </div>
                 </div>
+                
                 <div class="checkbox-wrap">
                   <label class="checkbox-label">
                     <input type="checkbox" required />
@@ -621,7 +770,7 @@
           <div class="carousel">
             <div class="images-wrapper">
               <img src="img/Home1.jpg" class="image img-1 show" alt="" />
-              <img src="img/sliding-image2.jpg" class="image img-2" alt="" />
+              <img src="img/sliding-image1.jpg" class="image img-2" alt="" />
               <img src="img/home2.jpg" class="image img-3" alt="" />
             </div>
           </div>
