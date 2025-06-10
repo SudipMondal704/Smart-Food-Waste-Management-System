@@ -35,12 +35,12 @@ if (isset($_POST['reset_password_submit'])) {
     if ($new_password !== $confirm_password) {
         $error_message = "Passwords do not match.";
     } else {
-        // Hash the new password
-        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        // Store the original password directly (as requested)
+        $password = $new_password;
         
         // Update password in the database
         $stmt = $conn->prepare("UPDATE users SET password = ?, reset_otp = NULL, reset_otp_expiry = NULL WHERE email = ?");
-        $stmt->bind_param("ss", $hashed_password, $email);
+        $stmt->bind_param("ss", $password, $email);
         
         if ($stmt->execute()) {
             $success_message = "Password has been reset successfully.";

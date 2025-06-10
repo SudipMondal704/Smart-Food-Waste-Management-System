@@ -746,7 +746,7 @@
                 <!-- FIXED FILE UPLOAD SECTION -->
                 <div class="file-input-wrap">
                   <div class="file-upload-container">
-                    <input type="file" name="food_image[]" accept="image/*" class="file-input-hidden" required>
+                    <input type="file" name="food_image[]" accept="image/*" class="file-input-hidden">
                     <div class="file-upload-display">
                       <div class="file-upload-button">Choose File</div>
                       <div class="file-upload-text">No file selected</div>
