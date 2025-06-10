@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>contact</title>
+    <title>easyDonate - Save Food Share joy</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<style>
@@ -314,13 +314,19 @@
             </a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="home.html" style="--i:1">Home</a>
+                    <a href="homeSession.php" style="--i:1">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="About.html" style="--i:2">About</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" style="--i:3">Pages</a>
+                <li class="nav-item dropdown">
+                    <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#">Service</a>
+                        <a href="#">Donate</a>
+                        <a href="team.html">Our Team</a>
+                        <a href="#">Voices of Community</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="Contact.html" style="--i:4" class="active">Contact</a>
@@ -353,13 +359,14 @@
                         </form>
                     </div>
                     <div class="map-container">
-                    <h2>Find Us Here</h2>
-                    <div class="map-wrapper">
-                        <iframe
-                            src="https://maps.google.com/maps?q=Burdwan+Institute+Management+%26+Computer+Science&output=embed"
-                            loading="lazy"
-                            allowfullscreen>
-                        </iframe>
+                        <h2>Find Us Here</h2>
+                        <div class="map-wrapper">
+                            <iframe
+                                src="https://maps.google.com/maps?q=Burdwan+Institute+Management+%26+Computer+Science&output=embed"
+                                loading="lazy"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -413,15 +420,16 @@
                             <img src="../img/logo.png" alt="Food Donate Logo">
                             <h2 class="logo-text">easy <b style="color: green;">Donate</b></h2>
                         </div>
-                        <p class="text">
-                            The basic concept of this project <b style="color: green;">Food Waste Management</b>
-                            is to collect the excess / leftover food from donors such as hotels, restaurants,
-                            marriage halls, etc. and distribute to the needy people.
-                            <span>Join us in our mission to reduce food waste and help those in need.</span>
-                        </p>
-                        <div class="button">
-                            <a href="#" class="btn">Read More</a>
-                        </div>
+                            <p class="text">
+                                The basic concept of this project <b style="color: green;">Food Waste Management</b>
+                                is to collect the excess / leftover food from donors such as hotels, restaurants,
+                                marriage halls, etc. and distribute to the needy people.
+                                <span>Join us in our mission to reduce food waste and help those in need.</span>
+                            </p>
+                            <div class="button">
+                                <a href="#" class="btn">Read More</a>
+                            </div>
+                        
                     </div>
                     <div class="footer-center">
                     </div>
@@ -456,9 +464,9 @@
                             <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
                         </ul>
                     </div>
-                    <div class="copyright">
-                        <p> © Copyright 2025 Food Donate. All rights reserved.</p>
-                    </div>
+                </div>
+                <div class="copyright">
+                    <p> © Copyright 2025 Food Donate. All rights reserved.</p>
                 </div>
             </footer>
             <!-- Back to Top Scrollbar -->

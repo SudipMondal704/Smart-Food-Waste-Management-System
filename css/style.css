@@ -62,7 +62,7 @@ img {
 }
 
 .content-main .sub-content .description {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     color: #e8e8e8;
 }
@@ -248,7 +248,7 @@ header {
     color: #e0e0e0;
     position: relative;
     font-weight: 500;
-    text-transform: uppercase;
+    
     transition: all 0.3s ease;
     border-radius: 25px;
     opacity: 0;
