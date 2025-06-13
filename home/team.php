@@ -298,7 +298,7 @@ $conn->close();
                             <a href="#">Service</a>
                             <a href="#">Donate</a>
                             <a href="team.php" class="active">Our Team</a>
-                            <a href="#">Voices of Community</a>
+                            <a href="voices-of-community.html">Voices of Community</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -479,66 +479,90 @@ $conn->close();
         </section>
 
         <!-- Footer Section -->
-        <footer class="footer-section">
-            <div class="section-content">
-                <div class="footer-left">
-                    <div class="footer-title">
-                        <img src="../img/logo.png" alt="Food Donate Logo">
-                        <h2 class="logo-text">easy <b style="color: green;">Donate</b></h2>
-                    </div>
-                        <p class="text">
-                            The basic concept of this project <b style="color: green;">Food Waste Management</b>
-                            is to collect the excess / leftover food from donors such as hotels, restaurants,
-                            marriage halls, etc. and distribute to the needy people.
-                            <span>Join us in our mission to reduce food waste and help those in need.</span>
-                        </p>
-                        <div class="button">
-                            <a href="#" class="btn">Read More</a>
+            <footer class="footer-section">
+                <div class="section-content">
+                    <div class="footer-left">
+                        <div class="footer-title">
+                            <img src="../img/logo.png" alt="Food Donate Logo">
+                            <h2 class="logo-text">easy <b style="color: green;">Donate</b></h2>
                         </div>
-                    
+                            <p class="text">
+                                The basic concept of this project <b style="color: green;">Food Waste Management</b>
+                                is to collect the excess / leftover food from donors such as hotels, restaurants,
+                                marriage halls, etc. and distribute to the needy people.
+                                <span>Join us in our mission to reduce food waste and help those in need.</span>
+                            </p>
+                            <div class="button">
+                                <a href="#" class="btn">Read More</a>
+                            </div>
+                        
+                    </div>
+                    <div class="footer-center">
+                        <h2 class="footer-title">Quick Links</h2>
+                        <ul class="quick-list">
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">About Us</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Contact Us</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Service</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Our Team</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Voices of Community</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-right">
+                        <h2 class="footer-title">Contact Us</h2>
+                        <ul class="contact-list">
+                            <li class="contact-info">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
+                            </li>
+                            <li class="contact-info">
+                                <i class="fa-solid fa-envelope"></i>
+                                <p>fooddonate@gmail.com</p>
+                            </li>
+                            <li class="contact-info">
+                                <i class="fa-solid fa-phone"></i>
+                                <p>(+91) 0000 000 000</p>
+                            </li>
+                            <li class="contact-info">
+                                <i class="fa-regular fa-clock"></i>
+                                <p>Monday - Sunday : 24 x 7 Opened</p>
+                            </li>
+                            <li class="contact-info">
+                                <i class="fa-solid fa-globe"></i>
+                                <p>www.fooddonate.com</p>
+                            </li>
+                        </ul>
+                        <ul class="social">
+                            <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="footer-center">
+                <div class="copyright">
+                    <p> © Copyright 2025 Food Donate. All rights reserved.</p>
                 </div>
-                <div class="footer-right">
-                    <h2 class="footer-title">Contact Us</h2>
-                    <ul class="contact-list">
-                        <li class="contact-info">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
-                        </li>
-                        <li class="contact-info">
-                            <i class="fa-solid fa-envelope"></i>
-                            <p>fooddonate@gmail.com</p>
-                        </li>
-                        <li class="contact-info">
-                            <i class="fa-solid fa-phone"></i>
-                            <p>(+91) 0000 000 000</p>
-                        </li>
-                        <li class="contact-info">
-                            <i class="fa-regular fa-clock"></i>
-                            <p>Monday - Sunday : 24 x 7 Opened</p>
-                        </li>
-                        <li class="contact-info">
-                            <i class="fa-solid fa-globe"></i>
-                            <p>www.fooddonate.com</p>
-                        </li>
-                    </ul>
-                    <ul class="social">
-                        <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p> © Copyright 2025 Food Donate. All rights reserved.</p>
-            </div>
-        </footer>
-        <!-- Back to Top Scrollbar -->
-        <button class="scroll-to-top" id="scrollToTop">
-            <i class="fas fa-chevron-up"></i>
-        </button>
+            </footer>
+
+            <!-- Back to Top Scrollbar -->
+            <button class="scroll-to-top" id="scrollToTop">
+                <i class="fas fa-chevron-up"></i>
+            </button>
   </header>
   
   <script>

@@ -398,7 +398,7 @@ $conn->close();
                         <a href="#">Service</a>
                         <a href="#">Donate</a>
                         <a href="team.php">Our Team</a>
-                        <a href="#">Voices of Community</a>
+                        <a href="voices-of-community.html">Voices of Community</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -586,6 +586,29 @@ $conn->close();
                         
                     </div>
                     <div class="footer-center">
+                        <h2 class="footer-title">Quick Links</h2>
+                        <ul class="quick-list">
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">About Us</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Contact Us</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Service</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Our Team</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Voices of Community</a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="footer-right">
                         <h2 class="footer-title">Contact Us</h2>
@@ -623,6 +646,7 @@ $conn->close();
                     <p> © Copyright 2025 Food Donate. All rights reserved.</p>
                 </div>
             </footer>
+
             <!-- Back to Top Scrollbar -->
             <button class="scroll-to-top" id="scrollToTop">
                 <i class="fas fa-chevron-up"></i>

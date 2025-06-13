@@ -106,7 +106,7 @@ $conn->close();
                         <a href="#">Service</a>
                         <a href="#">Donate</a>
                         <a href="team.php">Our Team</a>
-                        <a href="#">Voices of Community</a>
+                        <a href="voices-of-community.html">Voices of Community</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -121,85 +121,86 @@ $conn->close();
                 <?php endif; ?>
            
            <!-- User Profile - Show only when logged in -->
-<?php if ($is_logged_in && $user_data): ?>
-<li class="nav-item user-profile active" id="user-profile">
-    <?php 
-    // Fix image path handling - since homeSession.php is in home/ folder
-    $profile_image_src = '';
-    if (!empty($user_data['image'])) {
-        // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
-        $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
-        if (file_exists($file_path)) {
-            $profile_image_src = $file_path;
-        } else {
-            // Fallback to default user image if file doesn't exist
-            $profile_image_src = '../img/user.png';
-        }
-    } else {
-        // Default placeholder for users without profile image
-        $profile_image_src = '../img/user.png';
-    }
+            <?php if ($is_logged_in && $user_data): ?>
+            <li class="nav-item user-profile active" id="user-profile">
+                <?php 
+                // Fix image path handling - since homeSession.php is in home/ folder
+                $profile_image_src = '';
+                if (!empty($user_data['image'])) {
+                    // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
+                    $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                    if (file_exists($file_path)) {
+                        $profile_image_src = $file_path;
+                    } else {
+                        // Fallback to default user image if file doesn't exist
+                        $profile_image_src = '../img/user.png';
+                    }
+                } else {
+                    // Default placeholder for users without profile image
+                    $profile_image_src = '../img/user.png';
+                }
+                
+                // Same logic for popup image
+                $popup_image_src = '';
+                if (!empty($user_data['image'])) {
+                    $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                    if (file_exists($file_path)) {
+                        $popup_image_src = $file_path;
+                    } else {
+                        $popup_image_src = '../img/user.png';
+                    }
+                } else {
+                    $popup_image_src = '../img/user.png';
+                }
+            ?>
     
-    // Same logic for popup image
-    $popup_image_src = '';
-    if (!empty($user_data['image'])) {
-        $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
-        if (file_exists($file_path)) {
-            $popup_image_src = $file_path;
-        } else {
-            $popup_image_src = '../img/user.png';
-        }
-    } else {
-        $popup_image_src = '../img/user.png';
-    }
-    ?>
-    
-    <img src="<?php echo $profile_image_src; ?>" 
-         alt="User Avatar" class="user-avatar" id="user-avatar" 
-         onerror="this.src='../img/user.png'">
-    
-    <div class="profile-popup" id="profile-popup">
-        <div class="profile-header">
-            <img src="<?php echo $popup_image_src; ?>" 
-                 alt="User Profile" id="profile-image"
-                 onerror="this.src='../img/user.png'">
-            <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
-            <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
-        </div>
-        <div class="profile-info">
-            <div class="profile-info-item">
-                <i class="fas fa-phone"></i>
-                <span id="profile-phone"><?php echo htmlspecialchars($user_data['phone']); ?></span>
+            <img src="<?php echo $profile_image_src; ?>" 
+                alt="User Avatar" class="user-avatar" id="user-avatar" 
+                onerror="this.src='../img/user.png'">
+            
+            <div class="profile-popup" id="profile-popup">
+                <div class="profile-header">
+                    <img src="<?php echo $popup_image_src; ?>" 
+                        alt="User Profile" id="profile-image"
+                        onerror="this.src='../img/user.png'">
+                    <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
+                    <h4 id="profile-type"><?php echo htmlspecialchars($_SESSION['user_type']); ?></h4>
+                    <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-info-item">
+                        <i class="fas fa-phone"></i>
+                        <span id="profile-phone"><?php echo htmlspecialchars($user_data['phone']); ?></span>
+                    </div>
+                    <div class="profile-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="profile-location"><?php echo htmlspecialchars($user_data['address']); ?></span>
+                    </div>
+                    <div class="profile-info-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="profile-joined">Joined: <?php echo $user_data['join_date']; ?></span>
+                    </div>
+                    <div class="profile-info-item">
+                        <i class="fas fa-heart"></i>
+                        <span id="profile-donations">Donations: <?php echo $user_data['donation_count']; ?></span>
+                    </div>
+                    <div class="profile-info-item">
+                        <i class="fas fa-user-tag"></i>
+                        <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                    </div>
+                    <!-- Logout button moved to left side under other icons -->
+                    <div class="profile-info-item logout-item" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                </div>
+                <!-- Edit Profile button moved to bottom -->
+                <div class="profile-actions">
+                    <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
+                </div>
             </div>
-            <div class="profile-info-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <span id="profile-location"><?php echo htmlspecialchars($user_data['address']); ?></span>
-            </div>
-            <div class="profile-info-item">
-                <i class="fas fa-calendar"></i>
-                <span id="profile-joined">Joined: <?php echo $user_data['join_date']; ?></span>
-            </div>
-            <div class="profile-info-item">
-                <i class="fas fa-heart"></i>
-                <span id="profile-donations">Donations: <?php echo $user_data['donation_count']; ?></span>
-            </div>
-            <div class="profile-info-item">
-                <i class="fas fa-user-tag"></i>
-                <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
-            </div>
-            <!-- Logout button moved to left side under other icons -->
-            <div class="profile-info-item logout-item" id="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </div>
-        </div>
-        <!-- Edit Profile button moved to bottom -->
-        <div class="profile-actions">
-            <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
-        </div>
-    </div>
-</li>
-<?php endif; ?>
+        </li>
+        <?php endif; ?>
         </nav>
         <main>
             <!-- Main Section -->

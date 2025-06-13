@@ -36,7 +36,7 @@
       main {
         width: 100%;
         height: 100vh;
-        background-color: #eaeaea;
+        background-color:#ffffff;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -125,6 +125,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        margin-top: 15px;
       }
 
       .heading h6 {
@@ -267,6 +268,7 @@
         line-height: 1.2;
         border-radius: 4px;
         transition: all 0.3s ease;
+        margin-top: -5px;
       }
 
       .checkbox-label input[type="checkbox"] {
