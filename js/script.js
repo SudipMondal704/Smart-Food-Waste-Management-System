@@ -756,7 +756,7 @@ if (typeof module !== 'undefined' && module.exports) {
         FormHandler,
         Utils
     };
-}
+}1
 // Testimonial Section JavaScript
         document.addEventListener('DOMContentLoaded', function() {
             // Get testimonial elements
