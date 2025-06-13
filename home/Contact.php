@@ -1,3 +1,67 @@
+<?php
+session_start();
+
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "food_waste";
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$user_data = null;
+$is_logged_in = false;
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
+    $is_logged_in = true;
+    $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
+    
+    if ($user_type == 'Donor') {
+        $query = "SELECT username as name, email, phone, address, image, created_at FROM users WHERE user_id = ?";
+    } elseif ($user_type == 'NGO') {
+        $query = "SELECT ngo_name as name, email, phone, address, image, created_at FROM ngo WHERE ngo_id = ?";
+    }
+    
+    if (isset($query)) {
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $user_data = $result->fetch_assoc();
+            
+            // Count donations - you can uncomment and modify this when you have a donations table
+            /*
+            if ($user_type == 'Donor') {
+                $donation_count_query = "SELECT COUNT(*) as donation_count FROM donations WHERE user_id = ?";
+            } else {
+                $donation_count_query = "SELECT COUNT(*) as donation_count FROM received_donations WHERE ngo_id = ?";
+            }
+            $donation_stmt = $conn->prepare($donation_count_query);
+            $donation_stmt->bind_param("i", $user_id);
+            $donation_stmt->execute();
+            $donation_result = $donation_stmt->get_result();
+            $donation_data = $donation_result->fetch_assoc();
+            $user_data['donation_count'] = $donation_data['donation_count'];
+            $donation_stmt->close();
+            */
+            
+            // Set default donation count for now
+            $user_data['donation_count'] = 0;
+            
+            // Format join date
+            $join_date = new DateTime($user_data['created_at']);
+            $user_data['join_date'] = $join_date->format('M Y');
+        }
+        $stmt->close();
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,7 +176,7 @@
             margin-left: 5px;
         }
         .accordion:hover {
-            background-color: #5ff54b;
+            background-color: #34b409;
             color: #fff;
         }
 
@@ -157,6 +221,9 @@
             padding: 5px 8px;
             margin: 0;
             line-height: 1.6;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
         }
 
         .panel a {
@@ -192,11 +259,11 @@
             background-color: #516781;
         }
 
-        .chatbot-section p {
+        .chatbot-section h2 {
             font-size: 23px;
             text-align: center;
             margin-bottom: 50px;
-            color: #ececec;
+            color: #e0e0e0;
             font-size: 28px;
             font-weight: 600;
         }
@@ -324,23 +391,102 @@
                     <a href="homeSession.php" style="--i:1">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="About.html" style="--i:2">About</a>
+                    <a href="About.php" style="--i:2">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                     <div class="dropdown-content">
                         <a href="#">Service</a>
                         <a href="#">Donate</a>
-                        <a href="team.html">Our Team</a>
+                        <a href="team.php">Our Team</a>
                         <a href="#">Voices of Community</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="Contact.html" style="--i:4" class="active">Contact</a>
+                    <a href="Contact.php" style="--i:4" class="active">Contact</a>
                 </li>
-                <li class="nav-item">
-                    <a href="../newlogin.php" style="--i:5">Login</a>
+                
+                <?php if (!$is_logged_in): ?>
+                <li class="nav-item login-item">
+                    <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
                 </li>
+                <?php endif; ?>
+                
+                <!-- User Profile - Show only when logged in -->
+                <?php if ($is_logged_in && $user_data): ?>
+                <li class="nav-item user-profile active" id="user-profile">
+                    <?php 
+                     $profile_image_src = '';
+                    if (!empty($user_data['image'])) {
+                        $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                        if (file_exists($file_path)) {
+                            $profile_image_src = $file_path;
+                        } 
+                    } else {
+                        // Default placeholder for users without profile image
+                        $profile_image_src = '../img/user.png';
+                    }
+                    
+                    // Same logic for popup image
+                    $popup_image_src = '';
+                    if (!empty($user_data['image'])) {
+                        $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                        if (file_exists($file_path)) {
+                            $popup_image_src = $file_path;
+                        } else {
+                            $popup_image_src = '../img/user.png';
+                        }
+                    } else {
+                        $popup_image_src = '../img/user.png';
+                    }
+                    ?>
+                    
+                    <img src="<?php echo $profile_image_src; ?>" 
+                         alt="User Avatar" class="user-avatar" id="user-avatar" 
+                         onerror="this.src='../img/user.png'">
+                    
+                    <div class="profile-popup" id="profile-popup">
+                        <div class="profile-header">
+                            <img src="<?php echo $popup_image_src; ?>" 
+                                 alt="User Profile" id="profile-image"
+                                 onerror="this.src='../img/user.png'">
+                            <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
+                            <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-info-item">
+                                <i class="fas fa-phone"></i>
+                                <span id="profile-phone"><?php echo htmlspecialchars($user_data['phone']); ?></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="profile-location"><?php echo htmlspecialchars($user_data['address']); ?></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span id="profile-joined">Joined: <?php echo $user_data['join_date']; ?></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <i class="fas fa-heart"></i>
+                                <span id="profile-donations">Donations: <?php echo $user_data['donation_count']; ?></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <i class="fas fa-user-tag"></i>
+                                <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                            </div>
+                            
+                            <div class="profile-info-item logout-item" id="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
+                        </div>
+                    </div>
+                </li>
+                <?php endif; ?>
             </ul>
         </nav>
             <!-- Main Section -->
@@ -395,16 +541,15 @@
                         <input id="input" type="text" placeholder="Type your message here..." autocomplete="off" />
                     </div>
                 </div>
-            </div>
 
                 <div class="help">
-                    <p style="font-size: 23px; text-align: center; padding:10px;">Help & FAQs?</p>
+                    <h2 style="font-size: 23px; text-align: center; padding:10px;">Help & FAQs?</h2>
                     <button class="accordion">How to donate food ?</button>
                     <div class="panel">
-                    <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Now</a> in Home Page </p>
-                    <p style="font-size: 15px;">2. Fill the details </p>
-                    <p style="font-size: 15px;">3. Click on submit</p>
-                    <img src=" " alt="" width="100%">
+                        <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Food</a> in Home Page </p>
+                        <p style="font-size: 15px;">2. Fill the details </p>
+                        <p style="font-size: 15px;">3. Click on submit</p>
+                        <img src=" " alt="" width="100%">
                     </div>
                     <button class="accordion">How will my donation be used?</button>
                     <div class="panel">
@@ -483,6 +628,41 @@
                 <i class="fas fa-chevron-up"></i>
             </button>
   </header>
-  </body>
+  
+  <script>
+        // User Profile Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const userAvatar = document.getElementById('user-avatar');
+            const profilePopup = document.getElementById('profile-popup');
+            const logoutBtn = document.getElementById('logout-btn');
+            const userProfile = document.getElementById('user-profile');
+            
+            // Toggle profile popup
+            if (userAvatar && profilePopup) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profilePopup.classList.toggle('show');
+                });
+            }
+            
+            // Close popup when clicking outside
+            document.addEventListener('click', function(e) {
+                if (profilePopup && userProfile && !userProfile.contains(e.target)) {
+                    profilePopup.classList.remove('show');
+                }
+            });
+            
+            // Logout functionality
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to logout?')) {
+                        // Redirect to logout script
+                        window.location.href = 'logout.php';
+                    }
+                });
+            }
+        });
+    </script>
   <script src="../js/script.js"></script>
+</body>
 </html>

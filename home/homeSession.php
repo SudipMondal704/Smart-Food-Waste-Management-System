@@ -5,10 +5,14 @@ $host = "localhost";
 $user = "root";
 $pass = "";
 $dbname = "food_waste";
+
+// Database connection
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// Check if user is logged in and get user data
 $user_data = null;
 $is_logged_in = false;
 
@@ -94,21 +98,21 @@ $conn->close();
                     <a href="#" style="--i:1" class="active">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="About.html" style="--i:2">About</a>
+                    <a href="About.php" style="--i:2">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                     <div class="dropdown-content">
                         <a href="#">Service</a>
                         <a href="#">Donate</a>
-                        <a href="team.html">Our Team</a>
+                        <a href="team.php">Our Team</a>
                         <a href="#">Voices of Community</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="Contact.html" style="--i:4">Contact</a>
+                    <a href="Contact.php" style="--i:4">Contact</a>
                 </li>
-        
+                <!-- Login Link - Show only when not logged in -->
                 <?php if (!$is_logged_in): ?>
                 <li class="nav-item login-item">
                     <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
@@ -120,12 +124,17 @@ $conn->close();
 <?php if ($is_logged_in && $user_data): ?>
 <li class="nav-item user-profile active" id="user-profile">
     <?php 
-     $profile_image_src = '';
+    // Fix image path handling - since homeSession.php is in home/ folder
+    $profile_image_src = '';
     if (!empty($user_data['image'])) {
+        // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
         $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
         if (file_exists($file_path)) {
             $profile_image_src = $file_path;
-        } 
+        } else {
+            // Fallback to default user image if file doesn't exist
+            $profile_image_src = '../img/user.png';
+        }
     } else {
         // Default placeholder for users without profile image
         $profile_image_src = '../img/user.png';
@@ -178,13 +187,13 @@ $conn->close();
                 <i class="fas fa-user-tag"></i>
                 <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
             </div>
-            
+            <!-- Logout button moved to left side under other icons -->
             <div class="profile-info-item logout-item" id="logout-btn">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </div>
         </div>
-        
+        <!-- Edit Profile button moved to bottom -->
         <div class="profile-actions">
             <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
         </div>
