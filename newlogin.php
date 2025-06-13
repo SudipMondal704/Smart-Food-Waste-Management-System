@@ -134,8 +134,6 @@
         overflow-x: hidden;
       }
 
-      
-
       form.sign-up-form {
         opacity: 0;
         pointer-events: none;
@@ -370,7 +368,6 @@
         letter-spacing: 0.5px;
         margin-bottom: 1rem;
         transition: 0.3s;
-        
       }
 
       .sign-btn:hover {
@@ -744,15 +741,18 @@
                 </div>
                 
                 <!-- FIXED FILE UPLOAD SECTION -->
-                <div class="file-input-wrap">
+                <!-- <div class="file-input-wrap">
                   <div class="file-upload-container">
                     <input type="file" name="food_image[]" accept="image/*" class="file-input-hidden">
                     <div class="file-upload-display">
                       <div class="file-upload-button">Choose File</div>
                       <div class="file-upload-text">No file selected</div>
                     </div>
-                    <!-- <label class="file-upload-label">Profile Image</label> -->
                   </div>
+                </div> -->
+                <div class="input-wrap">
+                  <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
+                  <label>Password</label>
                 </div>
                 
                 <div class="checkbox-wrap">
@@ -769,9 +769,9 @@
 
           <div class="carousel">
             <div class="images-wrapper">
-              <img src="img/Home1.jpg" class="image img-1 show" alt="" />
-              <img src="img/sliding-image1.jpg" class="image img-2" alt="" />
-              <img src="img/home2.jpg" class="image img-3" alt="" />
+              <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop" class="image img-1 show" alt="" />
+              <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&h=600&fit=crop" class="image img-2" alt="" />
+              <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=800&h=600&fit=crop" class="image img-3" alt="" />
             </div>
           </div>
           
@@ -891,6 +891,44 @@
             this.closest('.radio-label').classList.add('active');
           });
         });
+
+        // Add this JavaScript code to your existing script section, inside the DOMContentLoaded event listener
+
+// File upload handling
+const fileInputs = document.querySelectorAll('.file-input-hidden');
+const fileContainers = document.querySelectorAll('.file-upload-container');
+
+fileInputs.forEach((fileInput, index) => {
+  const container = fileContainers[index];
+  const textDisplay = container.querySelector('.file-upload-text');
+  
+  fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    
+    if (file) {
+      // Display the file name
+      textDisplay.textContent = file.name;
+      // Add active class to container
+      container.classList.add('active', 'has-file');
+    } else {
+      // Reset to default text
+      textDisplay.textContent = 'No file selected';
+      // Remove active classes
+      container.classList.remove('active', 'has-file');
+    }
+  });
+  
+  // Add focus/blur effects for accessibility
+  fileInput.addEventListener('focus', () => {
+    container.classList.add('active');
+  });
+  
+  fileInput.addEventListener('blur', () => {
+    if (!fileInput.files[0]) {
+      container.classList.remove('active');
+    }
+  });
+});
 
         // Handle checkbox styling and functionality
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');

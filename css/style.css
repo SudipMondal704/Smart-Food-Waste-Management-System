@@ -1133,11 +1133,15 @@ header {
 .footer-section .section-content {
     display: flex;
     gap: 48px;
-    align-items:flex-start ;
+    align-items: flex-start;
     justify-content: space-between;
     position: relative;
     padding: 0px;
+    margin: 0 auto;
+    max-width: 1300px;
+    padding: 0 60px;
 }
+
 .footer-section .btn {
     padding: 10px 18px;
     background: #34b409;
@@ -1151,6 +1155,7 @@ header {
     align-items: center;
     gap: 10px;
 }
+
 .footer-left,
 .footer-center,
 .footer-right {
@@ -1163,6 +1168,10 @@ header {
     display: flex;
     opacity: 0;
     animation: slideRight 1s ease forwards;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
 }
 
 .footer-left .footer-title img {
@@ -1197,13 +1206,44 @@ header {
     font-style: italic;
 }
 
-.footer-right .footer-title {
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: 500;
-    color: white;
+/* Footer Center Quick Links Styling */
+.footer-center .quick-list {
+    margin-bottom: 30px;
+    list-style: none;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
 }
 
+.footer-center .quick-list .refer {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.footer-center .quick-list .refer i {
+    font-size: 12px;
+    color: #34b409;
+    width: 20px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.footer-center .quick-list .refer a {
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-center .quick-list .refer a:hover {
+    color: #34b409;
+}
+
+/* Footer Right Contact Info Styling */
 .footer-right .contact-list {
     margin-bottom: 30px;
 }
