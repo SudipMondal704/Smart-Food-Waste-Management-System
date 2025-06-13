@@ -48,17 +48,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // --------- Check Admin ---------
-    $stmt = $conn->prepare("SELECT * FROM admin WHERE admin_email = ? OR phone = ?");
+     $stmt = $conn->prepare("SELECT * FROM admin WHERE admin_email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
     $result = $stmt->get_result();
     $admin = $result->fetch_assoc();
 
     if ($admin && $password === $admin['password']) {
-        $_SESSION['admin_id']    = $admin['id'];
-        $_SESSION['admin_name']  = $admin['admin_name'];
-        $_SESSION['user_role']   = 'admin';
-
+        // Fixed: Using $admin instead of $row
+        $_SESSION['user_role']     = 'admin';
+        $_SESSION['user_id']       = $admin['id'];
+        $_SESSION['admin_name']    = $admin['admin_name'];
+        $_SESSION['admin_email']   = $admin['admin_email'];
+        $_SESSION['admin_phone']   = $admin['phone'];
         echo "<script>alert('Admin Signin Successful!'); window.location.href='admin/admin.php';</script>";
         exit();
     }

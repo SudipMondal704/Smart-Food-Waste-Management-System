@@ -1,3 +1,10 @@
+<?php
+require_once('adminSession.php');
+?>
+
+
+
+
 <div class="container">
 	    <div class="sidebar">
 		    <div class="brand">

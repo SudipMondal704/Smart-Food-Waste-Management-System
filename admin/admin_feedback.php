@@ -1,3 +1,12 @@
+<?php
+
+// Check if user is logged in as admin
+require_once('adminSession.php');
+?>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>

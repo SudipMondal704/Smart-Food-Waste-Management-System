@@ -1,4 +1,8 @@
 <?php
+
+// Check if user is logged in as admin
+require_once('adminSession.php');
+
 // create_ngo.php
 $host = "localhost";
 $user = "root";

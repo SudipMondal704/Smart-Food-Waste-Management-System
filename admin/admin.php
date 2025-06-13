@@ -1,13 +1,6 @@
 
 <?php
-
-session_start();
-
-// Check if user is logged in as admin
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    echo "<script>alert('Login as Admin!.'); window.location.href='../newlogin.php';</script>";
-    exit();
-}
+require_once('adminSession.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

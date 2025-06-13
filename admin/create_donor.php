@@ -1,4 +1,6 @@
 <?php
+require_once('adminSession.php');
+
 // create_donor.php
 $host = "localhost";
 $user = "root";
