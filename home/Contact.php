@@ -337,6 +337,7 @@ $conn->close();
             background: rgb(65, 218, 242);
             color: #333;
             border: 1px solid #e0e0e0;
+             margin-right: auto;
         }
         .message {
             max-width: 70%;
@@ -371,7 +372,7 @@ $conn->close();
             font-family: 'Poppins', sans-serif;
         }
         .chat input:focus {
-            border-color: #030303;
+            border-color: #000000;
         }
     </style>
 
@@ -525,20 +526,19 @@ $conn->close();
 
             <!-- chatbot -->
             <section class="chatbot-section">
-                <h2>ChatBot Support <i class="fa-solid fa-robot"></i></h2>
-                <div class="container">
-                    <div class="chat">
-                        <div class="chat-header">
-                            <h3>Food Donate Support Bot</h3>
-                        </div>
-                        <div class="messages" id="messages">
-                            <div class="response bot">
-                                <div ></div>
-                                </div>
-                        </div>
-                        <div class="chat-input-container">
-                            <input id="input" type="text" placeholder="Type your message here..." autocomplete="off" />
-                        </div>
+            <p>ChatBot Support <i class="fa-solid fa-robot"></i></p>
+            <div class="container">
+                <div class="chat">
+                    <div class="chat-header">
+                        <h3>Food Donate Support Bot</h3>
+                    </div>
+                    <div class="messages" id="messages">
+                        <div class="response bot">
+                            <div></div>
+                         </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input id="input" type="text" placeholder="Type your message here..." autocomplete="off" />
                     </div>
                 </div>
 

@@ -555,7 +555,7 @@ $conn->close();
                         <ul class="contact-list">
                             <li class="contact-info">
                                 <i class="fa-solid fa-location-dot"></i>
-                                <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
+                                <p>Dewandighi, Katwa Road, Purba Bardhaman , 713102</p>
                             </li>
                             <li class="contact-info">
                                 <i class="fa-solid fa-envelope"></i>
