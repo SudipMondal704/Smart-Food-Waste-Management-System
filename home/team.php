@@ -1,3 +1,51 @@
+<?php
+session_start();
+
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "food_waste";
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$user_data = null;
+$is_logged_in = false;
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
+    $is_logged_in = true;
+    $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
+    
+    if ($user_type == 'Donor') {
+        $query = "SELECT username as name, email, phone, address, image, created_at FROM users WHERE user_id = ?";
+    } elseif ($user_type == 'NGO') {
+        $query = "SELECT ngo_name as name, email, phone, address, image, created_at FROM ngo WHERE ngo_id = ?";
+    }
+    
+    if (isset($query)) {
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $user_data = $result->fetch_assoc();
+            
+            // Set default donation count for now
+            $user_data['donation_count'] = 0;
+            
+            // Format join date
+            $join_date = new DateTime($user_data['created_at']);
+            $user_data['join_date'] = $join_date->format('M Y');
+        }
+        $stmt->close();
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -242,23 +290,102 @@
                         <a href="homeSession.php" style="--i:1">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="About.html" style="--i:2">About</a>
+                        <a href="About.php" style="--i:2">About</a>
                     </li>
                     <li class="nav-item dropdown">
-                    <a href="#" style="--i:3" class="active">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
-                    <div class="dropdown-content">
-                        <a href="#">Service</a>
-                        <a href="#">Donate</a>
-                        <a href="team.html" class="active">Our Team</a>
-                        <a href="#">Voices of Community</a>
-                    </div>
-                </li>
-                    <li class="nav-item">
-                        <a href="Contact.html" style="--i:4">Contact</a>
+                        <a href="#" style="--i:3" class="active">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">Service</a>
+                            <a href="#">Donate</a>
+                            <a href="team.php" class="active">Our Team</a>
+                            <a href="#">Voices of Community</a>
+                        </div>
                     </li>
                     <li class="nav-item">
+                        <a href="Contact.php" style="--i:4">Contact</a>
+                    </li>
+                    
+                    <?php if (!$is_logged_in): ?>
+                    <li class="nav-item login-item">
                         <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <!-- User Profile - Show only when logged in -->
+                    <?php if ($is_logged_in && $user_data): ?>
+                    <li class="nav-item user-profile active" id="user-profile">
+                        <?php 
+                         $profile_image_src = '';
+                        if (!empty($user_data['image'])) {
+                            $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                            if (file_exists($file_path)) {
+                                $profile_image_src = $file_path;
+                            } 
+                        } else {
+                            // Default placeholder for users without profile image
+                            $profile_image_src = '../img/user.png';
+                        }
+                        
+                        // Same logic for popup image
+                        $popup_image_src = '';
+                        if (!empty($user_data['image'])) {
+                            $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                            if (file_exists($file_path)) {
+                                $popup_image_src = $file_path;
+                            } else {
+                                $popup_image_src = '../img/user.png';
+                            }
+                        } else {
+                            $popup_image_src = '../img/user.png';
+                        }
+                        ?>
+                        
+                        <img src="<?php echo $profile_image_src; ?>" 
+                             alt="User Avatar" class="user-avatar" id="user-avatar" 
+                             onerror="this.src='../img/user.png'">
+                        
+                        <div class="profile-popup" id="profile-popup">
+                            <div class="profile-header">
+                                <img src="<?php echo $popup_image_src; ?>" 
+                                     alt="User Profile" id="profile-image"
+                                     onerror="this.src='../img/user.png'">
+                                <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
+                                <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                            </div>
+                            <div class="profile-info">
+                                <div class="profile-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span id="profile-phone"><?php echo htmlspecialchars($user_data['phone']); ?></span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span id="profile-location"><?php echo htmlspecialchars($user_data['address']); ?></span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span id="profile-joined">Joined: <?php echo $user_data['join_date']; ?></span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <i class="fas fa-heart"></i>
+                                    <span id="profile-donations">Donations: <?php echo $user_data['donation_count']; ?></span>
+                                </div>
+                                <div class="profile-info-item">
+                                    <i class="fas fa-user-tag"></i>
+                                    <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                                </div>
+                                
+                                <div class="profile-info-item logout-item" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-actions">
+                                <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
+                            </div>
+                        </div>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
             <!-- Main Section -->
@@ -352,67 +479,102 @@
         </section>
 
         <!-- Footer Section -->
-            <footer class="footer-section">
-                <div class="section-content">
-                    <div class="footer-left">
-                        <div class="footer-title">
-                            <img src="../img/logo.png" alt="Food Donate Logo">
-                            <h2 class="logo-text">easy <b style="color: green;">Donate</b></h2>
+        <footer class="footer-section">
+            <div class="section-content">
+                <div class="footer-left">
+                    <div class="footer-title">
+                        <img src="../img/logo.png" alt="Food Donate Logo">
+                        <h2 class="logo-text">easy <b style="color: green;">Donate</b></h2>
+                    </div>
+                        <p class="text">
+                            The basic concept of this project <b style="color: green;">Food Waste Management</b>
+                            is to collect the excess / leftover food from donors such as hotels, restaurants,
+                            marriage halls, etc. and distribute to the needy people.
+                            <span>Join us in our mission to reduce food waste and help those in need.</span>
+                        </p>
+                        <div class="button">
+                            <a href="#" class="btn">Read More</a>
                         </div>
-                            <p class="text">
-                                The basic concept of this project <b style="color: green;">Food Waste Management</b>
-                                is to collect the excess / leftover food from donors such as hotels, restaurants,
-                                marriage halls, etc. and distribute to the needy people.
-                                <span>Join us in our mission to reduce food waste and help those in need.</span>
-                            </p>
-                            <div class="button">
-                                <a href="#" class="btn">Read More</a>
-                            </div>
-                        
-                    </div>
-                    <div class="footer-center">
-                    </div>
-                    <div class="footer-right">
-                        <h2 class="footer-title">Contact Us</h2>
-                        <ul class="contact-list">
-                            <li class="contact-info">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
-                            </li>
-                            <li class="contact-info">
-                                <i class="fa-solid fa-envelope"></i>
-                                <p>fooddonate@gmail.com</p>
-                            </li>
-                            <li class="contact-info">
-                                <i class="fa-solid fa-phone"></i>
-                                <p>(+91) 0000 000 000</p>
-                            </li>
-                            <li class="contact-info">
-                                <i class="fa-regular fa-clock"></i>
-                                <p>Monday - Sunday : 24 x 7 Opened</p>
-                            </li>
-                            <li class="contact-info">
-                                <i class="fa-solid fa-globe"></i>
-                                <p>www.fooddonate.com</p>
-                            </li>
-                        </ul>
-                        <ul class="social">
-                            <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
-                        </ul>
-                    </div>
+                    
                 </div>
-                <div class="copyright">
-                    <p> © Copyright 2025 Food Donate. All rights reserved.</p>
+                <div class="footer-center">
                 </div>
-            </footer>
-            <!-- Back to Top Scrollbar -->
-            <button class="scroll-to-top" id="scrollToTop">
-                <i class="fas fa-chevron-up"></i>
-            </button>
+                <div class="footer-right">
+                    <h2 class="footer-title">Contact Us</h2>
+                    <ul class="contact-list">
+                        <li class="contact-info">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
+                        </li>
+                        <li class="contact-info">
+                            <i class="fa-solid fa-envelope"></i>
+                            <p>fooddonate@gmail.com</p>
+                        </li>
+                        <li class="contact-info">
+                            <i class="fa-solid fa-phone"></i>
+                            <p>(+91) 0000 000 000</p>
+                        </li>
+                        <li class="contact-info">
+                            <i class="fa-regular fa-clock"></i>
+                            <p>Monday - Sunday : 24 x 7 Opened</p>
+                        </li>
+                        <li class="contact-info">
+                            <i class="fa-solid fa-globe"></i>
+                            <p>www.fooddonate.com</p>
+                        </li>
+                    </ul>
+                    <ul class="social">
+                        <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p> © Copyright 2025 Food Donate. All rights reserved.</p>
+            </div>
+        </footer>
+        <!-- Back to Top Scrollbar -->
+        <button class="scroll-to-top" id="scrollToTop">
+            <i class="fas fa-chevron-up"></i>
+        </button>
   </header>
+  
+  <script>
+    // User Profile Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const userAvatar = document.getElementById('user-avatar');
+        const profilePopup = document.getElementById('profile-popup');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userProfile = document.getElementById('user-profile');
+        
+        // Toggle profile popup
+        if (userAvatar && profilePopup) {
+            userAvatar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profilePopup.classList.toggle('show');
+            });
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profilePopup && userProfile && !userProfile.contains(e.target)) {
+                profilePopup.classList.remove('show');
+            }
+        });
+        
+        // Logout functionality
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Redirect to logout script
+                    window.location.href = 'logout.php';
+                }
+            });
+        }
+    });
+  </script>
   <script src="../js/script.js"></script>
 </body>
 </html>

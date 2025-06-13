@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,22 +16,19 @@
         box-sizing: border-box;
       }
 
-      /* Hide scrollbars completely */
       body {
         overflow: hidden;
+        font-family: "Poppins", sans-serif;
       }
       
-      /* Hide scrollbars for webkit browsers */
       ::-webkit-scrollbar {
         display: none;
       }
       
-      /* Hide scrollbars for Firefox */
       html {
         scrollbar-width: none;
       }
 
-      body,
       input {
         font-family: "Poppins", sans-serif;
       }
@@ -52,51 +48,10 @@
         width: 100%;
         max-width: 900px;
         height: 560px;
-        background-color: #fffdfd;
+        background: linear-gradient(to right,rgb(233, 248, 251),rgb(242, 223, 250));
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
         border: 1px solid #ddd;
         overflow: hidden;
-      }
-
-      /* Exit Icon Styles */
-      .exit-icon {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        width: 25px;
-        height: 25px;
-        background-color: #ff4444;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 1000;
-        transition: all 0.3s ease;
-        text-decoration: none;
-      }
-
-      .exit-icon:hover {
-        background-color: #ff6666;
-        transform: scale(1.1);
-      }
-
-      .exit-icon::before,
-      .exit-icon::after {
-        content: '';
-        position: absolute;
-        width: 12px;
-        height: 2px;
-        background-color: white;
-        border-radius: 1px;
-      }
-
-      .exit-icon::before {
-        transform: rotate(45deg);
-      }
-
-      .exit-icon::after {
-        transform: rotate(-45deg);
       }
 
       .inner-box {
@@ -173,7 +128,7 @@
       }
 
       .heading h6 {
-        color: #bababa;
+        color:rgb(116, 116, 116);
         font-weight: 400;
         font-size: 0.75rem;
         display: inline;
@@ -236,7 +191,6 @@
         color: #512da8;
       }
 
-      /* Account Type Styles */
       .account-type {
         margin-bottom: 10px;
       }
@@ -297,7 +251,6 @@
         background-color: rgba(81, 45, 168, 0.1);
       }
 
-      /* Checkbox Styles */
       .checkbox-wrap {
         margin-bottom: 1rem;
       }
@@ -309,7 +262,7 @@
         font-size: 0.8rem;
         color: #151111;
         cursor: pointer;
-        position:relative;
+        position: relative;
         transform: none;
         line-height: 1.2;
         border-radius: 4px;
@@ -522,7 +475,6 @@
         border-radius: 1rem;
       }
 
-      /* Gradient overlay for better text visibility */
       .carousel::after {
         content: '';
         position: absolute;
@@ -534,7 +486,6 @@
         pointer-events: none;
       }
 
-      /* Form message styles */
       .form-message {
         position: fixed;
         top: 20px;
@@ -564,110 +515,43 @@
         color: white;
       }
 
-      /* FIXED FILE UPLOAD STYLES */
-      .file-input-wrap {
-        position: relative;
-        margin-bottom: 18px;
-      }
-
-      .file-upload-container {
-        position: relative;
-        width: 100%;
-        height: 40px;
-        border: 1px solid #bbb;
-        border-radius: 4px;
-        overflow: hidden;
-        background-color: #fff;
+      .exit-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 25px;
+        height: 25px;
+        background-color: rgba(254, 43, 43, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
         transition: all 0.3s ease;
-        cursor: pointer;
+        z-index: 1000;
+        text-decoration: none;
+        color:rgb(255, 255, 255);
+        font-size: 16px;
       }
 
-      .file-upload-container:hover {
-        border-color: #512da8;
-      }
-
-      .file-upload-container.active {
-        border-color: #512da8;
-        box-shadow: 0 0 5px rgba(81, 45, 168, 0.3);
-      }
-
-      .file-input-hidden {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-        z-index: 2;
-      }
-
-      .file-upload-display {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        background-color: #fff;
-        pointer-events: none;
-      }
-
-      .file-upload-button {
-        background-color: #512da8;
+      .exit-btn:hover {
+        background-color:rgb(249, 14, 14);
         color: white;
-        padding: 0 12px;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        font-size: 0.8rem;
-        font-weight: 500;
-        border: none;
-        cursor: pointer;
-        flex-shrink: 0;
+        transform: scale(1.1);
       }
 
-      .file-upload-text {
-        padding: 0 10px;
-        color: #666;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1;
+      .exit-btn:active {
+        transform: scale(0.95);
       }
-
-      .file-upload-label {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.85rem;
-        color: #bbb;
-        pointer-events: none;
-        transition: 0.4s;
-        z-index: 1;
-      }
-
-      .file-upload-container.has-file .file-upload-label {
-        font-size: 0.75rem;
-        top: -8px;
-        color: #512da8;
-        background-color: #fff;
-        padding: 0 4px;
-        left: 6px;
-      }
-
     </style>
   </head>
   <body>
     <main>
       <div class="box">
-        <a href="home/homeSession.php" class="exit-icon" title="Exit"></a>
+        <a href="home/homeSession.php" class="exit-btn" title="Back to Home">×</a>
         <div class="inner-box">
           <div class="forms-wrap">
-            <form  action="signin.php" method="POST"  autocomplete="off" class="sign-in-form">
+            <form action="signin.php" method="POST" autocomplete="off" class="sign-in-form">
               <div class="logo">
                 <img src="img/logo.png">
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
@@ -693,7 +577,7 @@
               </div>
             </form>
             
-            <form  action="signup.php" method="POST" autocomplete="off" class="sign-up-form"enctype="multipart/form-data">
+            <form action="signup.php" method="POST" autocomplete="off" class="sign-up-form" enctype="multipart/form-data">
               <div class="logo">
                 <img src="img/logo.png">
                 <h4>easy<b style="color: #34b409;">Donate</b></h4>
@@ -704,8 +588,6 @@
                 <a href="#" class="toggle">Sign in</a>
               </div>
               <div class="actual-form">
-                
-                
                 <div class="account-type">
                   <label class="type-label"><strong>Select Account Type :</strong></label>
                   <div class="radio-group">
@@ -739,22 +621,9 @@
                   <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
                   <label>Password</label>
                 </div>
-                
-                <!-- FIXED FILE UPLOAD SECTION -->
-                <!-- <div class="file-input-wrap">
-                  <div class="file-upload-container">
-                    <input type="file" name="food_image[]" accept="image/*" class="file-input-hidden">
-                    <div class="file-upload-display">
-                      <div class="file-upload-button">Choose File</div>
-                      <div class="file-upload-text">No file selected</div>
-                    </div>
-                  </div>
-                </div> -->
                 <div class="input-wrap">
-                  <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
-                  <label>Password</label>
+                  <input type="file" name="image" accept="image/*">
                 </div>
-                
                 <div class="checkbox-wrap">
                   <label class="checkbox-label">
                     <input type="checkbox" required />
@@ -769,9 +638,9 @@
 
           <div class="carousel">
             <div class="images-wrapper">
-              <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=600&fit=crop" class="image img-1 show" alt="" />
-              <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&h=600&fit=crop" class="image img-2" alt="" />
-              <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=800&h=600&fit=crop" class="image img-3" alt="" />
+              <img src="img/Home1.jpg" class="image img-1 show" alt="" />
+              <img src="img/sliding-image2.jpg" class="image img-2" alt="" />
+              <img src="img/home2.jpg" class="image img-3" alt="" />
             </div>
           </div>
           
@@ -829,7 +698,7 @@
         images.forEach((img) => img.classList.remove("show"));
         currentImage.classList.add("show");
 
-        // Update text slider - synchronized movement
+        // Update text slider
         const textSlider = document.querySelector(".text-group");
         textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
 
@@ -842,34 +711,28 @@
         bullet.addEventListener("click", moveSlider);
       });
 
-      // Auto-slide carousel every 4 seconds
+      // Auto-slide carousel
       let currentSlide = 1;
       const totalSlides = 3;
 
       function autoSlide() {
         currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
-        
-        // Find the bullet with the current slide value and trigger the moveSlider function
         const currentBullet = document.querySelector(`[data-value="${currentSlide}"]`);
         if (currentBullet) {
-          // Manually call moveSlider with the correct context
           moveSlider.call(currentBullet);
         }
       }
 
-      // Start auto-slide
       setInterval(autoSlide, 4000);
 
       // Form validation and enhancement
       document.addEventListener('DOMContentLoaded', function() {
-        // Handle radio button styling and functionality
+        // Handle radio button functionality
         const radioButtons = document.querySelectorAll('input[type="radio"]');
         const radioLabels = document.querySelectorAll('.radio-label');
         
-        // Add click event to radio labels
         radioLabels.forEach(label => {
           label.addEventListener('click', function(e) {
-            // Prevent event bubbling
             e.stopPropagation();
             const radio = this.querySelector('input[type="radio"]');
             if (radio && !radio.checked) {
@@ -881,63 +744,21 @@
         
         radioButtons.forEach(radio => {
           radio.addEventListener('change', function() {
-            // Remove active class from all radio labels in the same group
             const groupName = this.name;
             const sameGroupRadios = document.querySelectorAll(`input[name="${groupName}"]`);
             sameGroupRadios.forEach(r => {
               r.closest('.radio-label').classList.remove('active');
             });
-            // Add active class to selected radio label
             this.closest('.radio-label').classList.add('active');
           });
         });
 
-        // Add this JavaScript code to your existing script section, inside the DOMContentLoaded event listener
-
-// File upload handling
-const fileInputs = document.querySelectorAll('.file-input-hidden');
-const fileContainers = document.querySelectorAll('.file-upload-container');
-
-fileInputs.forEach((fileInput, index) => {
-  const container = fileContainers[index];
-  const textDisplay = container.querySelector('.file-upload-text');
-  
-  fileInput.addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    
-    if (file) {
-      // Display the file name
-      textDisplay.textContent = file.name;
-      // Add active class to container
-      container.classList.add('active', 'has-file');
-    } else {
-      // Reset to default text
-      textDisplay.textContent = 'No file selected';
-      // Remove active classes
-      container.classList.remove('active', 'has-file');
-    }
-  });
-  
-  // Add focus/blur effects for accessibility
-  fileInput.addEventListener('focus', () => {
-    container.classList.add('active');
-  });
-  
-  fileInput.addEventListener('blur', () => {
-    if (!fileInput.files[0]) {
-      container.classList.remove('active');
-    }
-  });
-});
-
-        // Handle checkbox styling and functionality
+        // Handle checkbox functionality
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const checkboxLabels = document.querySelectorAll('.checkbox-label');
         
-        // Add click event to checkbox labels
         checkboxLabels.forEach(label => {
           label.addEventListener('click', function(e) {
-            // Prevent double-toggle if clicking directly on checkbox
             if (e.target.type !== 'checkbox') {
               e.stopPropagation();
               const checkbox = this.querySelector('input[type="checkbox"]');
@@ -955,127 +776,7 @@ fileInputs.forEach((fileInput, index) => {
           });
         });
 
-        // Form submission handling
-        const signupForm = document.getElementById('signup-form');
-        const signinForm = document.getElementById('signin-form');
-
-        if (signupForm) {
-          signupForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            
-            // Basic validation
-            const requiredFields = this.querySelectorAll('[required]');
-            let isValid = true;
-            let errors = [];
-            
-            requiredFields.forEach(field => {
-              if (field.type === 'radio') {
-                // Check if any radio button in the group is selected
-                const radioGroup = this.querySelectorAll(`input[name="${field.name}"]`);
-                const isRadioSelected = Array.from(radioGroup).some(radio => radio.checked);
-                if (!isRadioSelected) {
-                  isValid = false;
-                  errors.push('Please select an account type');
-                }
-              } else if (field.type === 'checkbox') {
-                if (!field.checked) {
-                  isValid = false;
-                  errors.push('Please agree to the Terms & Conditions');
-                }
-              } else if (!field.value.trim()) {
-                isValid = false;
-                field.classList.add('error');
-                errors.push(`${field.previousElementSibling.textContent} is required`);
-                // Remove error class after 3 seconds
-                setTimeout(() => field.classList.remove('error'), 3000);
-              } else {
-                field.classList.remove('error');
-              }
-            });
-
-            // Email validation
-            const emailField = this.querySelector('input[type="email"]');
-            if (emailField && emailField.value) {
-              const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-              if (!emailPattern.test(emailField.value)) {
-                isValid = false;
-                emailField.classList.add('error');
-                errors.push('Please enter a valid email address');
-                setTimeout(() => emailField.classList.remove('error'), 3000);
-              }
-            }
-
-            // Phone validation
-            const phoneField = this.querySelector('input[type="tel"]');
-            if (phoneField && phoneField.value) {
-              const phonePattern = /^[0-9]{10}$/;
-              const cleanPhone = phoneField.value.replace(/\D/g, '');
-              if (!phonePattern.test(cleanPhone)) {
-                isValid = false;
-                phoneField.classList.add('error');
-                errors.push('Please enter a valid 10-digit phone number');
-                setTimeout(() => phoneField.classList.remove('error'), 3000);
-              }
-            }
-
-            // Password length validation
-            const passwordField = this.querySelector('input[type="password"]');
-            if (passwordField && passwordField.value && passwordField.value.length < 6) {
-              isValid = false;
-              passwordField.classList.add('error');
-              errors.push('Password must be at least 6 characters long');
-              setTimeout(() => passwordField.classList.remove('error'), 3000);
-            }
-
-            if (!isValid) {
-              // Show error message with first error
-              showMessage(errors[0] || 'Please fill all required fields correctly', 'error');
-            } else {
-              // Form is valid - show success message
-              showMessage('Sign up successful! (This is a demo)', 'success');
-              
-              // Reset form after successful submission
-              setTimeout(() => {
-                this.reset();
-                // Reset radio and checkbox active states
-                document.querySelectorAll('.radio-label.active, .checkbox-label.active').forEach(label => {
-                  label.classList.remove('active');
-                });
-                // Reset input field states
-                inputs.forEach(input => {
-                  input.classList.remove('active');
-                });
-              }, 2000);
-            }
-          });
-        }
-
-        if (signinForm) {
-          signinForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
-            
-            const requiredFields = this.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-              if (!field.value.trim()) {
-                isValid = false;
-                field.classList.add('error');
-                setTimeout(() => field.classList.remove('error'), 3000);
-              } else {
-                field.classList.remove('error');
-              }
-            });
-
-            if (!isValid) {
-              showMessage('Please fill all required fields', 'error');
-            } else {
-              showMessage('Sign in successful! (This is a demo)', 'success');
-            }
-          });
-        }
-
-        // Initialize input states on page load
+        // Initialize input states
         inputs.forEach(input => {
           if (input.value.trim() !== '') {
             input.classList.add('active');
@@ -1085,21 +786,17 @@ fileInputs.forEach((fileInput, index) => {
 
       // Utility function to show messages
       function showMessage(message, type = 'info') {
-        // Remove existing messages
         const existingMessage = document.querySelector('.form-message');
         if (existingMessage) {
           existingMessage.remove();
         }
 
-        // Create new message element
         const messageDiv = document.createElement('div');
         messageDiv.className = `form-message ${type}`;
         messageDiv.textContent = message;
         
-        // Insert message at the top of the body
         document.body.appendChild(messageDiv);
 
-        // Remove message after 5 seconds
         setTimeout(() => {
           if (messageDiv.parentNode) {
             messageDiv.remove();
