@@ -1,4 +1,8 @@
 <?php
+
+// Check if user is logged in as admin
+require_once('adminSession.php');
+
 $server = "localhost";
 $user = "root";
 $pass = "";

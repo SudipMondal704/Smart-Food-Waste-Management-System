@@ -73,7 +73,7 @@ body {
     color: var(--blue);
     gap: 15px;
     padding-bottom: 20px;
-    border-bottom: 2px solid #f1ecec;
+    border-bottom: 2px solid #d70b0b;
 }
 
 .brand .fi {
@@ -416,7 +416,7 @@ body {
 }
 
 .table-data .order table tr td:first-child {
-    display: flex;
+    
     align-items: center;
     grid-gap: 12px;
 }

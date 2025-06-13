@@ -1,3 +1,8 @@
+<?php
+require_once('adminSession.php');
+?>
+
+
 <div class="content">
     <div class="head-title">
         <div class="left">

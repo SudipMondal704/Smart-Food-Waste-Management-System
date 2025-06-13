@@ -1,3 +1,10 @@
+<?php
+require_once('adminSession.php');
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

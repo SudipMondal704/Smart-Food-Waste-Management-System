@@ -1,4 +1,9 @@
 <?php
+
+// Check if user is logged in as admin
+require_once('adminSession.php');
+
+
 $conn = new mysqli("localhost", "root", "", "food_waste");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

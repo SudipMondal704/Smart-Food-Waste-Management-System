@@ -405,7 +405,7 @@ $conn->close();
                                                 <span class="review-initial">S</span>
                                             </div>
                                             <div class="review-customer-details">
-                                                <div class="review-customer-name">SARAH MARTINEZ</div>
+                                                <div class="review-customer-name">SAMYUKTA PAL</div>
                                                 <div class="review-customer-role">Community Volunteer</div>
                                             </div>
                                         </div>
@@ -417,11 +417,10 @@ $conn->close();
                                         <p class="review-testimonial-text">As a restaurant owner, this platform makes it so easy to donate our excess food instead of wasting it. The pickup service is reliable and we love contributing to feeding families in need.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Ahmed Hassan" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                                 <span class="review-initial" style="display: none;">A</span>
                                             </div>
                                             <div class="review-customer-details">
-                                                <div class="review-customer-name">AHMED HASSAN</div>
+                                                <div class="review-customer-name">ASIF KHAN</div>
                                                 <div class="review-customer-role">Restaurant Owner</div>
                                             </div>
                                         </div>
@@ -436,7 +435,7 @@ $conn->close();
                                                 <span class="review-initial">L</span>
                                             </div>
                                             <div class="review-customer-details">
-                                                <div class="review-customer-name">LISA THOMPSON</div>
+                                                <div class="review-customer-name">LIPIKA DAWN</div>
                                                 <div class="review-customer-role">NGO Coordinator</div>
                                             </div>
                                         </div>
@@ -451,11 +450,10 @@ $conn->close();
                                         <p class="review-testimonial-text">This platform connected us with so many generous donors. We've been able to distribute fresh meals to hundreds of families thanks to the efficient donation system and caring community.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <img src="https://images.unsplash.com/photo-1494790108755-2616b95bb8d5?w=100&h=100&fit=crop&crop=face" alt="Jennifer Patel" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                                <span class="review-initial" style="display: none;">J</span>
+                                                <span class="review-initial" style="display: none;">M</span>
                                             </div>
                                             <div class="review-customer-details">
-                                                <div class="review-customer-name">JENNIFER PATEL</div>
+                                                <div class="review-customer-name">MANOJ KUMAR</div>
                                                 <div class="review-customer-role">Food Bank Director</div>
                                             </div>
                                         </div>
@@ -467,11 +465,10 @@ $conn->close();
                                         <p class="review-testimonial-text">As a corporate donor, we appreciate how simple it is to coordinate large-scale food donations. The platform handles logistics perfectly and ensures nothing goes to waste.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Michael Chang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                                 <span class="review-initial" style="display: none;">M</span>
                                             </div>
                                             <div class="review-customer-details">
-                                                <div class="review-customer-name">MICHAEL CHANG</div>
+                                                <div class="review-customer-name">MUKESH DAS</div>
                                                 <div class="review-customer-role">CSR Manager</div>
                                             </div>
                                         </div>
@@ -483,11 +480,10 @@ $conn->close();
                                         <p class="review-testimonial-text">The real-time tracking and impact reports help us understand exactly how our donations are helping the community. It's inspiring to see the difference we're making together.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Rachel Williams" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                                                 <span class="review-initial" style="display: none;">R</span>
                                             </div>
                                             <div class="review-customer-details">
-                                                <div class="review-customer-name">RACHEL WILLIAMS</div>
+                                                <div class="review-customer-name">RAMU SHAW</div>
                                                 <div class="review-customer-role">Charity Organizer</div>
                                             </div>
                                         </div>
@@ -507,6 +503,8 @@ $conn->close();
                     </div>
                 </div>
             </div>
+            
+            
             <!-- Footer Section -->
             <footer class="footer-section">
                 <div class="section-content">
@@ -527,6 +525,29 @@ $conn->close();
                         
                     </div>
                     <div class="footer-center">
+                        <h2 class="footer-title">Quick Links</h2>
+                        <ul class="quick-list">
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">About Us</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Contact Us</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Service</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Our Team</a>
+                            </li>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="#">Voices of Community</a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="footer-right">
                         <h2 class="footer-title">Contact Us</h2>
@@ -564,6 +585,7 @@ $conn->close();
                     <p> © Copyright 2025 Food Donate. All rights reserved.</p>
                 </div>
             </footer>
+
             <!-- Back to Top Scrollbar -->
             <button class="scroll-to-top" id="scrollToTop">
                 <i class="fas fa-chevron-up"></i>
