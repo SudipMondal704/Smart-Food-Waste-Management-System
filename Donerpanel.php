@@ -1,4 +1,31 @@
 
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'donor') {
+echo "<script>alert('Login as Donor!.'); window.location.href='newlogin.php';</script>";
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Database connection
+$conn = new mysqli("localhost", "root", "", "food_waste");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch donor name
+$name_result = $conn->query("SELECT username FROM users WHERE user_id = $user_id");
+$donor_name = "";
+if ($name_result && $name_result->num_rows > 0) {
+    $donor_row = $name_result->fetch_assoc();
+    $donor_name = $donor_row['username'];
+}
+
+// Fetch donations
+$donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -387,6 +414,13 @@
     </style>
 </head>
 <body>
+
+
+
+
+
+
+
     <div class="container">
         <div class="header">
             <div class="nav-logo">
@@ -460,6 +494,7 @@
 
         // Sample donation history data
         let donationHistory = [
+           
             {
                 id: 1,
                 foodType: 'Fresh Vegetables',
@@ -468,6 +503,7 @@
                 status: 'delivered',
                 recipient: 'Local Shelter'
             },
+            
             {
                 id: 2,
                 foodType: 'Prepared Meals',
@@ -476,6 +512,7 @@
                 status: 'collected',
                 recipient: 'Community Kitchen'
             },
+            
             {
                 id: 3,
                 foodType: 'Canned Goods',
@@ -484,6 +521,7 @@
                 status: 'pending',
                 recipient: 'Food Bank'
             }
+
         ];
 
         // Function to render donation history

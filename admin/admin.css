@@ -406,7 +406,7 @@ body {
 .table-data .order table th {
     padding-bottom: 12px;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid var(--grey);
 }
 
