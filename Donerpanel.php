@@ -42,12 +42,24 @@ try {
     echo "Error fetching donor information: " . $e->getMessage();
 }
 
-// Fetch donations using prepared statement - fixed to match actual database structure
+// Fetch donations with status and NGO information using prepared statement
 $donations = [];
 $totalDonations = 0;
 $uniqueLocations = 0;
 try {
-    $stmt = $conn->prepare("SELECT fooddetails_id, food_name, food_type, food_category, quantity, unit, pickup_address, donor_name, phone, alt_phone, image FROM fooddetails WHERE user_id = ? ORDER BY fooddetails_id DESC");
+    $stmt = $conn->prepare("
+        SELECT f.fooddetails_id, f.food_name, f.food_type, f.food_category, f.quantity, f.unit, 
+               f.pickup_address, f.donor_name, f.phone, f.alt_phone, f.image, f.status, f.assigned_ngo_id,
+               CASE 
+                   WHEN f.assigned_ngo_id = 'NGO NOT FOUND' THEN 'NGO NOT FOUND'
+                   ELSE n.ngo_name 
+               END as ngo_name,
+               f.created_at
+        FROM fooddetails f 
+        LEFT JOIN ngo n ON f.assigned_ngo_id = n.ngo_id 
+        WHERE f.user_id = ? 
+        ORDER BY f.fooddetails_id DESC
+    ");
     if ($stmt === false) {
         throw new Exception("Prepare failed for donations query: " . $conn->error);
     }
@@ -327,31 +339,129 @@ $conn->close();
         .donation-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
+            align-items: flex-start;
+            padding: 20px;
+            margin-bottom: 15px;
             background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 12px;
             transition: all 0.3s ease;
             border-left: 4px solid #28a745;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .donation-item:hover {
             background: #e9ecef;
             transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .donation-details {
             flex: 1;
+            padding-right: 15px;
+        }
+
+        .donation-details h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .donation-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .donation-meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .donation-meta-item strong {
+            color: #495057;
+            margin-right: 5px;
+            min-width: 80px;
+        }
+
+        .donation-status-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #dee2e6;
         }
 
         .donation-image {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 8px;
             object-fit: cover;
-            margin-left: 15px;
             border: 2px solid #dee2e6;
+            flex-shrink: 0;
+        }
+
+        /* Status styling */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status-accepted {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-denied {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-completed {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* NGO styling */
+        .ngo-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .ngo-assigned {
+            background-color: #e7f3ff;
+            color: #0056b3;
+            border: 1px solid #b3d9ff;
+        }
+
+        .ngo-not-found {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .ngo-not-assigned {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
         }
 
         .category-stats {
@@ -389,7 +499,7 @@ $conn->close();
         .logout-btn {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left:20px;
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
@@ -468,8 +578,18 @@ $conn->close();
             }
 
             .donation-image {
-                margin-left: 0;
-                margin-top: 10px;
+                margin-top: 15px;
+                align-self: center;
+            }
+
+            .donation-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-status-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
         }
     </style>
@@ -477,7 +597,7 @@ $conn->close();
 <body>
     <div class="container">
         <div class="header">
-            <a href="logout.php" class="logout-btn">Logout</a>
+            <a href="home/homeSession.php" class="logout-btn"><< Back to home</a>
             <div class="nav-logo">
                 <img src="./img/logo.png" alt="easyDonate Logo">
                 <div class="logo-text">easy<b>Donate</b></div>
@@ -498,7 +618,7 @@ $conn->close();
         <div class="content">
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
-                <a href="food_donation.php" class="add-donation-btn">+ Add New Donation</a>
+                <a href="fooddetails.php" class="add-donation-btn">+ Add New Donation</a>
                 
                 <div class="dashboard-grid">
                     <div class="card stat-card">
@@ -543,24 +663,50 @@ $conn->close();
                             <?php foreach ($donations as $donation): ?>
                                 <div class="donation-item">
                                     <div class="donation-details">
-                                        <strong><?php echo htmlspecialchars($donation['food_name'] ?? 'Food Item'); ?></strong>
-                                        <br>
-                                        <small>
-                                            <strong>Type:</strong> <?php echo htmlspecialchars($donation['food_type'] ?? 'N/A'); ?> | 
-                                            <strong>Category:</strong> <?php echo htmlspecialchars($donation['food_category'] ?? 'N/A'); ?>
-                                        </small>
-                                        <br>
-                                        <small>
-                                            <strong>Quantity:</strong> <?php echo htmlspecialchars($donation['quantity'] ?? '0'); ?> <?php echo htmlspecialchars($donation['unit'] ?? ''); ?>
-                                        </small>
-                                        <br>
-                                        <small>
-                                            <strong>Pickup:</strong> <?php echo htmlspecialchars($donation['pickup_address'] ?? 'N/A'); ?>
-                                        </small>
-                                        <br>
-                                        <small>
-                                            <strong>Contact:</strong> <?php echo htmlspecialchars($donation['phone'] ?? 'N/A'); ?>
-                                        </small>
+                                        <h4><?php echo htmlspecialchars($donation['food_name'] ?? 'Food Item'); ?></h4>
+                                        
+                                        <div class="donation-meta">
+                                            <div class="donation-meta-item">
+                                                <strong>Type:</strong> <?php echo htmlspecialchars($donation['food_type'] ?? 'N/A'); ?>
+                                            </div>
+                                            <div class="donation-meta-item">
+                                                <strong>Category:</strong> <?php echo htmlspecialchars($donation['food_category'] ?? 'N/A'); ?>
+                                            </div>
+                                            <div class="donation-meta-item">
+                                                <strong>Quantity:</strong> <?php echo htmlspecialchars($donation['quantity'] ?? '0') . ' ' . htmlspecialchars($donation['unit'] ?? ''); ?>
+                                            </div>
+                                            <div class="donation-meta-item">
+                                                <strong>Contact:</strong> <?php echo htmlspecialchars($donation['phone'] ?? 'N/A'); ?>
+                                            </div>
+                                            <div class="donation-meta-item">
+                                                <strong>Date:</strong> <?php echo htmlspecialchars($donation['created_at'] ?? 'N/A'); ?>
+                                            </div>
+                                            <div class="donation-meta-item">
+                                                <strong>Pickup:</strong> <?php echo htmlspecialchars($donation['pickup_address'] ?? 'N/A'); ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="donation-status-row">
+                                            <div>
+                                                <strong>Status:</strong>
+                                                <?php 
+                                                $status = $donation['status'] ?? 'pending';
+                                                echo "<span class='status-badge status-" . strtolower($status) . "'>" . ucfirst($status) . "</span>";
+                                                ?>
+                                            </div>
+                                            <div>
+                                                <strong>NGO:</strong>
+                                                <?php 
+                                                if ($donation['assigned_ngo_id'] === 'NGO NOT FOUND') {
+                                                    echo "<span class='ngo-badge ngo-not-found'>NGO NOT FOUND</span>";
+                                                } elseif (!empty($donation['ngo_name'])) {
+                                                    echo "<span class='ngo-badge ngo-assigned'>" . htmlspecialchars($donation['ngo_name']) . "</span>";
+                                                } else {
+                                                    echo "<span class='ngo-badge ngo-not-assigned'>Not Assigned</span>";
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
                                     </div>
                                     <?php if (!empty($donation['image']) && file_exists("uploads/" . basename($donation['image']))): ?>
                                         <img src="uploads/<?php echo basename($donation['image']); ?>" alt="Food Image" class="donation-image">
