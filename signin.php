@@ -10,7 +10,7 @@ $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
+                                                                                    
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $input    = trim($_POST['login']);    // email or phone
     $password = trim($_POST['password']); // plain text password
@@ -42,8 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id']    = $ngo['ngo_id'];
         $_SESSION['user_name']  = $ngo['ngo_name'];
         $_SESSION['user_type']  = 'NGO';
+         $_SESSION['role']     = 'ngo';
 
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='NGOpanel.php';</script>";
         exit();
     }
 

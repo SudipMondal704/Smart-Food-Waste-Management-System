@@ -245,7 +245,7 @@ header {
 
 .nav-menu a {
     padding: 12px 20px;
-    color: #e0e0e0;
+    color: #f4f4f4;
     position: relative;
     font-weight: 500;
     
@@ -261,7 +261,7 @@ header {
 
 .nav-menu a:hover,
 .nav-menu a.active {
-    color: #34b409;
+    color: #43de23;
 }
 
 /* User Profile Navigation Item Fixes */
