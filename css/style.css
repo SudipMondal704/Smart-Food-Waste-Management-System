@@ -284,7 +284,6 @@ header {
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid #34b409;
     object-fit: cover;
     transition: all 0.3s ease;
     display: block; /* Ensure it displays as block element */
@@ -333,32 +332,32 @@ header {
 
 /* Profile Header */
 .profile-header {
+    display: flex;
     text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #eee;
 }
 
-.profile-header img {
-    width: 80px;
-    height: 80px;
+.profile-header .image img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-bottom: 10px;
-    border: 3px solid #34b409;
     object-fit: cover;
 }
 
-.profile-header h3 {
-    margin: 0;
+.profile-header .content h3 {
     color: #333;
-    font-size: 18px;
+    font-size: 15px;
+    padding-left: 10px;
     font-weight: 600;
 }
 
-.profile-header p {
+.profile-header .content p {
     margin: 5px 0 0 0;
     color: #666;
-    font-size: 14px;
+    padding-left: 10px;
+    font-size: 12px;
 }
 
 /* Profile Info Items */
@@ -374,15 +373,21 @@ header {
 }
 
 .profile-info-item i {
-    width: 20px;
+    width: 18px;
     color: #34b409;
     margin-right: 10px;
     text-align: center;
 }
 
 .profile-info-item span {
-    color: #333;
-    font-size: 14px;
+    color: #242424;
+    font-size: 13px;
+}
+
+.profile-info-item a {
+    color: #242424;
+    font-size: 13px;
+    margin: -.8rem -1.2rem;
 }
 
 /* Logout Button Styling */

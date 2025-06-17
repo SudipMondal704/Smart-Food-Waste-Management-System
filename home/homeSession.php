@@ -73,6 +73,9 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>easyDonate - Save Food Share joy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -160,33 +163,24 @@ $conn->close();
             
             <div class="profile-popup" id="profile-popup">
                 <div class="profile-header">
-                    <img src="<?php echo $popup_image_src; ?>" 
-                        alt="User Profile" id="profile-image"
-                        onerror="this.src='../img/user.png'">
-                    <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
-                    <h4 id="profile-type"><?php echo htmlspecialchars($_SESSION['user_type']); ?></h4>
-                    <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                    <div class="image">
+                        <img src="<?php echo $popup_image_src; ?>" 
+                            alt="User Profile" id="profile-image"
+                            onerror="this.src='../img/user.png'">
+                    </div>
+                    <div class="content">
+                        <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
+                        <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                    </div>
                 </div>
                 <div class="profile-info">
                     <div class="profile-info-item">
-                        <i class="fas fa-phone"></i>
-                        <span id="profile-phone"><?php echo htmlspecialchars($user_data['phone']); ?></span>
-                    </div>
-                    <div class="profile-info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span id="profile-location"><?php echo htmlspecialchars($user_data['address']); ?></span>
-                    </div>
-                    <div class="profile-info-item">
-                        <i class="fas fa-calendar"></i>
-                        <span id="profile-joined">Joined: <?php echo $user_data['join_date']; ?></span>
-                    </div>
-                    <div class="profile-info-item">
-                        <i class="fas fa-heart"></i>
-                        <span id="profile-donations">Donations: <?php echo $user_data['donation_count']; ?></span>
-                    </div>
-                    <div class="profile-info-item">
                         <i class="fas fa-user-tag"></i>
-                        <span id="profile-type">Type: <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                        <span id="profile-type"> A/c Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                    </div>
+                    <div class="profile-info-item">
+                        <i class='bx bxs-dashboard' ></i>
+                        <span id="profile-type"><a href="../Donerpanel.html"> My Dashboard </a></span>
                     </div>
                     <!-- Logout button moved to left side under other icons -->
                     <div class="profile-info-item logout-item" id="logout-btn">
