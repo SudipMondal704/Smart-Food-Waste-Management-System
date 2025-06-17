@@ -365,23 +365,23 @@ $conn->close();
                         <ul class="quick-list">
                             <li class="refer">
                                 <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="#">About Us</a>
+                                <a href="About.php">About Us</a>
                             </li>
                             <li class="refer">
                                 <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="#">Contact Us</a>
+                                <a href="Contact.php">Contact Us</a>
                             </li>
                             <li class="refer">
                                 <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="#">Service</a>
+                                <a href="service.php">Service</a>
                             </li>
                             <li class="refer">
                                 <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="#">Our Team</a>
+                                <a href="team.php">Our Team</a>
                             </li>
                             <li class="refer">
                                 <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="#">Voices of Community</a>
+                                <a href="voices-of-community.php">Voices of Community</a>
                             </li>
                         </ul>
                     </div>

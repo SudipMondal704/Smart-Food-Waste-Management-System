@@ -650,26 +650,26 @@ $conn->close();
                     </div>
                     <div class="footer-right">
                         <h2 class="footer-title">Contact Us</h2>
-                        <ul class="contact-list">
-                            <li class="contact-info">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
+                        <ul class="quick-list">
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="About.php">About Us</a>
                             </li>
-                            <li class="contact-info">
-                                <i class="fa-solid fa-envelope"></i>
-                                <p>fooddonate@gmail.com</p>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="Contact.php">Contact Us</a>
                             </li>
-                            <li class="contact-info">
-                                <i class="fa-solid fa-phone"></i>
-                                <p>(+91) 0000 000 000</p>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="service.php">Service</a>
                             </li>
-                            <li class="contact-info">
-                                <i class="fa-regular fa-clock"></i>
-                                <p>Monday - Sunday : 24 x 7 Opened</p>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="team.php">Our Team</a>
                             </li>
-                            <li class="contact-info">
-                                <i class="fa-solid fa-globe"></i>
-                                <p>www.fooddonate.com</p>
+                            <li class="refer">
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                                <a href="voices-of-community.php">Voices of Community</a>
                             </li>
                         </ul>
                         <ul class="social">
