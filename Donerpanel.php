@@ -1,38 +1,98 @@
-
 <?php
 session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'donor') {
-echo "<script>alert('Login as Donor!.'); window.location.href='newlogin.php';</script>";
+
+// Check if user is logged in and has donor role
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] != 'Donor') {
+    echo "<script>alert('Login as Donor!'); window.location.href='newlogin.php';</script>";
     exit;
 }
 
 $user_id = $_SESSION['user_id'];
 
-// Database connection
-$conn = new mysqli("localhost", "root", "", "food_waste");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Database connection with error handling
+try {
+    $conn = new mysqli("localhost", "root", "", "food_waste");
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
+    $conn->set_charset("utf8");
+} catch (Exception $e) {
+    die("Database connection error: " . $e->getMessage());
 }
 
-// Fetch donor name
-$name_result = $conn->query("SELECT username FROM users WHERE user_id = $user_id");
+// Fetch donor name using prepared statement
 $donor_name = "";
-if ($name_result && $name_result->num_rows > 0) {
-    $donor_row = $name_result->fetch_assoc();
-    $donor_name = $donor_row['username'];
+try {
+    $stmt = $conn->prepare("SELECT username FROM users WHERE user_id = ?");
+    if ($stmt === false) {
+        throw new Exception("Prepare failed for donor query: " . $conn->error);
+    }
+    
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result && $result->num_rows > 0) {
+        $donor_row = $result->fetch_assoc();
+        $donor_name = htmlspecialchars($donor_row['username']);
+    }
+    $stmt->close();
+} catch (Exception $e) {
+    error_log("Error fetching donor name: " . $e->getMessage());
+    echo "Error fetching donor information: " . $e->getMessage();
 }
 
-// Fetch donations
-$donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
-?>
+// Fetch donations using prepared statement - fixed to match actual database structure
+$donations = [];
+$totalDonations = 0;
+$uniqueLocations = 0;
+try {
+    $stmt = $conn->prepare("SELECT fooddetails_id, food_name, food_type, food_category, quantity, unit, pickup_address, donor_name, phone, alt_phone, image FROM fooddetails WHERE user_id = ? ORDER BY fooddetails_id DESC");
+    if ($stmt === false) {
+        throw new Exception("Prepare failed for donations query: " . $conn->error);
+    }
+    
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result) {
+        $locations = [];
+        while ($row = $result->fetch_assoc()) {
+            $donations[] = $row;
+            // Track unique pickup locations
+            if (!empty($row['pickup_address'])) {
+                $locations[$row['pickup_address']] = true;
+            }
+        }
+        $totalDonations = count($donations);
+        $uniqueLocations = count($locations);
+    }
+    $stmt->close();
+} catch (Exception $e) {
+    error_log("Error fetching donations: " . $e->getMessage());
+    echo "Error fetching donation data: " . $e->getMessage();
+}
 
+// Calculate statistics for different food categories
+$categoryStats = [];
+foreach ($donations as $donation) {
+    $category = $donation['food_category'] ?? 'Unknown';
+    if (!isset($categoryStats[$category])) {
+        $categoryStats[$category] = 0;
+    }
+    $categoryStats[$category]++;
+}
+
+$conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodShare- User Dashboard</title>
+    <title>FoodShare - Donor Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -82,7 +142,6 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             100% { transform: translate(-50px, -50px) rotate(360deg); }
         }
 
-        /* Fixed Navigation Logo Styles */
         .nav-logo {
             display: flex;
             align-items: center;
@@ -110,8 +169,6 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             width: 50px;
             height: 50px;
             object-fit: contain;
-            
-           
         }
 
         .logo-text {
@@ -138,6 +195,14 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             opacity: 0.9;
             position: relative;
             z-index: 1;
+        }
+
+        .welcome-message {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            opacity: 0.8;
         }
 
         .nav-tabs {
@@ -238,137 +303,6 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .donation-form {
-            background: linear-gradient(135deg, #a8edea, #fed6e3);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #ff6b6b;
-            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff6b6b, #ffa726);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
-        }
-
-        .donation-history {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .donation-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .donation-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-
-        .donation-status {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        .status-delivered {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-collected {
-            background: #cce7ff;
-            color: #004085;
-        }
-
-        .profile-section {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-            align-items: start;
-        }
-
-        .profile-avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4em;
-            color: white;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .achievement-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #333;
-            border-radius: 20px;
-            margin: 5px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-
         .progress-bar {
             width: 100%;
             height: 20px;
@@ -385,12 +319,123 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             transition: width 1s ease;
         }
 
+        .donation-history {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .donation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #28a745;
+        }
+
+        .donation-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .donation-details {
+            flex: 1;
+        }
+
+        .donation-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-left: 15px;
+            border: 2px solid #dee2e6;
+        }
+
+        .category-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .category-item {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #2d3436;
+            font-weight: 600;
+        }
+
+        .category-count {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 40px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+        }
+
+        .add-donation-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .add-donation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 768px) {
             .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .profile-section {
                 grid-template-columns: 1fr;
             }
             
@@ -410,56 +455,75 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
                 width: 40px;
                 height: 40px;
             }
+
+            .logout-btn {
+                position: static;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+
+            .donation-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .donation-image {
+                margin-left: 0;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
-
-
-
-
-
-
-
     <div class="container">
         <div class="header">
+            <a href="logout.php" class="logout-btn">Logout</a>
             <div class="nav-logo">
                 <img src="./img/logo.png" alt="easyDonate Logo">
                 <div class="logo-text">easy<b>Donate</b></div>
             </div>
+            <?php if ($donor_name): ?>
+                <div class="welcome-message">Welcome back, <?php echo $donor_name; ?>!</div>
+            <?php endif; ?>
             <h1>Donor Dashboard</h1>
             <p>Making a difference, one meal at a time</p>
-            
         </div>
 
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
-            <button class="nav-tab" onclick="showTab('history')">History</button>
+            <button class="nav-tab" onclick="showTab('history')">My Donations</button>
+            <button class="nav-tab" onclick="showTab('stats')">Statistics</button>
         </div>
 
         <div class="content">
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
+                <a href="food_donation.php" class="add-donation-btn">+ Add New Donation</a>
+                
                 <div class="dashboard-grid">
                     <div class="card stat-card">
                         <h3>Total Donations</h3>
-                        <div class="stat-number" id="totalDonations">47</div>
-                        <p>Meals shared this month</p>
+                        <div class="stat-number" id="totalDonations"><?php echo $totalDonations; ?></div>
+                        <p>Food items shared</p>
                     </div>
                     
                     <div class="card stat-card">
-                        <h3>NGO Helped</h3>
-                        <div class="stat-number" id="peopleHelped">12</div>
-                        <p>Lives touched through kindness</p>
+                        <h3>Pickup Locations</h3>
+                        <div class="stat-number" id="uniqueLocations"><?php echo $uniqueLocations; ?></div>
+                        <p>Areas served</p>
                     </div>
                     
                     <div class="card">
-                        <h3>📊 Impact Overview</h3>
+                        <h3>📊 Monthly Progress</h3>
                         <p><strong>This Month:</strong></p>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%"></div>
+                            <?php 
+                            $monthlyGoal = 20;
+                            $progressPercent = $totalDonations > 0 ? min(($totalDonations / $monthlyGoal) * 100, 100) : 0;
+                            ?>
+                            <div class="progress-fill" style="width: <?php echo $progressPercent; ?>%"></div>
                         </div>
-                        <p>75% towards monthly goal (60 meals)</p>
+                        <p><?php echo round($progressPercent); ?>% towards monthly goal (<?php echo $monthlyGoal; ?> items)</p>
                     </div>
                 </div>
             </div>
@@ -467,9 +531,80 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             <!-- History Tab -->
             <div id="history" class="tab-content">
                 <div class="card">
-                    <h3>📋 Donation History</h3>
+                    <h3>📋 My Donation History</h3>
                     <div class="donation-history" id="donationHistory">
-                        <!-- History items will be populated by JavaScript -->
+                        <?php if (empty($donations)): ?>
+                            <div class="no-data">
+                                <h4>No donations yet</h4>
+                                <p>Start making a difference today by donating food!</p>
+                                <a href="food_donation.php" class="add-donation-btn">Make Your First Donation</a>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($donations as $donation): ?>
+                                <div class="donation-item">
+                                    <div class="donation-details">
+                                        <strong><?php echo htmlspecialchars($donation['food_name'] ?? 'Food Item'); ?></strong>
+                                        <br>
+                                        <small>
+                                            <strong>Type:</strong> <?php echo htmlspecialchars($donation['food_type'] ?? 'N/A'); ?> | 
+                                            <strong>Category:</strong> <?php echo htmlspecialchars($donation['food_category'] ?? 'N/A'); ?>
+                                        </small>
+                                        <br>
+                                        <small>
+                                            <strong>Quantity:</strong> <?php echo htmlspecialchars($donation['quantity'] ?? '0'); ?> <?php echo htmlspecialchars($donation['unit'] ?? ''); ?>
+                                        </small>
+                                        <br>
+                                        <small>
+                                            <strong>Pickup:</strong> <?php echo htmlspecialchars($donation['pickup_address'] ?? 'N/A'); ?>
+                                        </small>
+                                        <br>
+                                        <small>
+                                            <strong>Contact:</strong> <?php echo htmlspecialchars($donation['phone'] ?? 'N/A'); ?>
+                                        </small>
+                                    </div>
+                                    <?php if (!empty($donation['image']) && file_exists("uploads/" . basename($donation['image']))): ?>
+                                        <img src="uploads/<?php echo basename($donation['image']); ?>" alt="Food Image" class="donation-image">
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Tab -->
+            <div id="stats" class="tab-content">
+                <div class="card">
+                    <h3>📈 Food Category Breakdown</h3>
+                    <?php if (!empty($categoryStats)): ?>
+                        <div class="category-stats">
+                            <?php foreach ($categoryStats as $category => $count): ?>
+                                <div class="category-item">
+                                    <div class="category-count"><?php echo $count; ?></div>
+                                    <div><?php echo htmlspecialchars($category); ?></div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <div class="no-data">No donation statistics available yet.</div>
+                    <?php endif; ?>
+                </div>
+                
+                <div class="card" style="margin-top: 25px;">
+                    <h3>💡 Quick Stats</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="text-align: center; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+                            <strong style="font-size: 1.5em; color: #1976d2;"><?php echo $totalDonations; ?></strong>
+                            <p style="margin: 5px 0; color: #1976d2;">Total Items</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #e8f5e8; border-radius: 8px;">
+                            <strong style="font-size: 1.5em; color: #388e3c;"><?php echo count($categoryStats); ?></strong>
+                            <p style="margin: 5px 0; color: #388e3c;">Categories</p>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #fff3e0; border-radius: 8px;">
+                            <strong style="font-size: 1.5em; color: #f57c00;"><?php echo $uniqueLocations; ?></strong>
+                            <p style="margin: 5px 0; color: #f57c00;">Locations</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -492,124 +627,24 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             event.target.classList.add('active');
         }
 
-        // Sample donation history data
-        let donationHistory = [
-           
-            {
-                id: 1,
-                foodType: 'Fresh Vegetables',
-                quantity: 15,
-                date: '2025-06-05',
-                status: 'delivered',
-                recipient: 'Local Shelter'
-            },
-            
-            {
-                id: 2,
-                foodType: 'Prepared Meals',
-                quantity: 8,
-                date: '2025-06-03',
-                status: 'collected',
-                recipient: 'Community Kitchen'
-            },
-            
-            {
-                id: 3,
-                foodType: 'Canned Goods',
-                quantity: 12,
-                date: '2025-06-01',
-                status: 'pending',
-                recipient: 'Food Bank'
-            }
-
-        ];
-
-        // Function to render donation history
-        function renderDonationHistory() {
-            const historyContainer = document.getElementById('donationHistory');
-            historyContainer.innerHTML = '';
-            
-            donationHistory.forEach(donation => {
-                const statusClass = `status-${donation.status}`;
-                const statusText = donation.status.charAt(0).toUpperCase() + donation.status.slice(1);
-                
-                const donationItem = document.createElement('div');
-                donationItem.className = 'donation-item';
-                donationItem.innerHTML = `
-                    <div>
-                        <strong>${donation.foodType}</strong>
-                        <br>
-                        <small>${donation.quantity} servings • ${donation.date}</small>
-                        <br>
-                        <small>To: ${donation.recipient}</small>
-                    </div>
-                    <span class="donation-status ${statusClass}">${statusText}</span>
-                `;
-                
-                historyContainer.appendChild(donationItem);
-            });
-        }
-
-        // Function to add new donation to history
-        function addDonationToHistory(formData) {
-            const newDonation = {
-                id: donationHistory.length + 1,
-                foodType: formData.foodType.charAt(0).toUpperCase() + formData.foodType.slice(1),
-                quantity: parseInt(formData.quantity),
-                date: new Date().toISOString().split('T')[0],
-                status: 'pending',
-                recipient: 'Awaiting Assignment'
-            };
-            
-            donationHistory.unshift(newDonation);
-            renderDonationHistory();
-        }
-
-        // Function to update statistics
-        function updateStats() {
-            const totalDonationsEl = document.getElementById('totalDonations');
-            const peopleHelpedEl = document.getElementById('peopleHelped');
-            
-            let currentTotal = parseInt(totalDonationsEl.textContent);
-            let currentPeople = parseInt(peopleHelpedEl.textContent);
-            
-            // Animate the counters
-            const newTotal = currentTotal + 1;
-            const newPeople = currentPeople + Math.floor(Math.random() * 5) + 1;
-            
-            animateCounter(totalDonationsEl, currentTotal, newTotal);
-            animateCounter(peopleHelpedEl, currentPeople, newPeople);
-        }
-
-        // Counter animation function
-        function animateCounter(element, start, end) {
-            const duration = 1000;
-            const range = end - start;
-            const increment = range / (duration / 16);
-            let current = start;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= end) {
-                    current = end;
-                    clearInterval(timer);
-                }
-                element.textContent = Math.floor(current);
-            }, 16);
-        }
-
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            renderDonationHistory();
-            
             // Add smooth scrolling and animations
             const cards = document.querySelectorAll('.card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
             });
+
+            // Animate progress bar
+            setTimeout(() => {
+                const progressBar = document.querySelector('.progress-fill');
+                if (progressBar) {
+                    progressBar.style.width = progressBar.style.width;
+                }
+            }, 500);
         });
 
-        // Add some interactive hover effects
+        // Add interactive hover effects
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px) scale(1.02)';
@@ -617,6 +652,16 @@ $donations = $conn->query("SELECT * FROM fooddetails WHERE user_id = $user_id");
             
             card.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add click animation to donation items
+        document.querySelectorAll('.donation-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateX(5px)';
+                }, 100);
             });
         });
     </script>

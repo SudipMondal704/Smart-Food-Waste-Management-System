@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_name']  = $user['username'];
         $_SESSION['user_type']  = 'Donor';
 
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='Donerpanel';</script>";
         exit();
     }
 
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_type']  = 'NGO';
          $_SESSION['role']     = 'ngo';
 
-        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='NGOpanel.php';</script>";
+        echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
         exit();
     }
 
