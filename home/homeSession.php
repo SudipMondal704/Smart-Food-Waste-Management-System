@@ -179,9 +179,15 @@ $conn->close();
                         <span id="profile-type"> A/c Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
                     </div>
                     <div class="profile-info-item">
-                        <i class='bx bxs-dashboard' ></i>
-                        <span id="profile-type"><a href="#"> My Dashboard </a></span>
+                        <?php if($user_type == 'Donor'): ?>
+                            <i class='bx bxs-dashboard' ></i>
+                            <span id="profile-type"><a href="../Donerpanel.html"> My Dashboard </a></span>
+                        <?php elseif ($user_type == 'NGO'): ?>
+                            <i class='bx bxs-dashboard' ></i>
+                            <span id="profile-type"><a href="../NGOpanel.php"> My Dashboard </a></span>
+                        <?php else: ?>
                         
+                        <?php endif; ?>
                     </div>
                     <!-- Logout button moved to left side under other icons -->
                     <div class="profile-info-item logout-item" id="logout-btn">
