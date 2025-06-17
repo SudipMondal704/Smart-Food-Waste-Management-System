@@ -98,7 +98,7 @@ $conn->close();
             </a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="#" style="--i:1" class="active">Home</a>
+                    <a href="homeSession.php" style="--i:1" class="active">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="About.php" style="--i:2">About</a>
@@ -176,7 +176,7 @@ $conn->close();
                 <div class="profile-info">
                     <div class="profile-info-item">
                         <i class="fas fa-user-tag"></i>
-                        <span id="profile-type"> A/c Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                        <span id="profile-type"> Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
                     </div>
                     <div class="profile-info-item">
                         <?php if($user_type == 'Donor'): ?>

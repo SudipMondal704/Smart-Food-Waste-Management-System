@@ -499,7 +499,7 @@ $conn->close();
         .logout-btn {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left:20px;
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
@@ -597,7 +597,7 @@ $conn->close();
 <body>
     <div class="container">
         <div class="header">
-            <a href="logout.php" class="logout-btn">Logout</a>
+            <a href="home/homeSession.php" class="logout-btn"><< Back to home</a>
             <div class="nav-logo">
                 <img src="./img/logo.png" alt="easyDonate Logo">
                 <div class="logo-text">easy<b>Donate</b></div>
@@ -618,7 +618,7 @@ $conn->close();
         <div class="content">
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
-                <a href="food_donation.php" class="add-donation-btn">+ Add New Donation</a>
+                <a href="fooddetails.php" class="add-donation-btn">+ Add New Donation</a>
                 
                 <div class="dashboard-grid">
                     <div class="card stat-card">
