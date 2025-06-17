@@ -134,6 +134,9 @@ $stmt3->close();
     <title>NGO Dashboard - Food Waste Management</title>
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <style>
         * {
             margin: 0;
@@ -142,7 +145,7 @@ $stmt3->close();
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: "Montserrat", sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -193,7 +196,6 @@ $stmt3->close();
         }
 
         .user-info {
-            display: flex;
             align-items: center;
             gap: 20px;
         }
@@ -511,10 +513,11 @@ $stmt3->close();
 </head>
 <body>
     <div class="top-bar">
+        <div class="return" style="text-align: left; background-color: white; color: #252525; border-radius: 5px; padding: 10px 15px;">
+            <a href="home/homeSession.php" style="text-decoration: none;"><i class="fi fi-ss-angle-double-small-left"></i> Back to home</a>
+        </div>
         <div class="user-info">
-            <span><i class="fas fa-user"></i> Welcome, <strong><?= htmlspecialchars($ngo_name) ?></strong></span>
-            <span>|</span>
-            <span><i class="fas fa-tachometer-alt"></i> NGO Dashboard</span>
+            <p style="font-size: 18px;">Welcome, <strong><?= htmlspecialchars($ngo_name) ?></strong></p>
         </div>
     </div>
     

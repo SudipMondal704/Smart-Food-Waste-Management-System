@@ -13,10 +13,15 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Details Form</title>
     <link rel="stylesheet" href="fooddetails.css">
+    <!-- boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
 <body>
   <div class="container">
-        
+        <div class="return" style="text-align: left; background-color: white; color: #252525; border-radius: 5px; padding: 10px 15px;">
+            <a href="home/homeSession.php" style="text-decoration: none; background-color:#c1c0c0; color: #252525; border-radius: 5px; padding: 10px 15px;"><i class="fi fi-ss-angle-double-small-left"></i> Back to home</a>
+        </div>
         <div class="nav-logo">
                  <a href="#" class="nav-logo">
                 <img src="./img/logo.png" alt="Food Donate Logo">

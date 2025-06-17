@@ -180,7 +180,8 @@ $conn->close();
                     </div>
                     <div class="profile-info-item">
                         <i class='bx bxs-dashboard' ></i>
-                        <span id="profile-type"><a href="../Donerpanel.html"> My Dashboard </a></span>
+                        <span id="profile-type"><a href="#"> My Dashboard </a></span>
+                        
                     </div>
                     <!-- Logout button moved to left side under other icons -->
                     <div class="profile-info-item logout-item" id="logout-btn">
