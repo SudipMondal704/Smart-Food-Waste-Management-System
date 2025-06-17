@@ -102,10 +102,13 @@ body {
     border-radius: 6px;
 }
 
-.menu ul li > a:hover,
-.menu ul li.active > a {
+.menu ul li > a:hover{
     color: var(--blue);
     background-color: #efefef;
+}
+
+.menu ul li.active > a {
+    color: var(--blue);
 }
 
 .menu ul li .fi,

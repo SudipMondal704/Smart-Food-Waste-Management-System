@@ -22,6 +22,7 @@ $user_id = $_SESSION['user_id'];
 $user_type = $_SESSION['user_type'];
 $message = '';
 $error = '';
+$redirect_success = false;
 
 // Get current user data
 if ($user_type == 'Donor') {
@@ -97,6 +98,7 @@ if ($_POST) {
             
             if ($update_stmt->execute()) {
                 $message = "Profile updated successfully!";
+                $redirect_success = true;
                 // Refresh current data
                 $current_data['name'] = $name;
                 $current_data['email'] = $email;
@@ -121,6 +123,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile - Food Donate</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <style>
         * {
             margin: 0;
@@ -129,53 +133,137 @@ $conn->close();
         }
         
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: "Montserrat", sans-serif;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            color: #ffffff;
+            
         }
         
         .update-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: #2d3748;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             padding: 30px;
             width: 100%;
-            max-width: 400px;
+            max-width: 550px;
             position: relative;
+            border: 1px solid #4a5568;
         }
         
         .form-header {
-            text-align: center;
-            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
         
-        .form-header h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 8px;
+        .header-left {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 12px;
+        }
+
+        .header-left-con {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        .form-header p {
-            color: #666;
+        .header-icon {
+            color: #cbd5e0;
+            font-size: 18px;
+        }
+        
+        .header-left h2 {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .header-content p {
+
+            color: #a0aec0;
+            font-size: 13px;
+            font-weight: 400;
+        }
+        
+        .save-btn-header {
+            background: #4299e1;
+            color: white;
+            border: none;
+            margin-top: -1.1rem ;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .save-btn-header:hover {
+            background: #3182ce;
         }
         
         .profile-image-section {
-            text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .profile-image-label {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .profile-image-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
         
         .current-image {
-            width: 70px;
-            height: 70px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            border: 3px solid #34b409;
             object-fit: cover;
-            margin-bottom: 10px;
+            border: 2px solid #4a5568;
+        }
+        
+        .image-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .image-btn {
+            background: #4a5568;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #718096;
+        }
+        
+        .image-btn:hover {
+            background: #718096;
+        }
+        
+        .image-upload-info {
+            color: #a0aec0;
+            font-size: 12px;
+            margin-top: 8px;
         }
         
         .form-group {
@@ -184,29 +272,29 @@ $conn->close();
         
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            color: #333;
+            margin-bottom: 5px;
+            color: #ffffff;
             font-weight: 500;
-            font-size: 13px;
+            font-size: 14px;
         }
         
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 6px;
+            padding: 12px 16px;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
             font-size: 13px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
+            transition: all 0.2s ease;
+            background: #1a202c;
+            color: #ffffff;
         }
         
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #34b409;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(52, 180, 9, 0.1);
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
         }
         
         .form-group textarea {
@@ -214,11 +302,17 @@ $conn->close();
             min-height: 70px;
         }
         
+        .input-description {
+            color: #a0aec0;
+            font-size: 12px;
+            margin-top: 4px;
+            padding-left: 5px;
+        }
+        
         .file-input-wrapper {
             position: relative;
             overflow: hidden;
             display: inline-block;
-            width: 100%;
         }
         
         .file-input {
@@ -226,127 +320,91 @@ $conn->close();
             left: -9999px;
         }
         
-        .file-input-label {
-            display: block;
-            padding: 10px 12px;
-            border: 2px dashed #34b409;
-            border-radius: 6px;
-            background: #f0fdf4;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #34b409;
-            font-size: 13px;
-        }
-        
-        .file-input-label:hover {
-            background: #dcfce7;
-            border-color: #16a34a;
-        }
-        
-        .file-input-label i {
-            margin-right: 8px;
-        }
-        
         .message {
-            padding: 12px;
+            padding: 12px 16px;
             border-radius: 8px;
             margin-bottom: 20px;
             font-size: 14px;
-            text-align: center;
         }
         
         .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: rgba(72, 187, 120, 0.1);
+            color: #68d391;
+            border: 1px solid rgba(72, 187, 120, 0.2);
         }
         
         .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: rgba(245, 101, 101, 0.1);
+            color: #fc8181;
+            border: 1px solid rgba(245, 101, 101, 0.2);
         }
         
         .btn-group {
             display: flex;
             gap: 12px;
-            margin-top: 20px;
         }
         
         .btn {
             flex: 1;
-            padding: 10px 16px;
+            padding: 12px 20px;
             border: none;
             border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-decoration: none;
             text-align: center;
             display: inline-block;
         }
         
         .btn-primary {
-            background: #34b409;
+            background: #4299e1;
             color: white;
         }
         
         .btn-primary:hover {
-            background: #2a9206;
-            transform: translateY(-1px);
+            background: #3182ce;
         }
         
         .btn-secondary {
-            background: #6c757d;
+            background: #4a5568;
             color: white;
+            border: 1px solid #718096;
         }
         
         .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-1px);
+            background: #718096;
         }
         
-        .back-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #666;
-            text-decoration: none;
-            font-size: 24px;
-            transition: color 0.3s ease;
+        /* .password-section {
+            border-top: 1px solid #4a5568;
+            padding-top: 30px;
+            margin-top: 30px;
         }
         
-        .back-link:hover {
-            color: #34b409;
-        }
-        
-        @media (max-width: 480px) {
-            .update-container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-            
-            .form-header h2 {
-                font-size: 24px;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-        }
+        .password-note {
+            color: #a0aec0;
+            font-size: 12px;
+            margin-top: 6px;
+        } */
     </style>
 </head>
 <body>
-    <div class="update-container">
-        <a href="homeSession.php" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        
+    <div class="update-container">        
         <div class="form-header">
-            <h2>Update Profile</h2>
-            <p>Update your information below</p>
+            <div class="header-left">
+                <div class="header-left-con">
+                    <i class="fa-regular fa-user header-icon"></i>
+                    <h2>Profile information</h2>
+                </div>
+                <div class="header-content">
+                    <p>View and update your profile information</p>
+                </div>
+            </div>
+            <button type="submit" form="profile-form" class="save-btn-header">
+                Save changes
+            </button>
         </div>
         
         <?php if (!empty($message)): ?>
@@ -361,59 +419,79 @@ $conn->close();
             </div>
         <?php endif; ?>
         
-        <form method="POST" enctype="multipart/form-data">
+        <form id="profile-form" method="POST" enctype="multipart/form-data">
             <div class="profile-image-section">
-                <?php 
-                $image_src = '';
-                if (!empty($current_data['image'])) {
-                    $file_path = 'uploaded_img/' . htmlspecialchars($current_data['image']);
-                    if (file_exists($file_path)) {
-                        $image_src = $file_path;
+                <label class="profile-image-label">Profile picture</label>
+                <div class="profile-image-container">
+                    <?php 
+                    $image_src = '';
+                    if (!empty($current_data['image'])) {
+                        $file_path = 'uploaded_img/' . htmlspecialchars($current_data['image']);
+                        if (file_exists($file_path)) {
+                            $image_src = $file_path;
+                        } else {
+                            $image_src = '../img/user.png';
+                        }
                     } else {
-                        $image_src = '../img/user.png' . strtoupper(substr($current_data['name'], 0, 2));
+                        $image_src = '../img/user.png';
                     }
-                } else {
-                    $image_src = '../img/user/png' . strtoupper(substr($current_data['name'], 0, 2));
-                }
-                ?>
-                <img src="<?php echo $image_src; ?>" alt="Current Profile" class="current-image" 
-                     onerror="this.src='https://via.placeholder.com/80x80/34b409/ffffff?text=<?php echo strtoupper(substr($current_data['name'], 0, 2)); ?>'">
+                    ?>
+                    <img src="<?php echo $image_src; ?>" alt="Current Profile" class="current-image" 
+                         id="profile-preview"
+                         onerror="this.src='https://via.placeholder.com/64x64/4a5568/ffffff?text=<?php echo strtoupper(substr($current_data['name'], 0, 2)); ?>'">
+                    
+                    <div class="image-actions">
+                        <div class="file-input-wrapper">
+                            <input type="file" id="profile_image" name="profile_image" class="file-input" accept="image/*">
+                            <button type="button" class="image-btn" onclick="document.getElementById('profile_image').click()">
+                                Upload
+                            </button>
+                        </div>
+                        <button type="button" class="image-btn" onclick="removeImage()">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="image-upload-info">JPG, GIF or PNG. 1MB Max.</div>
             </div>
             
             <div class="form-group">
-                <label for="name"><?php echo $user_type == 'NGO' ? 'NGO Name' : 'Full Name'; ?> *</label>
+                <label for="name">Name</label>
                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($current_data['name']); ?>" required>
+                <div class="input-description">Will appear on receipts, invoices, and other communication</div>
             </div>
             
             <div class="form-group">
-                <label for="email">Email Address *</label>
+                <label for="email">Email address</label>
                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($current_data['email']); ?>" required>
+                <div class="input-description">Used to sign in, for email receipts and product updates</div>
             </div>
             
             <div class="form-group">
-                <label for="phone">Phone Number *</label>
+                <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($current_data['phone']); ?>" required>
             </div>
             
             <div class="form-group">
-                <label for="address">Address *</label>
+                <label for="address">Address</label>
                 <textarea id="address" name="address" required><?php echo htmlspecialchars($current_data['address']); ?></textarea>
             </div>
             
-            <div class="form-group">
-                <label for="profile_image">Profile Image (Optional)</label>
-                <div class="file-input-wrapper">
-                    <input type="file" id="profile_image" name="profile_image" class="file-input" accept="image/*">
-                    <label for="profile_image" class="file-input-label">
-                        <i class="fas fa-camera"></i>Choose New Image
-                    </label>
+            <!-- <div class="password-section">
+                <div class="form-group">
+                    <label for="current_password">Current password</label>
+                    <input type="password" id="current_password" name="current_password" placeholder="Current password">
+                    <div class="password-note">Confirm your current password before setting a new one.</div>
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <label for="new_password">New password</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="New password">
+                    <div class="password-note">Must contain 1 uppercase letter, 1 number, min. 8 characters.</div>
+                </div>
+            </div> -->
             
             <div class="btn-group">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Update Profile
-                </button>
                 <a href="homeSession.php" class="btn btn-secondary">
                     <i class="fas fa-times"></i> Cancel
                 </a>
@@ -425,20 +503,42 @@ $conn->close();
         // File input preview functionality
         document.getElementById('profile_image').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const label = document.querySelector('.file-input-label');
+            const preview = document.getElementById('profile-preview');
             
             if (file) {
-                label.innerHTML = '<i class="fas fa-check"></i> ' + file.name;
-                label.style.color = '#16a34a';
-                label.style.borderColor = '#16a34a';
-            } else {
-                label.innerHTML = '<i class="fas fa-camera"></i> Choose New Image';
-                label.style.color = '#34b409';
-                label.style.borderColor = '#34b409';
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
             }
         });
         
-        // Auto-hide success message after 3 seconds
+        function removeImage() {
+            const preview = document.getElementById('profile-preview');
+            const fileInput = document.getElementById('profile_image');
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Set to placeholder
+            preview.src = 'https://via.placeholder.com/64x64/4a5568/ffffff?text=<?php echo strtoupper(substr($current_data['name'], 0, 2)); ?>';
+        }
+        
+        // Auto-hide success message and redirect after 2 seconds
+        <?php if ($redirect_success): ?>
+        const success_Message = document.querySelector('.message.success');
+        if (success_Message) {
+            setTimeout(() => {
+                success_Message.style.opacity = '0';
+                setTimeout(() => {
+                    // Redirect to homeSession.php after showing success message
+                    window.location.href = 'homeSession.php';
+                }, 300);
+            }, 2000); // Show message for 2 seconds before redirect
+        }
+        <?php else: ?>
+        // Auto-hide success message after 3 seconds (for non-redirect scenarios)
         const successMessage = document.querySelector('.message.success');
         if (successMessage) {
             setTimeout(() => {
@@ -448,6 +548,7 @@ $conn->close();
                 }, 300);
             }, 3000);
         }
+        <?php endif; ?>
     </script>
 </body>
 </html>
