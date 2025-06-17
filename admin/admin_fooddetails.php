@@ -40,10 +40,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $phone = $_POST['phone'];
     $alt_phone = $_POST['alt_phone'];
 
+    // When reassigning NGO, reset status to pending if it was denied
+    $status_update = "";
+    if ($assigned_ngo_id && $assigned_ngo_id != 'NGO NOT FOUND') {
+        // Check current status
+        $current_status_query = "SELECT status FROM fooddetails WHERE fooddetails_id = ?";
+        $stmt_check = $conn->prepare($current_status_query);
+        $stmt_check->bind_param("i", $id);
+        $stmt_check->execute();
+        $current_result = $stmt_check->get_result();
+        $current_data = $current_result->fetch_assoc();
+        $stmt_check->close();
+        
+        // If status was denied and we're assigning new NGO, reset to pending
+        if ($current_data && $current_data['status'] == 'denied') {
+            $status_update = ", status = 'pending'";
+        }
+    }
+
     // Update fooddetails table
-    $stmt = $conn->prepare("UPDATE fooddetails SET 
-        food_name=?, food_type=?, quantity=?, unit=?, pickup_address=?, assigned_ngo_id=?, donor_name=?, phone=?
-        WHERE fooddetails_id=?");
+    $update_query = "UPDATE fooddetails SET 
+        food_name=?, food_type=?, quantity=?, unit=?, pickup_address=?, assigned_ngo_id=?, donor_name=?, phone=?" . $status_update . "
+        WHERE fooddetails_id=?";
+    $stmt = $conn->prepare($update_query);
     $stmt->bind_param("ssississi", $food_name, $food_type, $quantity, $unit, $pickup_address, $assigned_ngo_id, $donor_name, $phone, $id);
     $stmt->execute();
     $stmt->close();
@@ -107,10 +126,8 @@ while ($row = $res->fetch_assoc()) {
     display: inline-block !important;
 }
 
-
 .ngo-assigned {
     color:black;
-    
     font-weight: bold;
     padding: 4px 8px;
     border-radius: 4px;
@@ -125,9 +142,44 @@ while ($row = $res->fetch_assoc()) {
     border-radius: 4px;
     display: inline-block;
 }
-</style>
 
-   
+/* Status styling */
+.status-pending {
+    color: white;
+    background-color: #ffc107;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.status-accepted {
+    color: white;
+    background-color: #28a745;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.status-denied {
+    color: white;
+    background-color: #dc3545;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.status-completed {
+    color: white;
+    background-color: #007bff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+}
+</style>
 </head>
 <body>
 
@@ -152,7 +204,7 @@ while ($row = $res->fetch_assoc()) {
     <table>
         <tr>
             <th>Food Name</th><th>Food Type</th><th>Qty</th><th>Unit</th>
-            <th>Donor Name</th><th>Phone</th><th>Pickup Address</th><th>Image</th><th>Request Date</th><th>Assigned NGO</th><th>Edit</th><th>Delete</th>
+            <th>Donor Name</th><th>Phone</th><th>Pickup Address</th><th>Image</th><th>Request Date</th><th>Assigned NGO</th><th>Status</th><th>Edit</th><th>Delete</th>
         </tr>
         <?php foreach ($foods as $row):
             $img = "uploads/" . basename($row['image']);
@@ -166,6 +218,10 @@ while ($row = $res->fetch_assoc()) {
             } else {
                 $ngo = "<span class='not-assigned'>Not Assigned</span>";
             }
+            
+            // Handle status display - show pending by default if no status set
+            $status = $row['status'] ?? 'pending';
+            $status_display = "<span class='status-" . strtolower($status) . "'>" . ucfirst($status) . "</span>";
         ?>
         <tr>
             <td><?= htmlspecialchars($row['food_name']) ?></td>
@@ -178,6 +234,7 @@ while ($row = $res->fetch_assoc()) {
             <td><?= $imageTag ?></td>
             <td><?= $row['created_at'] ?></td>
             <td><?= $ngo ?></td>
+            <td><?= $status_display ?></td>
             <td><button class="edit-btn" onclick='openModal(<?= json_encode($row) ?>)'><i class="fas fa-edit"></i></button></td>
             <td>
                 <form method="post" onsubmit="return confirm('Delete this food entry?')">
