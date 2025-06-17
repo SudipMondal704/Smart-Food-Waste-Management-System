@@ -421,7 +421,7 @@ $conn->close();
                                         <p class="review-testimonial-text">As a restaurant owner, this platform makes it so easy to donate our excess food instead of wasting it. The pickup service is reliable and we love contributing to feeding families in need.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <span class="review-initial" style="display: none;">A</span>
+                                                <span class="review-initial">A</span>
                                             </div>
                                             <div class="review-customer-details">
                                                 <div class="review-customer-name">ASIF KHAN</div>
@@ -454,7 +454,7 @@ $conn->close();
                                         <p class="review-testimonial-text">This platform connected us with so many generous donors. We've been able to distribute fresh meals to hundreds of families thanks to the efficient donation system and caring community.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <span class="review-initial" style="display: none;">M</span>
+                                                <span class="review-initial">M</span>
                                             </div>
                                             <div class="review-customer-details">
                                                 <div class="review-customer-name">MANOJ KUMAR</div>
@@ -469,7 +469,7 @@ $conn->close();
                                         <p class="review-testimonial-text">As a corporate donor, we appreciate how simple it is to coordinate large-scale food donations. The platform handles logistics perfectly and ensures nothing goes to waste.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <span class="review-initial" style="display: none;">M</span>
+                                                <span class="review-initial">M</span>
                                             </div>
                                             <div class="review-customer-details">
                                                 <div class="review-customer-name">MUKESH DAS</div>
@@ -484,7 +484,7 @@ $conn->close();
                                         <p class="review-testimonial-text">The real-time tracking and impact reports help us understand exactly how our donations are helping the community. It's inspiring to see the difference we're making together.</p>
                                         <div class="review-customer-info">
                                             <div class="review-customer-avatar">
-                                                <span class="review-initial" style="display: none;">R</span>
+                                                <span class="review-initial">R</span>
                                             </div>
                                             <div class="review-customer-details">
                                                 <div class="review-customer-name">RAMU SHAW</div>
