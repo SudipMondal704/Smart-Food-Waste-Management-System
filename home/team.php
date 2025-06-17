@@ -287,7 +287,7 @@ $conn->close();
             <nav class="navbar">
                 <a href="#" class="nav-logo">
                     <img src="../img/logo.png" alt="Food Donate Logo">
-                    <h2 class="logo-text">easy<b style="color: #34b409;">Donate</b></h2>
+                    <h2 class="logo-text">easy<b style="color: #34b409; font-weight: 600;"> Donate</b></h2>
                 </a>
                 <ul class="nav-menu">
                     <li class="nav-item">
@@ -368,7 +368,7 @@ $conn->close();
                         <div class="profile-info">
                             <div class="profile-info-item">
                                 <i class="fas fa-user-tag"></i>
-                                <span id="profile-type"> A/c Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                                <span id="profile-type"> Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
                             </div>
                             <div class="profile-info-item">
                                 <?php if($user_type == 'Donor'): ?>

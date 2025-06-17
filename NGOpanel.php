@@ -136,6 +136,7 @@ $stmt3->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- flaticons -->
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <style>
         * {
@@ -160,12 +161,54 @@ $stmt3->close();
             padding: 30px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             margin-top: 60px;
+            position: relative;
         }
+
+        /* Company Logo and Name Styles */
+        .company-header {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .company-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .company-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        /* .company-tagline {
+            font-size: 0.9rem;
+            color:rgb(103, 109, 110);
+            margin-top: 2px;
+        } */
 
         .header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
+            /* Added padding to accommodate company header */
+            /* padding-top: 60px;                                           */
             border-bottom: 2px solid #e0e0e0;
         }
 
@@ -193,6 +236,37 @@ $stmt3->close();
             align-items: center;
             z-index: 1000;
             backdrop-filter: blur(10px);
+        }
+
+        /* Fixed Back Button Styles */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background: #f8f9fa;
+            transform: translateX(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-button i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover i {
+            transform: translateX(-2px);
         }
 
         .user-info {
@@ -456,40 +530,6 @@ $stmt3->close();
             width: 80px;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin-top: 80px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .stats-container {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            th, td {
-                padding: 8px;
-                font-size: 0.85rem;
-            }
-
-            .top-bar {
-                flex-direction: column;
-                gap: 10px;
-                padding: 10px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
-
         .loading {
             text-align: center;
             padding: 20px;
@@ -513,15 +553,27 @@ $stmt3->close();
 </head>
 <body>
     <div class="top-bar">
-        <div class="return" style="text-align: left; background-color: white; color: #252525; border-radius: 5px; padding: 10px 15px;">
-            <a href="home/homeSession.php" style="text-decoration: none;"><i class="fi fi-ss-angle-double-small-left"></i> Back to home</a>
-        </div>
+        <a href="home/homeSession.php" class="back-button">
+            <i class="fi fi-ss-angle-double-small-left"></i>
+            Back to Home
+        </a>
         <div class="user-info">
             <p style="font-size: 18px;">Welcome, <strong><?= htmlspecialchars($ngo_name) ?></strong></p>
         </div>
     </div>
     
     <div class="container">
+        <!-- Company Header with Logo -->
+        <div class="company-header">
+            <div class="company-logo">
+                <img src="img/logo.png" alt="Food Donate Logo">
+            </div>
+            <div>
+                <div class="company-name">easy<b style="color: #34b409; font-weight: 600;">Donate</b></div>
+                <!-- <div class="company-tagline">Share Food, Share Joy !!</div> -->
+            </div>
+        </div>
+
         <div class="header">
             <h1>NGO Dashboard</h1>
             <p>Food Waste Management System</p>

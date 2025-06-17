@@ -68,9 +68,8 @@ $conn->close();
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
-            background: #dbf9eb;
+            background:#f6f6f6;
         }
 
         .about-about-section-page {
@@ -297,7 +296,7 @@ $conn->close();
             text-align: center;
             padding: 60px 40px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 30px;
+            border-radius: 15px;
             color: white;
             margin-top: 80px;
             box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);
@@ -317,7 +316,7 @@ $conn->close();
             margin-bottom: 30px;
         }
         .about-cta-section p {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             margin-bottom: 40px;
             color: rgba(255, 255, 255, 0.8);
         }
@@ -327,11 +326,10 @@ $conn->close();
             background: white;
             color: #667eea;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .about-cta-button:hover {
@@ -375,7 +373,7 @@ $conn->close();
             <nav class="navbar">
                 <a href="#" class="nav-logo">
                     <img src="../img/logo.png" alt="Food Donate Logo">
-                    <h2 class="logo-text">easy<b style="color: #34b409;">Donate</b></h2>
+                    <h2 class="logo-text">easy<b style="color: #34b409; font-weight: 600;"> Donate</b></h2>
                 </a>
                 <ul class="nav-menu">
                     <li class="nav-item">
@@ -456,7 +454,7 @@ $conn->close();
                 <div class="profile-info">
                     <div class="profile-info-item">
                         <i class="fas fa-user-tag"></i>
-                        <span id="profile-type"> A/c Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                        <span id="profile-type"> Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
                     </div>
                     <div class="profile-info-item">
                         <?php if($user_type == 'Donor'): ?>
