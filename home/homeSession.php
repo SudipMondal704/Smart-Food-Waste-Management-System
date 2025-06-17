@@ -181,7 +181,7 @@ $conn->close();
                     <div class="profile-info-item">
                         <?php if($user_type == 'Donor'): ?>
                             <i class='bx bxs-dashboard' ></i>
-                            <span id="profile-type"><a href="../Donerpanel.html"> My Dashboard </a></span>
+                            <span id="profile-type"><a href="../Donerpanel.php"> My Dashboard </a></span>
                         <?php elseif ($user_type == 'NGO'): ?>
                             <i class='bx bxs-dashboard' ></i>
                             <span id="profile-type"><a href="../NGOpanel.php"> My Dashboard </a></span>
