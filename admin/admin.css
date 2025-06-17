@@ -419,7 +419,7 @@ body {
 }
 
 .table-data .order table tr td:first-child {
-    
+    display: flex;
     align-items: center;
     grid-gap: 12px;
 }
