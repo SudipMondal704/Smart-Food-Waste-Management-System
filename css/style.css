@@ -1228,7 +1228,7 @@ header {
     margin: 0;
 }
 
-/* .footer-right .social {
+.footer-right .social {
     list-style: none;
     display: flex;
     gap: 15px;
@@ -1257,7 +1257,7 @@ header {
     font-size: 16px;
 }
 
- */
+
 
 .copyright {
     width: 100%;

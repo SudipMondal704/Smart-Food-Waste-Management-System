@@ -1,3 +1,51 @@
+<?php
+session_start();
+
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "food_waste";
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$user_data = null;
+$is_logged_in = false;
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
+    $is_logged_in = true;
+    $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
+    
+    if ($user_type == 'Donor') {
+        $query = "SELECT username as name, email, phone, address, image, created_at FROM users WHERE user_id = ?";
+    } elseif ($user_type == 'NGO') {
+        $query = "SELECT ngo_name as name, email, phone, address, image, created_at FROM ngo WHERE ngo_id = ?";
+    }
+    
+    if (isset($query)) {
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $user_data = $result->fetch_assoc();
+            
+            // Set default donation count for now
+            $user_data['donation_count'] = 0;
+            
+            // Format join date
+            $join_date = new DateTime($user_data['created_at']);
+            $user_data['join_date'] = $join_date->format('M Y');
+        }
+        $stmt->close();
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,8 +54,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>easyDonate - Save Food Share joy</title>
     <link rel="stylesheet" href="../css/style.css">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
+    <!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Flaticons -->
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>    <style>
         .review-section {
             padding: 50px 20px;
             align-items: center;
@@ -55,20 +107,103 @@
                         <a href="About.php" style="--i:2">About</a>
                     </li>
                     <li class="nav-item dropdown">
-                    <a href="#" style="--i:3" class="active">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
-                    <div class="dropdown-content">
-                        <a href="service.html">Service</a>
-                        <a href="#">Donate</a>
-                        <a href="team.php">Our Team</a>
-                        <a href="voices-of-community.html" class="active">Voices of Community</a>
-                    </div>
-                </li>
+                        <a href="#" style="--i:3" class="active">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
+                        <div class="dropdown-content">
+                            <a href="service.php">Service</a>
+                            <a href="#">Donate</a>
+                            <a href="team.php">Our Team</a>
+                            <a href="voices-of-community.php" class="active">Voices of Community</a>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a href="Contact.php" style="--i:4">Contact</a>
                     </li>
-                    <li class="nav-item">
+                    
+                    <?php if (!$is_logged_in): ?>
+                    <li class="nav-item login-item">
                         <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <!-- User Profile - Show only when logged in -->
+                    <?php if ($is_logged_in && $user_data): ?>
+                    <li class="nav-item user-profile active" id="user-profile">
+                        <?php 
+                        // Fix image path handling - since homeSession.php is in home/ folder
+                        $profile_image_src = '';
+                        if (!empty($user_data['image'])) {
+                            // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
+                            $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                            if (file_exists($file_path)) {
+                                $profile_image_src = $file_path;
+                            } else {
+                                // Fallback to default user image if file doesn't exist
+                                $profile_image_src = '../img/user.png';
+                            }
+                        } else {
+                            // Default placeholder for users without profile image
+                            $profile_image_src = '../img/user.png';
+                        }
+                        
+                        // Same logic for popup image
+                        $popup_image_src = '';
+                        if (!empty($user_data['image'])) {
+                            $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
+                            if (file_exists($file_path)) {
+                                $popup_image_src = $file_path;
+                            } else {
+                                $popup_image_src = '../img/user.png';
+                            }
+                        } else {
+                            $popup_image_src = '../img/user.png';
+                        }
+                    ?>
+            
+                    <img src="<?php echo $profile_image_src; ?>" 
+                        alt="User Avatar" class="user-avatar" id="user-avatar" 
+                        onerror="this.src='../img/user.png'">
+                    
+                    <div class="profile-popup" id="profile-popup">
+                        <div class="profile-header">
+                            <div class="image">
+                                <img src="<?php echo $popup_image_src; ?>" 
+                                    alt="User Profile" id="profile-image"
+                                    onerror="this.src='../img/user.png'">
+                            </div>
+                            <div class="content">
+                                <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
+                                <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-info-item">
+                                <i class="fas fa-user-tag"></i>
+                                <span id="profile-type"> A/c Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                            </div>
+                            <div class="profile-info-item">
+                                <?php if($user_type == 'Donor'): ?>
+                                    <i class='bx bxs-dashboard' ></i>
+                                    <span id="profile-type"><a href="../Donerpanel.php"> My Dashboard </a></span>
+                                <?php elseif ($user_type == 'NGO'): ?>
+                                    <i class='bx bxs-dashboard' ></i>
+                                    <span id="profile-type"><a href="../NGOpanel.php"> My Dashboard </a></span>
+                                <?php else: ?>
+                                
+                                <?php endif; ?>
+                            </div>
+                            <!-- Logout button moved to left side under other icons -->
+                            <div class="profile-info-item logout-item" id="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </div>
+                        </div>
+                        <!-- Edit Profile button moved to bottom -->
+                        <div class="profile-actions">
+                            <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
+                        </div>
+                    </div>
+                </li>
+                <?php endif; ?>
                 </ul>
             </nav>
             <!-- Main Section -->
