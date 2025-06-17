@@ -97,12 +97,11 @@ $conn->close();
             font-size: 32px;
             color: #333;
             margin-bottom: 40px;
-            text-align: center;
             line-height: 1.3;
         }
 
         .contact-form {
-            width: 100%;
+            width: 50%;
         }
 
         .contact-form .form-input {
@@ -133,12 +132,12 @@ $conn->close();
         /* Map Section - FIXED */
         .map-container {
             flex: 1;
-            max-width: 500px;
+            max-width: 400px;
         }
 
         .map-wrapper {
             width: 100%;
-            height: 500px;
+            height: 400px;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -151,7 +150,10 @@ $conn->close();
         }
 
         /* Accordion styles */
-
+        .help-content {
+            display: flex;
+            gap: 30px;
+        }
         .accordion {
             background-color: #eee;
             color: #444;
@@ -167,16 +169,25 @@ $conn->close();
             border-radius: 5px;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
+            position: relative;
         }
+
         .accordion:after {
-            content: '\002B';
+            content: '\f107'; /* Font Awesome arrow down icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             color: #777;
-            font-weight: bold;
             float: right;
             margin-left: 5px;
+            transition: transform 0.3s ease;
         }
+
         .accordion:hover {
             background-color: #34b409;
+            color: #fff;
+        }
+
+        .accordion:hover:after {
             color: #fff;
         }
 
@@ -185,20 +196,10 @@ $conn->close();
             color: rgb(230, 228, 228);
         }
 
-        /* Add an icon to show expand/collapse state */
-        .accordion:after {
-            content: '\002B'; /* Plus sign */
-            color: #4a4949;
-            font-weight: bold;
-            float: right;
-            margin-left: 5px;
-            transition: transform 0.3s ease;
-        }
-        
         .accordion.active:after {
-            content: '\2212'; /* Minus sign */
+            content: '\f106'; /* Font Awesome arrow up icon */
             color: white;
-            transform: rotate(180deg);
+            transform: rotate(0deg); /* Remove rotation since we're using different icons */
         }
 
         .panel {
@@ -262,8 +263,8 @@ $conn->close();
         .chatbot-section h2 {
             font-size: 23px;
             text-align: center;
-            margin-bottom: 50px;
-            color: #e0e0e0;
+            margin-bottom: 30px;
+            color:rgb(247, 247, 247);
             font-size: 28px;
             font-weight: 600;
         }
@@ -271,6 +272,7 @@ $conn->close();
         /* Fixed Chatbot Styles */
         .container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
@@ -286,6 +288,7 @@ $conn->close();
             border-radius: 10px;
             background: rgb(205, 252, 204);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
             overflow: hidden;
         }
 
@@ -396,7 +399,7 @@ $conn->close();
                 <li class="nav-item dropdown">
                     <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                     <div class="dropdown-content">
-                        <a href="#">Service</a>
+                        <a href="service.html">Service</a>
                         <a href="#">Donate</a>
                         <a href="team.php">Our Team</a>
                         <a href="voices-of-community.html">Voices of Community</a>
@@ -526,7 +529,7 @@ $conn->close();
 
             <!-- chatbot -->
             <section class="chatbot-section">
-            <p>ChatBot Support <i class="fa-solid fa-robot"></i></p>
+            <h2>ChatBot Support <i class="fa-solid fa-robot"></i></h2>
             <div class="container">
                 <div class="chat">
                     <div class="chat-header">
@@ -544,25 +547,51 @@ $conn->close();
 
                 <div class="help">
                     <h2 style="font-size: 23px; text-align: center; padding:10px;">Help & FAQs?</h2>
-                    <button class="accordion">How to donate food ?</button>
-                    <div class="panel">
-                        <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Food</a> in Home Page </p>
-                        <p style="font-size: 15px;">2. Fill the details </p>
-                        <p style="font-size: 15px;">3. Click on submit</p>
-                        <img src=" " alt="" width="100%">
-                    </div>
-                    <button class="accordion">How will my donation be used?</button>
-                    <div class="panel">
-                    <p style="padding: 10px; font-size: 15px;">Your donation will be used to support our mission and the various programs 
-                        and initiatives that we have in place. Your donation will help us to continue providing assistance 
-                        and support to those in need. You can find more information about our programs and initiatives on our website.
-                         If you have any specific questions or concerns, please feel free to contact us</p>
-                    </div>
-                    <button class="accordion">What should I do if my food donation is near or past its expiration date?</button>
-                    <div class="panel">
-                    <p style="padding: 10px; font-size: 15px;">We appreciate your willingness to donate, but to ensure the safety of our clients 
-                        we can't accept food that is near or past its expiration date. We recommend checking expiration dates
-                         before making a donation or contact us for further guidance</p>
+                    <div class="help-content">
+                        <div class="help-left">
+                            <button class="accordion">How to donate food ?</button>
+                            <div class="panel">
+                                <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Food</a> in Home Page </p>
+                                <p style="font-size: 15px;">2. Fill the details </p>
+                                <p style="font-size: 15px;">3. Click on submit</p>
+                                
+                            </div>
+                            <button class="accordion">How will my donation be used?</button>
+                            <div class="panel">
+                            <p style="padding: 10px; font-size: 15px;">Your donation will be used to support our mission and the various programs 
+                                and initiatives that we have in place. Your donation will help us to continue providing assistance 
+                                and support to those in need. You can find more information about our programs and initiatives on our website.
+                                If you have any specific questions or concerns, please feel free to contact us</p>
+                            </div>
+                            <button class="accordion">What should I do if my food donation is near or past its expiration date?</button>
+                            <div class="panel">
+                            <p style="padding: 10px; font-size: 15px;">We appreciate your willingness to donate, but to ensure the safety of our clients 
+                                we can't accept food that is near or past its expiration date. We recommend checking expiration dates
+                                before making a donation or contact us for further guidance</p>
+                            </div>
+                        </div>
+                        <div class="help-right">
+                                <button class="accordion">How to donate food ?</button>
+                            <div class="panel">
+                                <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Food</a> in Home Page </p>
+                                <p style="font-size: 15px;">2. Fill the details </p>
+                                <p style="font-size: 15px;">3. Click on submit</p>
+                                <img src=" " alt="" width="100%">
+                            </div>
+                            <button class="accordion">How will my donation be used?</button>
+                            <div class="panel">
+                            <p style="padding: 10px; font-size: 15px;">Your donation will be used to support our mission and the various programs 
+                                and initiatives that we have in place. Your donation will help us to continue providing assistance 
+                                and support to those in need. You can find more information about our programs and initiatives on our website.
+                                If you have any specific questions or concerns, please feel free to contact us</p>
+                            </div>
+                            <button class="accordion">What should I do if my food donation is near or past its expiration date?</button>
+                            <div class="panel">
+                            <p style="padding: 10px; font-size: 15px;">We appreciate your willingness to donate, but to ensure the safety of our clients 
+                                we can't accept food that is near or past its expiration date. We recommend checking expiration dates
+                                before making a donation or contact us for further guidance</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -128,25 +128,24 @@ $conn->close();
 
         .team-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
-            width: 100%;
-            max-width: 1200px;
+            width: 90%;
             justify-items: center;
             position: relative;
             z-index: 2;
         }
 
         .team-card {
-            background: linear-gradient(145deg, #ffffff, #e9f2fb);
+            background: linear-gradient(135deg, #ffffff, #e9f2fb);
             border-radius: 20px;
             padding: 25px 20px;
             text-align: center;
             width: 100%;
             max-width: 350px;
             box-shadow: 
-                0 15px 35px rgba(0,0,0,0.2),
-                0 5px 15px rgba(0,0,0,0.06);
+                0 15px 35px rgba(0,0,0,0.2);
+                /* 0 5px 15px rgba(0,0,0,0.06); */
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -216,7 +215,7 @@ $conn->close();
             color: #718096;
             line-height: 1.6;
             margin-bottom: 30px;
-            text-align: center;
+            text-align:start;
             padding: 0 5px;
         }
 
@@ -295,7 +294,7 @@ $conn->close();
                     <li class="nav-item dropdown">
                         <a href="#" style="--i:3" class="active">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                         <div class="dropdown-content">
-                            <a href="#">Service</a>
+                            <a href="service.html">Service</a>
                             <a href="#">Donate</a>
                             <a href="team.php" class="active">Our Team</a>
                             <a href="voices-of-community.html">Voices of Community</a>
