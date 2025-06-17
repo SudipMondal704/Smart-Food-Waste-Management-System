@@ -1247,10 +1247,47 @@ header {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: #2f2f2f;
+    cursor: not-allowed;
     color: white;
     text-decoration: none;
     transition: all 0.3s ease;
+}
+
+.footer-right .social li::before {
+    content: "Coming Soon";
+    position: absolute;
+    bottom: -10%;
+    left: 75%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.footer-right .social li::after {
+    content: "";
+    position: absolute;
+    bottom: -10%;
+    left: 75%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.footer-right .social li:hover::before,
+.footer-right.social li:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 .footer-right .social a i {
