@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $pickup_address = $conn->real_escape_string($_POST['pickup_address']);
     
     if (isset($_POST['ngo_id']) && !empty($_POST['ngo_id'])) {
-        // Assign NGO
+        // Assign NGO and set status to pending
         $ngo_id = intval($_POST['ngo_id']);
-        $stmt = $conn->prepare("UPDATE fooddetails SET assigned_ngo_id = ? WHERE user_id = ? AND pickup_address = ? AND (assigned_ngo_id IS NULL OR assigned_ngo_id = 'NGO NOT FOUND')");
+        $stmt = $conn->prepare("UPDATE fooddetails SET assigned_ngo_id = ?, status = 'pending' WHERE user_id = ? AND pickup_address = ? AND (assigned_ngo_id IS NULL OR assigned_ngo_id = 'NGO NOT FOUND' OR status = 'denied')");
         $stmt->bind_param("iis", $ngo_id, $donor_id, $pickup_address);
         
         if ($stmt->execute()) {
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
         $stmt->close();
     } elseif (isset($_POST['ngo_not_found'])) {
         // Mark as NGO NOT FOUND
-        $stmt = $conn->prepare("UPDATE fooddetails SET assigned_ngo_id = 'NGO NOT FOUND' WHERE user_id = ? AND pickup_address = ? AND assigned_ngo_id IS NULL");
+        $stmt = $conn->prepare("UPDATE fooddetails SET assigned_ngo_id = 'NGO NOT FOUND', status = 'pending' WHERE user_id = ? AND pickup_address = ? AND (assigned_ngo_id IS NULL OR status = 'denied')");
         $stmt->bind_param("is", $donor_id, $pickup_address);
         
         if ($stmt->execute()) {
@@ -46,12 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     }
 }
 
-// Get all unassigned donor details (one row per donor per address) including NGO NOT FOUND cases
+// Get all unassigned donor details (one row per donor per address) including NGO NOT FOUND cases and denied foods
 $sql_unassigned_donors = "
     SELECT f.user_id, f.donor_name, f.pickup_address, u.username, u.address as user_address 
     FROM fooddetails f 
     JOIN users u ON f.user_id = u.user_id 
-    WHERE f.assigned_ngo_id IS NULL OR f.assigned_ngo_id = 'NGO NOT FOUND'
+    WHERE f.assigned_ngo_id IS NULL OR f.assigned_ngo_id = 'NGO NOT FOUND' OR f.status = 'denied'
     GROUP BY f.user_id, f.pickup_address";
 $result_unassigned = $conn->query($sql_unassigned_donors);
 ?>
@@ -111,6 +111,19 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
             width: 100%;
             padding: 5px;
         }
+        .status-info {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+        .reassignment-note {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +132,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
         <div class="message"><?php echo htmlspecialchars($message); ?></div>
     <?php endif; ?>
 
+    
     <table>
         <thead>
             <tr>
@@ -126,6 +140,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                 <th>User Address</th>
                 <th>Donor Name</th>
                 <th>Pickup Address</th>
+                <th>Status Info</th>
                 <th>Select NGO</th>
                 <th>Action</th>
             </tr>
@@ -140,12 +155,36 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                     $username = htmlspecialchars($row['username']);
                     $user_address = htmlspecialchars($row['user_address']);
 
+                    // Get status info for this donor at this address
+                    $status_query = "SELECT COUNT(*) as total, 
+                                           SUM(CASE WHEN status = 'denied' THEN 1 ELSE 0 END) as denied_count,
+                                           SUM(CASE WHEN assigned_ngo_id IS NULL THEN 1 ELSE 0 END) as unassigned_count,
+                                           SUM(CASE WHEN assigned_ngo_id = 'NGO NOT FOUND' THEN 1 ELSE 0 END) as not_found_count
+                                    FROM fooddetails 
+                                    WHERE user_id = ? AND pickup_address = ? 
+                                    AND (assigned_ngo_id IS NULL OR assigned_ngo_id = 'NGO NOT FOUND' OR status = 'denied')";
+                    $stmt_status = $conn->prepare($status_query);
+                    $stmt_status->bind_param("is", $donor_id, $row['pickup_address']);
+                    $stmt_status->execute();
+                    $status_result = $stmt_status->get_result();
+                    $status_info = $status_result->fetch_assoc();
+                    $stmt_status->close();
+
+                    $status_text = $status_info['total'] . " items pending";
+                    if ($status_info['denied_count'] > 0) {
+                        $status_text .= " (" . $status_info['denied_count'] . " denied, need reassignment)";
+                    }
+                    if ($status_info['unassigned_count'] > 0) {
+                        $status_text .= " (" . $status_info['unassigned_count'] . " new)";
+                    }
+
                     echo "<tr>";
                     echo "<form method='POST' id='form_$donor_id'>";
                     echo "<td>$username</td>";
                     echo "<td>$user_address</td>";
                     echo "<td>$donor_name</td>";
                     echo "<td>$pickup_address</td>";
+                    echo "<td><span class='status-info'>$status_text</span></td>";
                     echo "<td>";
                     echo "<select name='ngo_id' id='ngo_select_$donor_id' onchange='toggleAssignButton($donor_id)'>";
                     echo "<option value=''>-- Select NGO --</option>";
@@ -187,7 +226,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6'>No pending food requests found.</td></tr>";
+                echo "<tr><td colspan='7'>No pending food requests found.</td></tr>";
             }
             ?>
         </tbody>
