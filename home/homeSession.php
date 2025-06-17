@@ -108,10 +108,10 @@ $conn->close();
                 <li class="nav-item dropdown">
                     <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                     <div class="dropdown-content">
-                        <a href="service.html">Service</a>
+                        <a href="service.php">Service</a>
                         <a href="#">Donate</a>
                         <a href="team.php">Our Team</a>
-                        <a href="voices-of-community.html">Voices of Community</a>
+                        <a href="voices-of-community.php">Voices of Community</a>
                     </div>
                 </li>
                 <li class="nav-item">
