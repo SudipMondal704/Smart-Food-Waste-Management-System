@@ -418,7 +418,7 @@ $conn->close();
                     </div>
                 </div>
                 <div class="copyright">
-                    <p> © Copyright 2025 Food Donate. All rights reserved.</p>
+                    <p> © Copyright 2025 easy Donate. All rights reserved.</p>
                 </div>
             </footer>
 

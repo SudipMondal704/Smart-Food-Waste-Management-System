@@ -186,7 +186,7 @@ $conn->close();
             margin-left: 5px;
             transition: transform 0.3s ease;
         }
-
+        
         .accordion:hover {
             background-color: #34b409;
             color: #fff;
@@ -580,26 +580,17 @@ $conn->close();
                             </div>
                         </div>
                         <div class="help-right">
-                                <button class="accordion">How to donate food ?</button>
+                                <button class="accordion">What type of food we donate ?</button>
                             <div class="panel">
-                                <p style="font-size: 15px;">1. Click on <a href="homeSession.php">Donate Food</a> in Home Page </p>
-                                <p style="font-size: 15px;">2. Fill the details </p>
-                                <p style="font-size: 15px;">3. Click on submit</p>
+                                <p style="font-size: 15px;">1. <b style="font-weight: 700;">Raw Food</b> (i.e. vegetavles, rice, wheat, cereals, etc.)</p>
+                                <p style="font-size: 15px;">2. <b style="font-weight: 700;">Cooked or Prepared Food </b></p>
+                                <p style="font-size: 15px;">3. <b style="font-weight: 700;">Packaged Food</b> (i.e. snacks, breverages, etc.) </p>
                                 <img src=" " alt="" width="100%">
                             </div>
-                            <button class="accordion">How will my donation be used?</button>
-                            <div class="panel">
-                            <p style="padding: 10px; font-size: 15px;">Your donation will be used to support our mission and the various programs 
-                                and initiatives that we have in place. Your donation will help us to continue providing assistance 
-                                and support to those in need. You can find more information about our programs and initiatives on our website.
-                                If you have any specific questions or concerns, please feel free to contact us</p>
-                            </div>
-                            <button class="accordion">What should I do if my food donation is near or past its expiration date?</button>
-                            <div class="panel">
-                            <p style="padding: 10px; font-size: 15px;">We appreciate your willingness to donate, but to ensure the safety of our clients 
-                                we can't accept food that is near or past its expiration date. We recommend checking expiration dates
-                                before making a donation or contact us for further guidance</p>
-                            </div>
+                            <button class="accordion" style="cursor: not-allowed; color: #777;" disabled>Coming Soon...</button>
+
+                            <button class="accordion" style="cursor: not-allowed; color: #777;" disabled>Coming Soon...</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -650,26 +641,26 @@ $conn->close();
                     </div>
                     <div class="footer-right">
                         <h2 class="footer-title">Contact Us</h2>
-                        <ul class="quick-list">
-                            <li class="refer">
-                                <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="About.php">About Us</a>
+                        <ul class="contact-list">
+                            <li class="contact-info">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <p>Dewandighi, Katwa Road, Purba Bardhaman, 713102</p>
                             </li>
-                            <li class="refer">
-                                <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="Contact.php">Contact Us</a>
+                            <li class="contact-info">
+                                <i class="fa-solid fa-envelope"></i>
+                                <p>fooddonate@gmail.com</p>
                             </li>
-                            <li class="refer">
-                                <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="service.php">Service</a>
+                            <li class="contact-info">
+                                <i class="fa-solid fa-phone"></i>
+                                <p>(+91) 0000 000 000</p>
                             </li>
-                            <li class="refer">
-                                <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="team.php">Our Team</a>
+                            <li class="contact-info">
+                                <i class="fa-regular fa-clock"></i>
+                                <p>Monday - Sunday : 24 x 7 Opened</p>
                             </li>
-                            <li class="refer">
-                                <i class="fas fa-chevron-right dropdown-icon"></i>
-                                <a href="voices-of-community.php">Voices of Community</a>
+                            <li class="contact-info">
+                                <i class="fa-solid fa-globe"></i>
+                                <p>www.fooddonate.com</p>
                             </li>
                         </ul>
                         <ul class="social">
@@ -680,8 +671,9 @@ $conn->close();
                         </ul>
                     </div>
                 </div>
+                </div>
                 <div class="copyright">
-                    <p> © Copyright 2025 Food Donate. All rights reserved.</p>
+                    <p> © Copyright 2025 easy Donate. All rights reserved.</p>
                 </div>
             </footer>
 
