@@ -6,8 +6,6 @@ $db_pass = "";
 $db_name = "food_waste";
 
 // Include PHPMailer autoload file
-// You need to download PHPMailer and place it in your project
-// Ensure the path below is correct for your setup
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
@@ -72,57 +70,88 @@ function sendOTPEmail($email, $otp) {
     }
 }
 
+// Function to check if email exists and return user type
+function checkEmailExists($conn, $email) {
+    // Check in users table first
+    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+    if ($stmt === false) {
+        return false;
+    }
+    
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $stmt->close();
+        return 'users';
+    }
+    $stmt->close();
+    
+    // Check in ngo table
+    $stmt = $conn->prepare("SELECT email FROM ngo WHERE email = ?");
+    if ($stmt === false) {
+        return false;
+    }
+    
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $stmt->close();
+        return 'ngo';
+    }
+    $stmt->close();
+    
+    return false;
+}
+
 // Process forgot password form
 if (isset($_POST['forgot_password_submit'])) {
     $email = $_POST['email'];
     
-    // Check if email exists in database
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    // Check if email exists and get user type
+    $userType = checkEmailExists($conn, $email);
     
-    // Check if prepare statement was successful
-    if ($stmt === false) {
-        $error_message = "Database error: " . $conn->error;
-    } else {
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    if ($userType) {
+        // Generate OTP
+        $otp = generateOTP();
+        $expiry_time = date('Y-m-d H:i:s', strtotime('+15 minutes'));
         
-        if ($result->num_rows > 0) {
-            // Generate OTP
-            $otp = generateOTP();
-            $expiry_time = date('Y-m-d H:i:s', strtotime('+15 minutes'));
-            
-            // Update database with OTP and expiry time
+        // Update database with OTP and expiry time based on user type
+        if ($userType === 'users') {
             $update_stmt = $conn->prepare("UPDATE users SET reset_otp = ?, reset_otp_expiry = ? WHERE email = ?");
-            
-            // Check if prepare statement was successful
-            if ($update_stmt === false) {
-                $error_message = "Database error: " . $conn->error;
-            } else {
-                $update_stmt->bind_param("sss", $otp, $expiry_time, $email);
-                $update_stmt->execute();
-                
-                // Send OTP to user's email
-                if (sendOTPEmail($email, $otp)) {
-                    $_SESSION['reset_email'] = $email;
-                    header("Location: verify_otp.php");
-                    exit();
-                } else {
-                    if (isset($_SESSION['mail_error'])) {
-                        $error_message = "Failed to send OTP: " . $_SESSION['mail_error'];
-                        unset($_SESSION['mail_error']);
-                    } else {
-                        $error_message = "Failed to send OTP. Please try again.";
-                    }
-                }
-                
-                $update_stmt->close();
-            }
         } else {
-            $error_message = "Email does not exist in our records.";
+            $update_stmt = $conn->prepare("UPDATE ngo SET reset_otp = ?, reset_otp_expiry = ? WHERE email = ?");
         }
         
-        $stmt->close();
+        // Check if prepare statement was successful
+        if ($update_stmt === false) {
+            $error_message = "Database error: " . $conn->error;
+        } else {
+            $update_stmt->bind_param("sss", $otp, $expiry_time, $email);
+            $update_stmt->execute();
+            
+            // Send OTP to user's email
+            if (sendOTPEmail($email, $otp)) {
+                $_SESSION['reset_email'] = $email;
+                $_SESSION['reset_user_type'] = $userType; // Store user type for later use
+                header("Location: verify_otp.php");
+                exit();
+            } else {
+                if (isset($_SESSION['mail_error'])) {
+                    $error_message = "Failed to send OTP: " . $_SESSION['mail_error'];
+                    unset($_SESSION['mail_error']);
+                } else {
+                    $error_message = "Failed to send OTP. Please try again.";
+                }
+            }
+            
+            $update_stmt->close();
+        }
+    } else {
+        $error_message = "Email does not exist in our records.";
     }
 }
 
@@ -168,6 +197,7 @@ $conn->close();
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 3px;
+            box-sizing: border-box;
         }
         button {
             background-color: #4CAF50;
@@ -185,24 +215,34 @@ $conn->close();
             color: red;
             margin-bottom: 15px;
         }
+        .info {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Forgot Password</h2>
         
+        <div class="info">
+            <p><strong>Note:</strong> This system works for both individual users and NGO accounts. Enter your registered email address below.</p>
+        </div>
+        
         <?php if (isset($error_message)): ?>
-            <div class="error"><?php echo $error_message; ?></div>
+            <div class="error"><?php echo htmlspecialchars($error_message); ?></div>
         <?php endif; ?>
         
         <?php if (isset($success_message)): ?>
-            <div class="success" style="color: green; margin-bottom: 15px;"><?php echo $success_message; ?></div>
+            <div class="success" style="color: green; margin-bottom: 15px;"><?php echo htmlspecialchars($success_message); ?></div>
         <?php endif; ?>
         
         <form method="post" action="">
             <div class="form-group">             
-                <label for="email">Email</label>   
-                <input type="email" id="email" name="email" required>
+                <label for="email">Email Address</label>   
+                <input type="email" id="email" name="email" required placeholder="Enter your registered email">
             </div>
             <button type="submit" name="forgot_password_submit">Send OTP</button>
         </form>
