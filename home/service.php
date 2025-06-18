@@ -480,7 +480,7 @@ $conn->close();
                             Our system transforms how communities handle surplus food by providing an intelligent, automated platform that ensures no edible food goes to waste while addressing hunger and food insecurity in our society.
                         </p>
                         <p>
-                            Through our mobile application and web platform, we've created a sustainable ecosystem where individuals, restaurants, event organizers, and businesses can easily donate excess food to verified NGOs and charitable organizations.
+                            Through our  web platform, we've created a sustainable ecosystem where individuals, restaurants, event organizers, and businesses can easily donate excess food to verified NGOs and charitable organizations.
                         </p>
                     </div>
 
@@ -489,12 +489,14 @@ $conn->close();
                         <ul class="service-services-list">
                             <li>Connect donors with nearby verified NGOs and food banks instantly</li>
                             <li>Accept donations of cooked meals, raw ingredients, and packaged foods</li>
-                            <li>GPS-enabled matching system for efficient pickup coordination</li>
-                            <li>Real-time tracking and transparent donation reporting</li>
-                            <li>Temperature monitoring to ensure food safety standards</li>
-                            <li>Automated notifications and scheduling system</li>
-                            <li>Impact analytics dashboard showing community contribution</li>
-                            <li>Multi-language support for broader accessibility</li>
+                            <li>Donor can register and submit food donation requests with details like quantity, type, and pickup address.</li>
+                            <li>Admin can view all food requests in a centralized dashboard and assign them to NGOs based on location.</li>
+                            <li>NGOs receive assigned food requests and manage pickups through their own dashboard.</li>
+                            <li>All users (Donor, NGO, Admin) can track real-time food status (e.g., Pending, Assigned, Picked Up, Delivered).</li>
+                            <li> NGO assignment system based on donor address and NGO availability.</li>
+                            <li>Notification system  keeps users informed of request status and updates.</li>
+                            <li>Donors can give feedback and ratings for NGO service after successful pickup.</li>
+                            <li>Secure login system with role-based dashboards for Donors, NGOs, and Admin to ensure safe access and data handling.</li>
                         </ul>
                     </div>
                 </div>
@@ -502,7 +504,7 @@ $conn->close();
                 <div class="characteristics-section">
                     <h2 class="characteristics-title">
                         <i class="fas fa-star"></i>
-                        System Characteristics
+                        Upcoming Features
                     </h2>
                     <div class="characteristics-grid">
                         <div class="characteristic-item">
@@ -637,5 +639,39 @@ $conn->close();
             </button>
   </header>
   <script src="../js/script.js"></script>
+  <script>
+    // User Profile Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const userAvatar = document.getElementById('user-avatar');
+        const profilePopup = document.getElementById('profile-popup');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userProfile = document.getElementById('user-profile');
+        
+        // Toggle profile popup
+        if (userAvatar && profilePopup) {
+            userAvatar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profilePopup.classList.toggle('show');
+            });
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profilePopup && userProfile && !userProfile.contains(e.target)) {
+                profilePopup.classList.remove('show');
+            }
+        });
+        
+        // Logout functionality
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Redirect to logout script
+                    window.location.href = 'logout.php';
+                }
+            });
+        }
+    });
+  </script>
 </body>
 </html>

@@ -136,7 +136,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
     <table>
         <thead>
             <tr>
-                <th>Username (Phone)</th>
+                <th>Username </th>
                 <th>User Address</th>
                 <th>Donor Name</th>
                 <th>Pickup Address</th>

@@ -657,7 +657,7 @@ $conn->close();
                             <div class="no-data">
                                 <h4>No donations yet</h4>
                                 <p>Start making a difference today by donating food!</p>
-                                <a href="food_donation.php" class="add-donation-btn">Make Your First Donation</a>
+                                <a href="fooddetails.php" class="add-donation-btn">Make Your First Donation</a>
                             </div>
                         <?php else: ?>
                             <?php foreach ($donations as $donation): ?>

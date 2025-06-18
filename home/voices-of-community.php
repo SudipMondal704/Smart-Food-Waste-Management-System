@@ -428,5 +428,39 @@ $conn->close();
             </button>
   </header>
   <script src="../js/script.js"></script>
+  <script>
+    // User Profile Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const userAvatar = document.getElementById('user-avatar');
+        const profilePopup = document.getElementById('profile-popup');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userProfile = document.getElementById('user-profile');
+        
+        // Toggle profile popup
+        if (userAvatar && profilePopup) {
+            userAvatar.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profilePopup.classList.toggle('show');
+            });
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profilePopup && userProfile && !userProfile.contains(e.target)) {
+                profilePopup.classList.remove('show');
+            }
+        });
+        
+        // Logout functionality
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Redirect to logout script
+                    window.location.href = 'logout.php';
+                }
+            });
+        }
+    });
+  </script>
 </body>
 </html>
