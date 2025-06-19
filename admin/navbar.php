@@ -48,6 +48,7 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
             <span class="clear-all" id="clear-all">Clear All</span>
         </div>
         <div class="notification-items" id="notification-items">
+            <!--
             <div class="notification-item unread">
                 <div class="notification-icon user">
                     <i class='bx bxs-user'></i>
@@ -78,6 +79,7 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
                     <p class="notification-time">1 hour ago</p>
                 </div>
             </div>
+            -->
         </div>
         <a href="#" class="view-all">View All Notifications</a>
     </div>
@@ -371,4 +373,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }
 });
+
+ii=0;
+function getNotification() {
+    ii++;
+    console.log("Function called ! "+ii);
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function() {
+      document.getElementById("notification-items").innerHTML = this.responseText;
+      //console.log(this.responseText +" : "+ii);
+    }
+  xmlhttp.open("GET", "getNotification.php");
+  xmlhttp.send();
+  setTimeout(getNotification, 2000); 
+}
 </script>

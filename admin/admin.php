@@ -16,7 +16,7 @@ require_once('adminSession.php');
 
 	<title>Admin Panel</title>
 </head>
-<body>
+<body onload="getNotification();">
 
 
 
