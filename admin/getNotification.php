@@ -20,7 +20,7 @@ while($row=mysqli_fetch_array($res))
         <div class="notification-content">
             <p class="notification-title"><?php echo $row['title'] ?></p>
             <p class="notification-desc"><?php echo $row['details'] ?></p>
-            <p class="notification-time">1 hour ago</p>
+            <p class="notification-time">   <?php echo $row['time'] ?></p>
         </div>
     </div>
 <?php

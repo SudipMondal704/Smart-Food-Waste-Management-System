@@ -150,7 +150,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if ($successful_inserts === $total_items) {
-                $res = mysqli_query($conn,"INSERT INTO notification set title='New Donation', details='".$user["username"]." has donated food',date='".date('Y-m-d')."',time='".date('H:i:s')."'  ");
+                // Fixed notification insertion - using prepared statement and NOW() functions
+                $notificationStmt = $conn->prepare("INSERT INTO notification (title, details, date, time) VALUES (?, ?, CURDATE(), CURTIME())");
+                $notificationTitle = 'New Donation';
+                $notificationDetails = $username . ' has donated food';
+                $notificationStmt->bind_param("ss", $notificationTitle, $notificationDetails);
+                $notificationStmt->execute();
+                $notificationStmt->close();
+                
                 echo "<script>alert('Food Donation Request submitted successfully! Total items: $successful_inserts'); window.location.href = 'fooddetails.php';</script>";
             } else {
                 echo "<script>alert('Partial success: $successful_inserts out of $total_items items were saved.'); window.location.href = 'fooddetails.php';</script>";
