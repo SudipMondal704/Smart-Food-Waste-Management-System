@@ -26,7 +26,7 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     <!-- Welcome Message -->
     <?php if ($isLoggedIn): ?>
     <div class="welcome-message">
-        Welcome, <?php echo htmlspecialchars($userName); ?>
+        Welcome,<b style="font-weight: 600;"> <?php echo htmlspecialchars($userName); ?></b>
     </div>
     <?php endif; ?>
 
@@ -134,8 +134,8 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size:35px;
-    font-weight: 600;
+    font-size:1.6rem;
+    font-weight: 400;
     color: #333;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
