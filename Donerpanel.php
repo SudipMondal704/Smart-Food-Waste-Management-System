@@ -616,9 +616,13 @@ $conn->close();
         </div>
 
         <div class="content">
+            
             <!-- Dashboard Tab -->
             <div id="dashboard" class="tab-content active">
                 <a href="fooddetails.php" class="add-donation-btn">+ Add New Donation</a>
+
+               
+
                 
                 <div class="dashboard-grid">
                     <div class="card stat-card">
