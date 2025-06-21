@@ -66,6 +66,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
             display: flex;
             justify-content : center;
             gap: 5px;
+            justify-content: center;
         }
         .btn-assign {
             background-color: #4CAF50;
