@@ -565,7 +565,7 @@
               </div>
               <div class="actual-form">
                 <div class="input-wrap">
-                  <input type="email" name="login" minlength="4" class="input-field" autocomplete="off" required/> 
+                  <input type="email number" name="login" minlength="4" class="input-field" autocomplete="off" required/> 
                   <label>Email or Mobile Number</label>
                 </div>
                 <div class="input-wrap">

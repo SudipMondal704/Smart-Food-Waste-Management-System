@@ -381,10 +381,11 @@ body {
 .table-data .order table td {
     font-size: 14px;
     padding: 16px 0;
+    text-align: center;
 }
 
 .table-data .order table tr td:first-child {
-    display: flex;
+    
     align-items: center;
     grid-gap: 12px;
 }
