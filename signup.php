@@ -59,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $res = mysqli_query($conn,"INSERT INTO notification set title='New User Signup', details='".$_POST['username']." has signed up in your portal',date='".date('Y-m-d')."',time='".date('H:i:s')."'  ");
         } else {
             $stmt = $conn->prepare("INSERT INTO ngo (ngo_name, address, email, phone, password, image) VALUES (?, ?, ?, ?, ?, ?)");
+              $res = mysqli_query($conn,"INSERT INTO notification set title='New NGO Signup', details='".$_POST['username']." has signed up in your portal',date='".date('Y-m-d')."',time='".date('H:i:s')."'  ");
         }
 
         $stmt->bind_param("ssssss", $name, $address, $email, $phone, $password, $unique_name);

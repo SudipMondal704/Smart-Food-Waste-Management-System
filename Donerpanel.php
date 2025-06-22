@@ -466,6 +466,52 @@ $conn->close();
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
+
+        /* Feedback Button Styles */
+        .feedback-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        .feedback-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+            background: linear-gradient(135deg, #ff5252, #ff9800);
+        }
+
+        .feedback-btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(255, 107, 107, 0.6);
+            }
+            100% {
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            }
+        }
+
          @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -512,6 +558,13 @@ $conn->close();
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
+            }
+
+            .feedback-btn {
+                bottom: 15px;
+                right: 15px;
+                padding: 12px 16px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -667,6 +720,12 @@ $conn->close();
             </div>
         </div>
     </div>
+
+    <!-- Feedback Button -->
+    <a href="feedback.php" class="feedback-btn">
+        💬 Feedback
+    </a>
+
 <script>
         function showTab(tabName) {
             const tabContents = document.querySelectorAll('.tab-content');
