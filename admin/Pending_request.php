@@ -1,8 +1,5 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-// Database connection
 $server = "localhost";
 $user = "root";
 $password = "";
@@ -14,14 +11,11 @@ if ($conn->connect_error) {
 }
 
 $message = "";
-
-// Handle NGO assignment to all unassigned foods of the donor
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
     $donor_id = intval($_POST['user_id']);
     $pickup_address = $conn->real_escape_string($_POST['pickup_address']);
     
     if (isset($_POST['ngo_id']) && !empty($_POST['ngo_id'])) {
-        // Assign NGO and set status to pending
         $ngo_id = intval($_POST['ngo_id']);
         $stmt = $conn->prepare("UPDATE fooddetails SET assigned_ngo_id = ?, status = 'pending' WHERE user_id = ? AND pickup_address = ? AND (assigned_ngo_id IS NULL OR assigned_ngo_id = 'NGO NOT FOUND' OR status = 'denied')");
         $stmt->bind_param("iis", $ngo_id, $donor_id, $pickup_address);
@@ -33,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
         }
         $stmt->close();
     } elseif (isset($_POST['ngo_not_found'])) {
-        // Mark as NGO NOT FOUND
         $stmt = $conn->prepare("UPDATE fooddetails SET assigned_ngo_id = 'NGO NOT FOUND', status = 'pending' WHERE user_id = ? AND pickup_address = ? AND (assigned_ngo_id IS NULL OR status = 'denied')");
         $stmt->bind_param("is", $donor_id, $pickup_address);
         
@@ -45,8 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['user_id'])) {
         $stmt->close();
     }
 }
-
-// Get all unassigned donor details (one row per donor per address) including NGO NOT FOUND cases and denied foods
 $sql_unassigned_donors = "
     SELECT f.user_id, f.donor_name, f.pickup_address, u.username, u.address as user_address 
     FROM fooddetails f 
@@ -65,6 +56,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
         .action-buttons {
             display: flex;
             gap: 5px;
+            justify-content: center;
         }
         .btn-assign {
             background-color: #4CAF50;
@@ -108,7 +100,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
             background-color: #f2f2f2;
         }
         select {
-            width: 100%;
+            width: 90%;
             padding: 5px;
         }
         .status-info {
@@ -154,8 +146,6 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                     $pickup_address = htmlspecialchars($row['pickup_address']);
                     $username = htmlspecialchars($row['username']);
                     $user_address = htmlspecialchars($row['user_address']);
-
-                    // Get status info for this donor at this address
                     $status_query = "SELECT COUNT(*) as total, 
                                            SUM(CASE WHEN status = 'denied' THEN 1 ELSE 0 END) as denied_count,
                                            SUM(CASE WHEN assigned_ngo_id IS NULL THEN 1 ELSE 0 END) as unassigned_count,
@@ -190,7 +180,6 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
                     echo "<option value=''>-- Select NGO --</option>";
 
                     $hasNGO = false;
-                    // Fixed NGO query - directly match NGO address with pickup address
                     $stmt_ngo = $conn->prepare("SELECT * FROM ngo WHERE LOWER(address) = LOWER(?)");
                     $stmt_ngo->bind_param("s", $row['pickup_address']);
                     $stmt_ngo->execute();

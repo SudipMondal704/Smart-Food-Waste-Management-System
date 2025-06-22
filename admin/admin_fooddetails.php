@@ -1,15 +1,9 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-
-
 $conn = new mysqli("localhost", "root", "", "food_waste");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Fetch all NGOs with their address for filtering - based on pickup addresses from fooddetails
 $ngoResult = $conn->query("
     SELECT DISTINCT n.ngo_id, n.ngo_name, n.address, f.pickup_address
     FROM ngo n 
@@ -18,14 +12,12 @@ $ngoResult = $conn->query("
 ");
 $ngosByAddress = [];
 while ($ngo = $ngoResult->fetch_assoc()) {
-    $addr = $ngo['pickup_address'] ?? $ngo['address'];  // use pickup_address if available
+    $addr = $ngo['pickup_address'] ?? $ngo['address'];  
     if (!isset($ngosByAddress[$addr])) {
         $ngosByAddress[$addr] = [];
     }
     $ngosByAddress[$addr][] = $ngo;
 }
-
-// Handle Edit (Update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $id = $_POST['id'];
     $food_name = $_POST['food_name'];
@@ -33,17 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $quantity = $_POST['quantity'];
     $unit = $_POST['unit'];
     $pickup_address = $_POST['pickup_address'];
-    $assigned_ngo_id = $_POST['assigned_ngo_id'] ?: NULL; // NULL if none selected
-    
-    // Additional fields for submissions table
+    $assigned_ngo_id = $_POST['assigned_ngo_id'] ?: NULL; 
     $donor_name = $_POST['donor_name'];
     $phone = $_POST['phone'];
     $alt_phone = $_POST['alt_phone'];
-
-    // When reassigning NGO, reset status to pending if it was denied
     $status_update = "";
     if ($assigned_ngo_id && $assigned_ngo_id != 'NGO NOT FOUND') {
-        // Check current status
         $current_status_query = "SELECT status FROM fooddetails WHERE fooddetails_id = ?";
         $stmt_check = $conn->prepare($current_status_query);
         $stmt_check->bind_param("i", $id);
@@ -51,14 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $current_result = $stmt_check->get_result();
         $current_data = $current_result->fetch_assoc();
         $stmt_check->close();
-        
-        // If status was denied and we're assigning new NGO, reset to pending
         if ($current_data && $current_data['status'] == 'denied') {
             $status_update = ", status = 'pending'";
         }
     }
-
-    // Update fooddetails table
     $update_query = "UPDATE fooddetails SET 
         food_name=?, food_type=?, quantity=?, unit=?, pickup_address=?, assigned_ngo_id=?, donor_name=?, phone=?" . $status_update . "
         WHERE fooddetails_id=?";
@@ -66,13 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $stmt->bind_param("ssississi", $food_name, $food_type, $quantity, $unit, $pickup_address, $assigned_ngo_id, $donor_name, $phone, $id);
     $stmt->execute();
     $stmt->close();
-    
-    // Get submission_id from fooddetails to update submissions table
     $submissionResult = $conn->query("SELECT submission_id FROM fooddetails WHERE fooddetails_id='$id'");
     if ($submissionRow = $submissionResult->fetch_assoc()) {
         $submission_id = $submissionRow['submission_id'];
-        
-        // Update submissions table
         $stmt2 = $conn->prepare("UPDATE submissions SET 
             donor_name=?, pickup_address=?, phone=?, alt_phone=?
             WHERE submission_id=?");
@@ -81,14 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $stmt2->close();
     }
 }
-
-// Handle Delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $delete_id = $_POST['id'];
     $conn->query("DELETE FROM fooddetails WHERE fooddetails_id='$delete_id'");
 }
-
-// Fetch Food Details with assigned NGO name (if any) and group by username and address
 $submissions = [];
 $res = $conn->query("
     SELECT f.*, 
@@ -135,15 +110,13 @@ while ($row = $res->fetch_assoc()) {
 }
 
 .not-assigned {
-    color:rgb(255, 0, 0); /* Bootstrap's gray */
-    background-color:rgb(255, 254, 253); /* Bootstrap's yellow */
+    color:rgb(255, 0, 0); 
+    background-color:rgb(255, 254, 253); 
     font-weight:bolder;
     padding: 4px 8px;
     border-radius: 4px;
     display: inline-block;
 }
-
-/* Status styling */
 .status-pending {
     color: white;
     background-color: #ffc107;
@@ -209,8 +182,6 @@ while ($row = $res->fetch_assoc()) {
         <?php foreach ($foods as $row):
             $img = "uploads/" . basename($row['image']);
             $imageTag = file_exists($img) ? "<img src='$img' alt='Food Image' style='width: 75px; height: 75px; object-fit: cover; border: 1px solid #ccc; border-radius:4px;'>" : "No Image";
-            
-            // Handle different NGO status display
             if ($row['assigned_ngo_id'] === 'NGO NOT FOUND') {
                 $ngo = "<span class='ngo-not-found'>NGO NOT FOUND</span>";
             } elseif ($row['ngo_name']) {
@@ -218,8 +189,6 @@ while ($row = $res->fetch_assoc()) {
             } else {
                 $ngo = "<span class='not-assigned'>Not Assigned</span>";
             }
-            
-            // Handle status display - show pending by default if no status set
             $status = $row['status'] ?? 'pending';
             $status_display = "<span class='status-" . strtolower($status) . "'>" . ucfirst($status) . "</span>";
         ?>
@@ -247,8 +216,6 @@ while ($row = $res->fetch_assoc()) {
     </table>
 </div>
 <?php endforeach; ?>
-
-<!-- Modal -->
 <div id="editModal" class="modal">
     <div class="modal-content">
          <h2>Edit Donation Status</h2>
@@ -266,7 +233,6 @@ while ($row = $res->fetch_assoc()) {
             <select name="assigned_ngo_id" id="modal_assigned_ngo_id">
                 <option value="">-- Select Assigned NGO (Optional) --</option>
                 <option value="NGO NOT FOUND">NGO NOT FOUND</option>
-                <!-- Options will be populated dynamically based on pickup address -->
             </select>
                 <button type="submit" name="update" class="update-btn">Update</button>
                 </form><br>
@@ -274,9 +240,7 @@ while ($row = $res->fetch_assoc()) {
             </div>
     </div>
 </div>
-
 <script>
-    // Pass PHP NGOs by address to JS
     const ngosByAddress = <?= json_encode($ngosByAddress) ?>;
 
     function openModal(data) {
@@ -292,22 +256,14 @@ while ($row = $res->fetch_assoc()) {
 
         const ngoSelect = document.getElementById('modal_assigned_ngo_id');
         ngoSelect.innerHTML = '<option value="">-- Select Assigned NGO (Optional) --</option><option value="NGO NOT FOUND">NGO NOT FOUND</option>'; // reset options
-
-        // Get NGOs matching the pickup address (case-insensitive)
         let pickupAddr = data.pickup_address.toLowerCase();
-
-        // Find NGOs whose address matches pickup address (exact or you can customize match logic)
         let matchedNGOs = [];
-
-        // ngosByAddress keys are original addresses, so we check for matching ignoring case
         for (const addr in ngosByAddress) {
             if (addr && addr.toLowerCase() === pickupAddr) {
                 matchedNGOs = ngosByAddress[addr];
                 break;
             }
         }
-
-        // Add matched NGOs to dropdown
         if (matchedNGOs.length > 0) {
             matchedNGOs.forEach(ngo => {
                 const opt = document.createElement('option');
@@ -316,8 +272,6 @@ while ($row = $res->fetch_assoc()) {
                 ngoSelect.appendChild(opt);
             });
         }
-
-        // Set currently assigned NGO if present
         if (data.assigned_ngo_id === 'NGO NOT FOUND') {
             ngoSelect.value = "NGO NOT FOUND";
         } else {

@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-// Check if user is logged in
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
     header("Location: ../newlogin.php");
     exit();
@@ -11,8 +9,6 @@ $host = "localhost";
 $user = "root";
 $pass = "";
 $dbname = "food_waste";
-
-// Database connection
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -23,8 +19,6 @@ $user_type = $_SESSION['user_type'];
 $message = '';
 $error = '';
 $redirect_success = false;
-
-// Get current user data
 if ($user_type == 'Donor') {
     $query = "SELECT username as name, email, phone, address, image FROM users WHERE user_id = ?";
 } elseif ($user_type == 'NGO') {
@@ -37,15 +31,11 @@ $stmt->execute();
 $result = $stmt->get_result();
 $current_data = $result->fetch_assoc();
 $stmt->close();
-
-// Handle form submission
 if ($_POST) {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $phone = trim($_POST['phone']);
     $address = trim($_POST['address']);
-    
-    // Validate inputs
     if (empty($name) || empty($email) || empty($phone) || empty($address)) {
         $error = "All fields are required!";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -53,26 +43,19 @@ if ($_POST) {
     } elseif (!preg_match("/^[0-9]{10}$/", $phone)) {
         $error = "Phone number must be 10 digits!";
     } else {
-        // Handle image upload
-        $image_name = $current_data['image']; // Keep current image by default
-        
-        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+        $image_name = $current_data['image']; 
+         if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
             $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
             $file_type = $_FILES['profile_image']['type'];
             $file_size = $_FILES['profile_image']['size'];
-            
-            if (in_array($file_type, $allowed_types) && $file_size <= 5000000) { // 5MB limit
+            if (in_array($file_type, $allowed_types) && $file_size <= 5000000) { 
                 $file_extension = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
                 $new_filename = $user_type . '_' . $user_id . '_' . time() . '.' . $file_extension;
                 $upload_path = 'uploaded_img/' . $new_filename;
-                
-                // Create directory if it doesn't exist
                 if (!file_exists('uploaded_img')) {
                     mkdir('uploaded_img', 0777, true);
                 }
-                
                 if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_path)) {
-                    // Delete old image if exists
                     if (!empty($current_data['image']) && file_exists('uploaded_img/' . $current_data['image'])) {
                         unlink('uploaded_img/' . $current_data['image']);
                     }
@@ -84,8 +67,6 @@ if ($_POST) {
                 $error = "Invalid image file! Please upload JPG, PNG, or GIF under 5MB.";
             }
         }
-        
-        // Update database if no errors
         if (empty($error)) {
             if ($user_type == 'Donor') {
                 $update_query = "UPDATE users SET username = ?, email = ?, phone = ?, address = ?, image = ? WHERE user_id = ?";
@@ -99,7 +80,6 @@ if ($_POST) {
             if ($update_stmt->execute()) {
                 $message = "Profile updated successfully!";
                 $redirect_success = true;
-                // Refresh current data
                 $current_data['name'] = $name;
                 $current_data['email'] = $email;
                 $current_data['phone'] = $phone;
@@ -122,11 +102,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile - Food Donate</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Flaticons -->
 	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <style>
         * {
@@ -379,18 +356,6 @@ $conn->close();
         .btn-secondary:hover {
             background: #718096;
         }
-        
-        /* .password-section {
-            border-top: 1px solid #4a5568;
-            padding-top: 30px;
-            margin-top: 30px;
-        }
-        
-        .password-note {
-            color: #a0aec0;
-            font-size: 12px;
-            margin-top: 6px;
-        } */
     </style>
 </head>
 <body>
@@ -478,22 +443,7 @@ $conn->close();
             <div class="form-group">
                 <label for="address">Address</label>
                 <textarea id="address" name="address" required><?php echo htmlspecialchars($current_data['address']); ?></textarea>
-            </div>
-            
-            <!-- <div class="password-section">
-                <div class="form-group">
-                    <label for="current_password">Current password</label>
-                    <input type="password" id="current_password" name="current_password" placeholder="Current password">
-                    <div class="password-note">Confirm your current password before setting a new one.</div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="new_password">New password</label>
-                    <input type="password" id="new_password" name="new_password" placeholder="New password">
-                    <div class="password-note">Must contain 1 uppercase letter, 1 number, min. 8 characters.</div>
-                </div>
-            </div> -->
-            
             <div class="btn-group">
                 <a href="homeSession.php" class="btn btn-secondary">
                     <i class="fas fa-times"></i> Cancel
@@ -503,7 +453,6 @@ $conn->close();
     </div>
     
     <script>
-        // File input preview functionality
         document.getElementById('profile_image').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const preview = document.getElementById('profile-preview');
@@ -520,28 +469,20 @@ $conn->close();
         function removeImage() {
             const preview = document.getElementById('profile-preview');
             const fileInput = document.getElementById('profile_image');
-            
-            // Reset file input
             fileInput.value = '';
-            
-            // Set to placeholder
             preview.src = 'https://via.placeholder.com/64x64/4a5568/ffffff?text=<?php echo strtoupper(substr($current_data['name'], 0, 2)); ?>';
         }
-        
-        // Auto-hide success message and redirect after 2 seconds
         <?php if ($redirect_success): ?>
         const success_Message = document.querySelector('.message.success');
         if (success_Message) {
             setTimeout(() => {
                 success_Message.style.opacity = '0';
                 setTimeout(() => {
-                    // Redirect to homeSession.php after showing success message
                     window.location.href = 'homeSession.php';
                 }, 300);
-            }, 2000); // Show message for 2 seconds before redirect
+            }, 2000); 
         }
         <?php else: ?>
-        // Auto-hide success message after 3 seconds (for non-redirect scenarios)
         const successMessage = document.querySelector('.message.success');
         if (successMessage) {
             setTimeout(() => {

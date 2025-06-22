@@ -1,8 +1,5 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-
 $server = "localhost";
 $user = "root";
 $pass = "";
@@ -12,16 +9,12 @@ $conn = new mysqli($server, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Delete Logic
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $conn->query("DELETE FROM ngo WHERE ngo_id = $delete_id");
     header("Location:admin.php?type=ngos");
     exit;
 }
-
-// Update Logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_ngo'])) {
     $ngo_id = intval($_POST['ngo_id']);
     $ngo_name = $conn->real_escape_string($_POST['ngo_name']);
@@ -85,8 +78,6 @@ $result = $conn->query("SELECT * FROM ngo");
         </tbody>
     </table>
 </div>
-
-<!-- Modal -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <h2>Edit NGO</h2>

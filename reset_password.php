@@ -1,47 +1,30 @@
 <?php
-// Database configuration
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
 $db_name = "food_waste";
-
-// Create database connection
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Start session
 session_start();
-
-// Check if user is authenticated for password reset
 if (!isset($_SESSION['reset_authenticated']) || !isset($_SESSION['reset_email']) || !isset($_SESSION['reset_user_type'])) {
     header("Location: forgot_password.php");
     exit();
 }
-
 $email = $_SESSION['reset_email'];
 $userType = $_SESSION['reset_user_type'];
 $error_message = "";
 $success_message = "";
-
-// Process password reset form
 if (isset($_POST['reset_password_submit'])) {
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
-    
-    // Validate password strength
     if (strlen($new_password) < 8) {
         $error_message = "Password must be at least 8 characters long.";
     } else if ($new_password !== $confirm_password) {
         $error_message = "Passwords do not match.";
     } else {
-        // Store password as plain text (WARNING: This is not secure!)
         $password = $new_password;
-        
-        // Update password in the appropriate table based on user type
         if ($userType === 'users') {
             $stmt = $conn->prepare("UPDATE users SET password = ?, reset_otp = NULL, reset_otp_expiry = NULL WHERE email = ?");
         } else {
@@ -54,16 +37,11 @@ if (isset($_POST['reset_password_submit'])) {
             $stmt->bind_param("ss", $password, $email);
             
             if ($stmt->execute()) {
-                // Check if any rows were affected
                 if ($stmt->affected_rows > 0) {
                     $success_message = "Password has been reset successfully for " . ($userType === 'users' ? 'User' : 'NGO') . " account.";
-                    
-                    // Clear reset session variables
                     unset($_SESSION['reset_authenticated']);
                     unset($_SESSION['reset_email']);
                     unset($_SESSION['reset_user_type']);
-                    
-                    // Auto-redirect after successful password reset
                     header("refresh:3;url=newlogin.php");
                 } else {
                     $error_message = "No account found or password not updated. Please try again.";
@@ -234,33 +212,21 @@ $conn->close();
             var strength = 0;
             var strengthText = "";
             var strengthColor = "";
-            
-            // Check password length
             if (password.length >= 8) {
                 strength += 1;
             }
-            
-            // Check for numbers
             if (/\d/.test(password)) {
                 strength += 1;
             }
-            
-            // Check for lowercase
             if (/[a-z]/.test(password)) {
                 strength += 1;
             }
-            
-            // Check for uppercase
             if (/[A-Z]/.test(password)) {
                 strength += 1;
             }
-            
-            // Check for special characters
             if (/[^A-Za-z0-9]/.test(password)) {
                 strength += 1;
             }
-            
-            // Set strength text and color
             switch(strength) {
                 case 0:
                 case 1:
@@ -287,11 +253,8 @@ $conn->close();
             
             document.getElementById("password-strength").textContent = "Password Strength: " + strengthText;
             document.getElementById("password-strength").style.color = strengthColor;
-            
-            // Also check password match when strength changes
             checkPasswordMatch();
         }
-        
         function checkPasswordMatch() {
             var password = document.getElementById("new_password").value;
             var confirmPassword = document.getElementById("confirm_password").value;
@@ -313,8 +276,6 @@ $conn->close();
                 submitBtn.disabled = false;
             }
         }
-        
-        // Form validation
         document.getElementById("resetPasswordForm").addEventListener("submit", function(event) {
             var password = document.getElementById("new_password").value;
             var confirmPassword = document.getElementById("confirm_password").value;

@@ -1,32 +1,19 @@
 <?php
-// Database configuration
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
 $db_name = "food_waste";
-
-// Include PHPMailer autoload file
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
-
-// Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-// Create database connection
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Start session
 session_start();
-
-// Check if user came from forgot password page
 if (!isset($_SESSION['reset_email']) || !isset($_SESSION['reset_user_type'])) {
     header("Location: forgot_password.php");
     exit();
@@ -36,8 +23,6 @@ $email = $_SESSION['reset_email'];
 $userType = $_SESSION['reset_user_type'];
 $error_message = "";
 $success_message = "";
-
-// Function to generate random OTP
 function generateOTP($length = 6) {
     $characters = '0123456789';
     $otp = '';
@@ -46,28 +31,21 @@ function generateOTP($length = 6) {
     }
     return $otp;
 }
-
-// Function to send email with OTP using PHPMailer
 function sendOTPEmail($email, $otp) {
-    // Create a new PHPMailer instance
     $mail = new PHPMailer(true);
-    
     try {
-        // Server settings
-        $mail->isSMTP();                                      // Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';                 // Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                             // Enable SMTP authentication
-        $mail->Username   = 'sudipmondal704777@gmail.com';           // SMTP username 
-        $mail->Password   = 'avyj scad yvfm ekjn';              // SMTP password 
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption
-        $mail->Port       = 587;                              // TCP port to connect 
+        $mail->isSMTP();                                      
+        $mail->Host       = 'smtp.gmail.com';                 
+        $mail->SMTPAuth   = true;                             
+        $mail->Username   = 'sudipmondal704777@gmail.com';          
+        $mail->Password   = 'avyj scad yvfm ekjn';               
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;                            
         
-        // Recipients
-        $mail->setFrom('sudipmondal704777@gmail.com', 'Smart Food Waste Management System');
-        $mail->addAddress($email);                            // Add a recipient
+        $mail->setFrom('sudipmondal704777@gmail.com', 'Easy Donate');
+        $mail->addAddress($email);                           
         
-        // Content
-        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->isHTML(true);                            
         $mail->Subject = 'Password Reset OTP';
         $mail->Body    = "Your OTP for password reset is: <b>$otp</b><br>This OTP will expire in 15 minutes.";
         $mail->AltBody = "Your OTP for password reset is: $otp\nThis OTP will expire in 15 minutes.";
@@ -75,17 +53,12 @@ function sendOTPEmail($email, $otp) {
         $mail->send();
         return true;
     } catch (Exception $e) {
-        // For debugging
         $_SESSION['mail_error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         return false;
     }
 }
-
-// Process OTP verification
 if (isset($_POST['verify_otp_submit'])) {
     $user_otp = $_POST['otp'];
-    
-    // Get stored OTP details from appropriate table based on user type
     if ($userType === 'users') {
         $stmt = $conn->prepare("SELECT reset_otp, reset_otp_expiry FROM users WHERE email = ?");
     } else {
@@ -103,14 +76,10 @@ if (isset($_POST['verify_otp_submit'])) {
             $user = $result->fetch_assoc();
             $stored_otp = $user['reset_otp'];
             $expiry_time = $user['reset_otp_expiry'];
-            
-            // Check if OTP is expired
             if (strtotime($expiry_time) < time()) {
                 $error_message = "OTP has expired. Please request a new one.";
             } 
-            // Verify OTP
             else if ($stored_otp == $user_otp) {
-                // OTP is valid, set session variable for password reset
                 $_SESSION['reset_authenticated'] = true;
                 header("Location: reset_password.php");
                 exit();
@@ -124,14 +93,9 @@ if (isset($_POST['verify_otp_submit'])) {
         $stmt->close();
     }
 }
-
-// Process resend OTP
 if (isset($_POST['resend_otp'])) {
-    // Generate new OTP
     $otp = generateOTP();
     $expiry_time = date('Y-m-d H:i:s', strtotime('+15 minutes'));
-    
-    // Update database with new OTP and expiry time based on user type
     if ($userType === 'users') {
         $update_stmt = $conn->prepare("UPDATE users SET reset_otp = ?, reset_otp_expiry = ? WHERE email = ?");
     } else {
@@ -143,8 +107,6 @@ if (isset($_POST['resend_otp'])) {
     } else {
         $update_stmt->bind_param("sss", $otp, $expiry_time, $email);
         $update_stmt->execute();
-        
-        // Send new OTP to user's email
         if (sendOTPEmail($email, $otp)) {
             $success_message = "A new OTP has been sent to your email.";
         } else {
@@ -159,8 +121,6 @@ if (isset($_POST['resend_otp'])) {
         $update_stmt->close();
     }
 }
-
-// Close database connection
 $conn->close();
 ?>
 
@@ -291,20 +251,13 @@ $conn->close();
             <a href="forgot_password.php"> ← Back to Forgot Password </a>
         </p>
     </div>
-    
-    <script>
-        // Auto-focus on OTP input
+     <script>
         document.getElementById('otp').focus();
-        
-        // Allow only numbers in OTP field
         document.getElementById('otp').addEventListener('input', function(e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
-        
-        // Auto-submit form when 6 digits are entered
         document.getElementById('otp').addEventListener('input', function(e) {
             if (this.value.length === 6) {
-                // Small delay to show the complete OTP before submitting
                 setTimeout(() => {
                     document.querySelector('button[name="verify_otp_submit"]').click();
                 }, 500);

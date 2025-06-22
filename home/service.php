@@ -31,12 +31,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
         
         if ($result->num_rows > 0) {
             $user_data = $result->fetch_assoc();
-            
-            // Set default donation count for now
             $user_data['donation_count'] = 0;
-            
-            // Format join date
-            $join_date = new DateTime($user_data['created_at']);
+             $join_date = new DateTime($user_data['created_at']);
             $user_data['join_date'] = $join_date->format('M Y');
         }
         $stmt->close();
@@ -53,11 +49,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>easyDonate - Save Food Share joy</title>
     <link rel="stylesheet" href="../css/style.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Flaticons -->
 	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <style>
         .service-section {
@@ -92,8 +85,6 @@ $conn->close();
             background: #2dd4bf;
             margin: 0 auto;
         }
-
-        /* Main Content Grid */
         .service-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -235,8 +226,6 @@ $conn->close();
             border-radius: 10px;
             padding-right: 20px;
         }
-
-        /* Characteristics Section */
         .characteristics-section {
             margin-top: 60px;
             background: rgba(255, 255, 255, 0.9);
@@ -337,7 +326,6 @@ $conn->close();
 <body>
 	<header>
         <div class="top-image" style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../img/team.jpg);">
-        <!-- Navbar Section -->
             <nav class="navbar">
                 <a href="#" class="nav-logo">
                     <img src="../img/logo.png" alt="Food Donate Logo">
@@ -368,28 +356,20 @@ $conn->close();
                         <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
                     </li>
                     <?php endif; ?>
-                    
-                    <!-- User Profile - Show only when logged in -->
             <?php if ($is_logged_in && $user_data): ?>
             <li class="nav-item user-profile active" id="user-profile">
                 <?php 
-                // Fix image path handling - since homeSession.php is in home/ folder
                 $profile_image_src = '';
                 if (!empty($user_data['image'])) {
-                    // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
                     $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
                     if (file_exists($file_path)) {
                         $profile_image_src = $file_path;
                     } else {
-                        // Fallback to default user image if file doesn't exist
                         $profile_image_src = '../img/user.png';
                     }
                 } else {
-                    // Default placeholder for users without profile image
                     $profile_image_src = '../img/user.png';
                 }
-                
-                // Same logic for popup image
                 $popup_image_src = '';
                 if (!empty($user_data['image'])) {
                     $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
@@ -435,13 +415,11 @@ $conn->close();
                         
                         <?php endif; ?>
                     </div>
-                    <!-- Logout button moved to left side under other icons -->
                     <div class="profile-info-item logout-item" id="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </div>
                 </div>
-                <!-- Edit Profile button moved to bottom -->
                 <div class="profile-actions">
                     <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
                 </div>
@@ -450,7 +428,6 @@ $conn->close();
         <?php endif; ?>
                 </ul>
             </nav>
-            <!-- Main Section -->
             <section class="content-main">
                 <div class="sub-content">
                     <h2 class="title">Services</h2>
@@ -460,8 +437,6 @@ $conn->close();
                 </div>
             </section>
         </div>
-        
-        <!-- Services Section -->
             <div class="service-section">
                 <div class="service-container">
                     <div class="service-header">
@@ -551,8 +526,6 @@ $conn->close();
                 </div>
             </div>
         </div>
-
-        <!-- Footer Section -->
             <footer class="footer-section">
                 <div class="section-content">
                     <div class="footer-left">
@@ -632,41 +605,31 @@ $conn->close();
                     <p> © Copyright 2025 easy Donate. All rights reserved.</p>
                 </div>
             </footer>
-
-            <!-- Back to Top Scrollbar -->
             <button class="scroll-to-top" id="scrollToTop">
                 <i class="fas fa-chevron-up"></i>
             </button>
   </header>
   <script src="../js/script.js"></script>
   <script>
-    // User Profile Functionality
     document.addEventListener('DOMContentLoaded', function() {
         const userAvatar = document.getElementById('user-avatar');
         const profilePopup = document.getElementById('profile-popup');
         const logoutBtn = document.getElementById('logout-btn');
         const userProfile = document.getElementById('user-profile');
-        
-        // Toggle profile popup
         if (userAvatar && profilePopup) {
             userAvatar.addEventListener('click', function(e) {
                 e.stopPropagation();
                 profilePopup.classList.toggle('show');
             });
         }
-        
-        // Close popup when clicking outside
         document.addEventListener('click', function(e) {
             if (profilePopup && userProfile && !userProfile.contains(e.target)) {
                 profilePopup.classList.remove('show');
             }
         });
-        
-        // Logout functionality
         if (logoutBtn) {
             logoutBtn.addEventListener('click', function() {
                 if (confirm('Are you sure you want to logout?')) {
-                    // Redirect to logout script
                     window.location.href = 'logout.php';
                 }
             });

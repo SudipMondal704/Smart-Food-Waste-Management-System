@@ -1,69 +1,46 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-
-// create_ngo.php
 $host = "localhost";
 $user = "root";
 $pass = "";
 $dbname = "food_waste";
-
-// Database connection
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 $message = "";
 $message_type = "";
-
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect form data
     $ngo_name = trim($_POST['ngo_name']);
     $email    = trim($_POST['email']);
     $phone    = trim($_POST['phone']);
     $address  = trim($_POST['address']);
     $password = $_POST['password'];
-
-    // Image Upload
     $image_name     = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_size     = $_FILES['image']['size'];
-    
-    // Create the upload directory if it doesn't exist
     $upload_dir = "home/uploaded_img/";
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0755, true);
     }
-    
     $unique_name = '';
-    
-    // Basic image validation
     if (!empty($image_name)) {
-        // Check file size (max 2MB)
         if ($image_size > 2000000) {
             $message = "Image size is too large. Max 2MB allowed.";
             $message_type = "error";
         } else {
-            // Check file type
             $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
             $file_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
             if (!in_array($file_extension, $allowed_types)) {
                 $message = "Only JPG, JPEG, PNG & GIF files are allowed.";
                 $message_type = "error";
             } else {
-                // Generate unique filename to avoid conflicts
                 $unique_name = time() . '_' . $image_name;
                 $image_folder = $upload_dir . $unique_name;
             }
         }
     }
-
-    // Proceed if no image errors
     if (empty($message)) {
-        // Check if email already exists
         $check_query = $conn->prepare("SELECT ngo_id FROM ngo WHERE email = ?");
         $check_query->bind_param("s", $email);
         $check_query->execute();
@@ -73,12 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Email already registered!";
             $message_type = "error";
         } else {
-            // Insert NGO into ngo table
             $stmt = $conn->prepare("INSERT INTO ngo (ngo_name, address, email, phone, password, image, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
             $stmt->bind_param("ssssss", $ngo_name, $address, $email, $phone, $password, $unique_name);
-
-            if ($stmt->execute()) {
-                // Only move file if upload was successful and file exists
+         if ($stmt->execute()) {
                 if (!empty($unique_name) && !empty($image_tmp_name)) {
                     if (move_uploaded_file($image_tmp_name, $image_folder)) {
                         $message = "NGO added successfully!";
@@ -91,8 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $message = "NGO added successfully!";
                     $message_type = "success";
                 }
-                
-                // Clear form data on success
                 if ($message_type == "success") {
                     $ngo_name = $email = $phone = $address = $password = "";
                 }
@@ -370,27 +342,19 @@ $conn->close();
         if (input.files.length > 0) {
             const file = input.files[0];
             fileName.textContent = file.name;
-            
-            // Show file size
             const fileSize = (file.size / 1024 / 1024).toFixed(2);
             fileName.textContent += ` (${fileSize} MB)`;
         } else {
             fileName.textContent = 'No file chosen';
         }
     }
-    
-    // Add some client-side validation
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('.ngo-form');
         const phoneInput = document.getElementById('phone');
         const ngoNameInput = document.getElementById('ngo_name');
-        
-        // Phone number validation
         phoneInput.addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9+\-() ]/g, '');
         });
-        
-        // NGO name validation
         ngoNameInput.addEventListener('input', function() {
             if (this.value.length < 3) {
                 this.setCustomValidity('NGO name must be at least 3 characters long');
@@ -398,8 +362,6 @@ $conn->close();
                 this.setCustomValidity('');
             }
         });
-        
-        // Form submission validation
         form.addEventListener('submit', function(e) {
             const requiredFields = form.querySelectorAll('input[required], textarea[required]');
             let isValid = true;

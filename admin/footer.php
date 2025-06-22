@@ -1,8 +1,6 @@
 <?php
 require_once('adminSession.php');
 ?>
-
-
 <div class="content">
     <div class="head-title">
         <div class="left">
@@ -20,7 +18,6 @@ require_once('adminSession.php');
                                     case 'ngos': echo "NGOs"; break;
                                     case 'create_ngo': echo "Create NGO"; break;
                                      case 'feedback': echo "Feedbacks"; break;
-                                   // case 'food': echo "Food Details List"; break;
                                     case 'pending': echo "Pending Donation Request"; break;
                                     case 'assign': echo "Assigned Donation Request"; break;
                                     case 'status': echo "Donation Status"; break;
@@ -48,7 +45,6 @@ require_once('adminSession.php');
                                 case 'ngos': echo "NGO List"; break;
                                 case 'create_ngo': echo ""; break;
                                 case 'feedback': echo "Feedback List"; break;
-                               // case 'food': echo "Food Details List"; break;
                                 case 'pending': echo "Pending Donation Request"; break;
                                 case 'assign': echo "Assigned Donation Request"; break;
                                 case 'status': echo "Donation Status"; break;
@@ -81,9 +77,6 @@ require_once('adminSession.php');
                         case 'feedback':
                             include("admin_feedback.php");
                               break;
-                       // case 'food':
-                          //  include("admin_fooddetails.php");
-                         //   break;
                         case 'pending':
                             include("pending_request.php");
                             break;
@@ -103,7 +96,6 @@ require_once('adminSession.php');
         </div>
     </div>
 </div>
- <!-- Jquery -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"
       integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw=="

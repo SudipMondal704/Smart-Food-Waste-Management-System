@@ -1,18 +1,13 @@
 <?php
-
 require_once('adminSession.php');
 $server = "localhost";
 $user = "root";
 $pass = "";
 $db = "food_waste";
-
-// Connect to database
 $conn = new mysqli($server, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST["action"] ?? '';
 
@@ -21,8 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $email = trim($_POST["email"]);
         $phone = trim($_POST["phonenumber"]);
         $feedback = trim($_POST["feedback_text"]);
-
-        // Fetch user_id if user registered
         $userId = null;
         $checkUser = $conn->prepare("SELECT user_id FROM users WHERE LOWER(email) = LOWER(?)");
         $checkUser->bind_param("s", $email);
@@ -34,13 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $userId = $user["user_id"];
         }
         $checkUser->close();
-
-        // Prepare insert statement
         $insert = $conn->prepare("INSERT INTO feedback (user_id, full_name, email, phone_number, feedback_text) VALUES (?, ?, ?, ?, ?)");
-
-        if ($userId === null) {
-            // Bind NULL for user_id
-            // Note: must pass variable by reference and type 'i' for int, so use null variable
+          if ($userId === null) {
             $null = NULL;
             $insert->bind_param("issss", $null, $fullName, $email, $phone, $feedback);
         } else {

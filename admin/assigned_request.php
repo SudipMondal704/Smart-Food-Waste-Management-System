@@ -1,10 +1,5 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-
-
-// Database connection
 $server = "localhost";
 $user = "root";
 $password = "";
@@ -13,9 +8,6 @@ $conn = new mysqli($server, $user, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Fetch one row per donation batch (donor + pickup address + NGO combo)
-// Each batch can have multiple food items
 $sql_assigned = "
     SELECT 
         f.user_id,
@@ -85,21 +77,15 @@ $result_assigned = $conn->query($sql_assigned);
             ?>
         </tbody>
     </table>
-
-    <script>
-        // Add some interactivity
+<script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Add click event to rows for potential future functionality
             const rows = document.querySelectorAll('tbody tr');
             rows.forEach(row => {
                 row.style.cursor = 'pointer';
                 row.addEventListener('click', function() {
-                    // Future: Could redirect to detailed view
                     console.log('Row clicked:', this);
                 });
             });
-            
-            // Auto-refresh every 5 minutes
             setTimeout(function() {
                 location.reload();
             }, 300000);
@@ -107,8 +93,6 @@ $result_assigned = $conn->query($sql_assigned);
     </script>
 </body>
 </html>
-
 <?php
-// Close database connection
 $conn->close();
 ?>

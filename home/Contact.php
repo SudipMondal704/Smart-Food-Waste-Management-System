@@ -32,26 +32,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
         if ($result->num_rows > 0) {
             $user_data = $result->fetch_assoc();
             
-            // Count donations - you can uncomment and modify this when you have a donations table
-            /*
-            if ($user_type == 'Donor') {
-                $donation_count_query = "SELECT COUNT(*) as donation_count FROM donations WHERE user_id = ?";
-            } else {
-                $donation_count_query = "SELECT COUNT(*) as donation_count FROM received_donations WHERE ngo_id = ?";
-            }
-            $donation_stmt = $conn->prepare($donation_count_query);
-            $donation_stmt->bind_param("i", $user_id);
-            $donation_stmt->execute();
-            $donation_result = $donation_stmt->get_result();
-            $donation_data = $donation_result->fetch_assoc();
-            $user_data['donation_count'] = $donation_data['donation_count'];
-            $donation_stmt->close();
-            */
-            
-            // Set default donation count for now
             $user_data['donation_count'] = 0;
             
-            // Format join date
             $join_date = new DateTime($user_data['created_at']);
             $user_data['join_date'] = $join_date->format('M Y');
         }
@@ -70,14 +52,10 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>easyDonate - Save Food Share joy</title>
     <link rel="stylesheet" href="../css/style.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Flaticons -->
 	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 	<style>
-        /* Contact Page -  STYLES */
         .contact-section {
             padding: 80px 0 100px;
             background: #fff;
@@ -134,7 +112,6 @@ $conn->close();
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Map Section - FIXED */
         .map-container {
             flex: 1;
             max-width: 400px;
@@ -154,7 +131,6 @@ $conn->close();
             border: none;
         }
 
-        /* Accordion styles */
         .help-content {
             display: flex;
             gap: 30px;
@@ -178,7 +154,7 @@ $conn->close();
         }
 
         .accordion:after {
-            content: '\f107'; /* Font Awesome arrow down icon */
+            content: '\f107';
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             color: #777;
@@ -202,9 +178,9 @@ $conn->close();
         }
 
         .accordion.active:after {
-            content: '\f106'; /* Font Awesome arrow up icon */
+            content: '\f106';
             color: white;
-            transform: rotate(0deg); /* Remove rotation since we're using different icons */
+            transform: rotate(0deg);
         }
 
         .panel {
@@ -242,7 +218,6 @@ $conn->close();
             text-decoration: underline;
         }
 
-        /* Animation for smooth panel opening */
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -254,7 +229,6 @@ $conn->close();
             }
         }
 
-        /* Chatbot Section */
         .chatbot-section {
             padding: 30px;
             background-image: url(../img/footer-map.png);
@@ -274,7 +248,6 @@ $conn->close();
             font-weight: 600;
         }
 
-        /* Fixed Chatbot Styles */
         .container {
             display: flex;
             flex-direction: column;
@@ -388,7 +361,6 @@ $conn->close();
 <body>
 	<header>
         <div class="top-image" style="background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/Contact.jpg);">
-        <!-- Navbar Section -->
         <nav class="navbar">
             <a href="#" class="nav-logo">
                 <img src="../img/logo.png" alt="Food Donate Logo">
@@ -420,27 +392,21 @@ $conn->close();
                 </li>
                 <?php endif; ?>
                 
-                <!-- User Profile - Show only when logged in -->
             <?php if ($is_logged_in && $user_data): ?>
             <li class="nav-item user-profile active" id="user-profile">
                 <?php 
-                // Fix image path handling - since homeSession.php is in home/ folder
                 $profile_image_src = '';
                 if (!empty($user_data['image'])) {
-                    // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
                     $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
                     if (file_exists($file_path)) {
                         $profile_image_src = $file_path;
                     } else {
-                        // Fallback to default user image if file doesn't exist
                         $profile_image_src = '../img/user.png';
                     }
                 } else {
-                    // Default placeholder for users without profile image
                     $profile_image_src = '../img/user.png';
                 }
                 
-                // Same logic for popup image
                 $popup_image_src = '';
                 if (!empty($user_data['image'])) {
                     $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
@@ -486,13 +452,11 @@ $conn->close();
                         
                         <?php endif; ?>
                     </div>
-                    <!-- Logout button moved to left side under other icons -->
                     <div class="profile-info-item logout-item" id="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </div>
                 </div>
-                <!-- Edit Profile button moved to bottom -->
                 <div class="profile-actions">
                     <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
                 </div>
@@ -501,7 +465,6 @@ $conn->close();
         <?php endif; ?>
             </ul>
         </nav>
-            <!-- Main Section -->
             <section class="content-main">
                 <div class="sub-content">
                     <h2 class="title">Contact Us</h2>
@@ -511,7 +474,6 @@ $conn->close();
                 </div>
             </section>
         </div>
-        <!-- Contact Section -->
         <section class="contact-section">
                 <div class="section-content">
                     <div class="contact-left">
@@ -536,7 +498,6 @@ $conn->close();
                 </div>
             </section>
 
-            <!-- chatbot -->
             <section class="chatbot-section">
             <h2>ChatBot Support <i class="fa-solid fa-robot"></i></h2>
             <div class="container">
@@ -595,7 +556,6 @@ $conn->close();
                     </div>
                 </div>
             </section>
-            <!-- Footer Section -->
             <footer class="footer-section">
                 <div class="section-content">
                     <div class="footer-left">
@@ -677,21 +637,18 @@ $conn->close();
                 </div>
             </footer>
 
-            <!-- Back to Top Scrollbar -->
             <button class="scroll-to-top" id="scrollToTop">
                 <i class="fas fa-chevron-up"></i>
             </button>
   </header>
   
   <script>
-        // User Profile Functionality
         document.addEventListener('DOMContentLoaded', function() {
             const userAvatar = document.getElementById('user-avatar');
             const profilePopup = document.getElementById('profile-popup');
             const logoutBtn = document.getElementById('logout-btn');
             const userProfile = document.getElementById('user-profile');
             
-            // Toggle profile popup
             if (userAvatar && profilePopup) {
                 userAvatar.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -699,18 +656,15 @@ $conn->close();
                 });
             }
             
-            // Close popup when clicking outside
             document.addEventListener('click', function(e) {
                 if (profilePopup && userProfile && !userProfile.contains(e.target)) {
                     profilePopup.classList.remove('show');
                 }
             });
             
-            // Logout functionality
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
                     if (confirm('Are you sure you want to logout?')) {
-                        // Redirect to logout script
                         window.location.href = 'logout.php';
                     }
                 });

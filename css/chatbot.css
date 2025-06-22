@@ -3,18 +3,11 @@
   }
   
   html {
-      /* height: 100%; */
-  
-  }
-  
-  body {
+       }
+   body {
     font-family: 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, Helvetica,
       sans-serif;
-    /* -webkit-font-smoothing: antialiased; */
-    /* -moz-osx-font-smoothing: grayscale; */
-      /* background-color: rgba(152, 243, 208, 0.5); */
-      /* height: 100%; */
       margin: 0;
   }
   
@@ -89,9 +82,6 @@
       
 }
   
-  
-  /* Mobile */
-  
   @media only screen and (max-width: 800px) {
     .container {
           flex-direction: column; 
@@ -105,32 +95,7 @@
         width: 600px;
         height:500px ;
       }
-      
-      /* img{
-        visibility: hidden;
-      }
-      .img{
-        width: 740px;
-        height: 560px;
-        background:url('chitti.jpeg')no-repeat;
-      background-size: cover;
-     margin: auto;
-      place-items:center;
-    
-
-    
-    
-      } */
   } 
-  /* .chatwindow{
-    width:400px;
-    height: 400px;
-    background: color #f2f2f2;;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    margin: auto;
-
-  } */
   .chat-header {
     background-color: #4caf9d;
     color: white;
@@ -149,27 +114,18 @@
     place-items:center;
     
   }
-
-
-/* Style for the header */
 h1 {
   text-align: center;
   margin: 20px 0;
 }
-
-/* Style for the contact form */
 .contact-form {
   width: 50%;
   margin: 0 auto;
 }
-
-/* Style for form labels */
 label {
   display: block;
   margin-bottom: 10px;
 }
-
-/* Style for form inputs */
 input[type="text"], input[type="email"], textarea {
   width: 100%;
   padding: 12px;
@@ -177,8 +133,6 @@ input[type="text"], input[type="email"], textarea {
   box-sizing: border-box;
   margin-bottom: 10px;
 }
-
-/* Style for the submit button */
 input[type="submit"] {
   background-color: #4CAF50;
   color: white;
@@ -186,8 +140,6 @@ input[type="submit"] {
   border: none;
   cursor: pointer;
 }
-
-/* Style for the contact information */
 .contact-info {
   margin-top: 20px;
   text-align: center;
@@ -217,8 +169,6 @@ input[type="submit"] {
     }
   
   }
-
-  /* togglelist */
   .accordion {
     background-color:rgba(255, 255, 255, 0.856);
     color: #444;
@@ -245,7 +195,6 @@ input[type="submit"] {
   }
   
   .active:after {
-    /* content: "\2212"; */
   }
   
   .panel {

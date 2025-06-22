@@ -1,32 +1,19 @@
 <?php
-// Database configuration
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
 $db_name = "food_waste";
-
-// Include PHPMailer autoload file
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
-
-// Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-// Create database connection
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Start session
 session_start();
-
-// Function to generate random OTP
 function generateOTP($length = 6) {
     $characters = '0123456789';
     $otp = '';
@@ -36,27 +23,21 @@ function generateOTP($length = 6) {
     return $otp;
 }
 
-// Function to send email with OTP using PHPMailer
 function sendOTPEmail($email, $otp) {
-    // Create a new PHPMailer instance
     $mail = new PHPMailer(true);
     
     try {
-        // Server settings
-        $mail->isSMTP();                                      // Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';                 // Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                             // Enable SMTP authentication
-        $mail->Username   = 'sudipmondal704777@gmail.com';           // SMTP username 
-        $mail->Password   = 'avyj scad yvfm ekjn';              // SMTP password 
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption
-        $mail->Port       = 587;                              // TCP port to connect 
-        
-        // Recipients
+        $mail->isSMTP();                                   
+        $mail->Host       = 'smtp.gmail.com';                 
+        $mail->SMTPAuth   = true;                             
+        $mail->Username   = 'sudipmondal704777@gmail.com';           
+        $mail->Password   = 'avyj scad yvfm ekjn';              
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  
+        $mail->Port       = 587;                             
         $mail->setFrom('sudipmondal704777@gmail.com', 'Smart Food Waste Management System');
-        $mail->addAddress($email);                            // Add a recipient
+        $mail->addAddress($email);                           
         
-        // Content
-        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->isHTML(true);                                 
         $mail->Subject = 'Password Reset OTP';
         $mail->Body    = "Your OTP for password reset is: <b>$otp</b><br>This OTP will expire in 15 minutes.";
         $mail->AltBody = "Your OTP for password reset is: $otp\nThis OTP will expire in 15 minutes.";
@@ -64,15 +45,12 @@ function sendOTPEmail($email, $otp) {
         $mail->send();
         return true;
     } catch (Exception $e) {
-        // For debugging
         $_SESSION['mail_error'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         return false;
     }
 }
 
-// Function to check if email exists and return user type
 function checkEmailExists($conn, $email) {
-    // Check in users table first
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     if ($stmt === false) {
         return false;
@@ -87,8 +65,6 @@ function checkEmailExists($conn, $email) {
         return 'users';
     }
     $stmt->close();
-    
-    // Check in ngo table
     $stmt = $conn->prepare("SELECT email FROM ngo WHERE email = ?");
     if ($stmt === false) {
         return false;
@@ -106,37 +82,25 @@ function checkEmailExists($conn, $email) {
     
     return false;
 }
-
-// Process forgot password form
 if (isset($_POST['forgot_password_submit'])) {
     $email = $_POST['email'];
-    
-    // Check if email exists and get user type
     $userType = checkEmailExists($conn, $email);
-    
-    if ($userType) {
-        // Generate OTP
+     if ($userType) {
         $otp = generateOTP();
         $expiry_time = date('Y-m-d H:i:s', strtotime('+15 minutes'));
-        
-        // Update database with OTP and expiry time based on user type
         if ($userType === 'users') {
             $update_stmt = $conn->prepare("UPDATE users SET reset_otp = ?, reset_otp_expiry = ? WHERE email = ?");
         } else {
             $update_stmt = $conn->prepare("UPDATE ngo SET reset_otp = ?, reset_otp_expiry = ? WHERE email = ?");
         }
-        
-        // Check if prepare statement was successful
         if ($update_stmt === false) {
             $error_message = "Database error: " . $conn->error;
         } else {
             $update_stmt->bind_param("sss", $otp, $expiry_time, $email);
             $update_stmt->execute();
-            
-            // Send OTP to user's email
             if (sendOTPEmail($email, $otp)) {
                 $_SESSION['reset_email'] = $email;
-                $_SESSION['reset_user_type'] = $userType; // Store user type for later use
+                $_SESSION['reset_user_type'] = $userType;
                 header("Location: verify_otp.php");
                 exit();
             } else {
@@ -154,8 +118,6 @@ if (isset($_POST['forgot_password_submit'])) {
         $error_message = "Email does not exist in our records.";
     }
 }
-
-// Close database connection
 $conn->close();
 ?>
 

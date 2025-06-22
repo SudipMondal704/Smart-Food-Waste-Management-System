@@ -1,15 +1,10 @@
 <?php
 session_start();
-
-// Check if user is logged in and has donor role
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] != 'Donor') {
     echo "<script>alert('Login as Donor!'); window.location.href='newlogin.php';</script>";
     exit;
 }
-
 $user_id = $_SESSION['user_id'];
-
-// Database connection with error handling
 try {
     $conn = new mysqli("localhost", "root", "", "food_waste");
     if ($conn->connect_error) {
@@ -19,19 +14,15 @@ try {
 } catch (Exception $e) {
     die("Database connection error: " . $e->getMessage());
 }
-
-// Fetch donor name using prepared statement
 $donor_name = "";
 try {
     $stmt = $conn->prepare("SELECT username FROM users WHERE user_id = ?");
     if ($stmt === false) {
         throw new Exception("Prepare failed for donor query: " . $conn->error);
     }
-    
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
     if ($result && $result->num_rows > 0) {
         $donor_row = $result->fetch_assoc();
         $donor_name = htmlspecialchars($donor_row['username']);
@@ -41,8 +32,6 @@ try {
     error_log("Error fetching donor name: " . $e->getMessage());
     echo "Error fetching donor information: " . $e->getMessage();
 }
-
-// Fetch donations with status and NGO information using prepared statement
 $donations = [];
 $totalDonations = 0;
 $uniqueLocations = 0;
@@ -63,16 +52,13 @@ try {
     if ($stmt === false) {
         throw new Exception("Prepare failed for donations query: " . $conn->error);
     }
-    
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
-    if ($result) {
+     if ($result) {
         $locations = [];
         while ($row = $result->fetch_assoc()) {
             $donations[] = $row;
-            // Track unique pickup locations
             if (!empty($row['pickup_address'])) {
                 $locations[$row['pickup_address']] = true;
             }
@@ -85,8 +71,6 @@ try {
     error_log("Error fetching donations: " . $e->getMessage());
     echo "Error fetching donation data: " . $e->getMessage();
 }
-
-// Calculate statistics for different food categories
 $categoryStats = [];
 foreach ($donations as $donation) {
     $category = $donation['food_category'] ?? 'Unknown';
@@ -95,10 +79,8 @@ foreach ($donations as $donation) {
     }
     $categoryStats[$category]++;
 }
-
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,15 +93,13 @@ $conn->close();
             padding: 0;
             box-sizing: border-box;
         }
-
-        body {
+     body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
+         .container {
             max-width: 1200px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
@@ -128,8 +108,7 @@ $conn->close();
             backdrop-filter: blur(10px);
             overflow: hidden;
         }
-
-        .header {
+          .header {
             background: linear-gradient(135deg, #554e4e, #686157);
             color: white;
             padding: 30px;
@@ -137,8 +116,7 @@ $conn->close();
             position: relative;
             overflow: hidden;
         }
-
-        .header::before {
+         .header::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -148,12 +126,10 @@ $conn->close();
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
             animation: float 20s infinite linear;
         }
-
         @keyframes float {
             0% { transform: translate(0, 0) rotate(0deg); }
             100% { transform: translate(-50px, -50px) rotate(360deg); }
         }
-
         .nav-logo {
             display: flex;
             align-items: center;
@@ -165,7 +141,6 @@ $conn->close();
             opacity: 0;
             animation: slideDown 1s ease forwards;
         }
-
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -176,39 +151,33 @@ $conn->close();
                 transform: translateY(0);
             }
         }
-
-        .nav-logo img {
+         .nav-logo img {
             width: 50px;
             height: 50px;
             object-fit: contain;
         }
-
-        .logo-text {
+         .logo-text {
             font-size: 2.2em;
             color: white;
             text-decoration: none;
             letter-spacing: 1px;
         }
-
         .logo-text b {
             color: #34b409;
             font-weight: 700;
         }
-
-        .header h1 {
+         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             position: relative;
             z-index: 1;
         }
-
-        .header p {
+         .header p {
             font-size: 1.2em;
             opacity: 0.9;
             position: relative;
             z-index: 1;
         }
-
         .welcome-message {
             font-size: 1.1em;
             margin-bottom: 10px;
@@ -216,14 +185,12 @@ $conn->close();
             z-index: 1;
             opacity: 0.8;
         }
-
-        .nav-tabs {
+         .nav-tabs {
             display: flex;
             background: #f8f9fa;
             border-bottom: 2px solid #e9ecef;
         }
-
-        .nav-tab {
+         .nav-tab {
             flex: 1;
             padding: 20px;
             text-align: center;
@@ -236,12 +203,10 @@ $conn->close();
             transition: all 0.3s ease;
             position: relative;
         }
-
-        .nav-tab.active {
+         .nav-tab.active {
             color: #ff6b6b;
             background: white;
         }
-
         .nav-tab.active::after {
             content: '';
             position: absolute;
@@ -251,38 +216,31 @@ $conn->close();
             height: 3px;
             background: linear-gradient(90deg, #ff6b6b, #ffa726);
         }
-
         .nav-tab:hover {
             background: #e9ecef;
             transform: translateY(-2px);
         }
-
         .content {
             padding: 30px;
         }
-
         .tab-content {
             display: none;
             animation: fadeIn 0.5s ease-in;
         }
-
         .tab-content.active {
             display: block;
         }
-
-        @keyframes fadeIn {
+         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
         }
-
-        .card {
+         .card {
             background: white;
             border-radius: 15px;
             padding: 25px;
@@ -290,31 +248,26 @@ $conn->close();
             transition: all 0.3s ease;
             border: 1px solid #e9ecef;
         }
-
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
-
-        .card h3 {
+         .card h3 {
             color: #2c3e50;
             margin-bottom: 15px;
             font-size: 1.3em;
         }
-
-        .stat-card {
+         .stat-card {
             text-align: center;
             background: linear-gradient(135deg, #66cbea, #4ba272);
             color: white;
         }
-
-        .stat-number {
+         .stat-number {
             font-size: 3em;
             font-weight: bold;
             margin: 15px 0;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-
         .progress-bar {
             width: 100%;
             height: 20px;
@@ -323,20 +276,17 @@ $conn->close();
             overflow: hidden;
             margin: 10px 0;
         }
-
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 10px;
             transition: width 1s ease;
         }
-
-        .donation-history {
+          .donation-history {
             max-height: 500px;
             overflow-y: auto;
         }
-
-        .donation-item {
+         .donation-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -348,45 +298,38 @@ $conn->close();
             border-left: 4px solid #28a745;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-
-        .donation-item:hover {
+          .donation-item:hover {
             background: #e9ecef;
             transform: translateX(5px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .donation-details {
+         .donation-details {
             flex: 1;
             padding-right: 15px;
         }
-
-        .donation-details h4 {
+         .donation-details h4 {
             color: #2c3e50;
             margin-bottom: 10px;
             font-size: 1.2em;
         }
-
-        .donation-meta {
+         .donation-meta {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 8px;
             margin-bottom: 12px;
         }
-
-        .donation-meta-item {
+         .donation-meta-item {
             display: flex;
             align-items: center;
             font-size: 0.9em;
             color: #6c757d;
         }
-
-        .donation-meta-item strong {
+          .donation-meta-item strong {
             color: #495057;
             margin-right: 5px;
             min-width: 80px;
         }
-
-        .donation-status-row {
+         .donation-status-row {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -394,17 +337,14 @@ $conn->close();
             padding-top: 12px;
             border-top: 1px solid #dee2e6;
         }
-
-        .donation-image {
+         .donation-image {
             width: 80px;
             height: 80px;
             border-radius: 8px;
             object-fit: cover;
             border: 2px solid #dee2e6;
             flex-shrink: 0;
-        }
-
-        /* Status styling */
+         }
         .status-badge {
             padding: 6px 12px;
             border-radius: 20px;
@@ -419,59 +359,49 @@ $conn->close();
             color: #856404;
             border: 1px solid #ffeaa7;
         }
-
-        .status-accepted {
+         .status-accepted {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-
         .status-denied {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-
         .status-completed {
             background-color: #d1ecf1;
             color: #0c5460;
             border: 1px solid #bee5eb;
         }
-
-        /* NGO styling */
         .ngo-badge {
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.85em;
             font-weight: 600;
         }
-
-        .ngo-assigned {
+         .ngo-assigned {
             background-color: #e7f3ff;
             color: #0056b3;
             border: 1px solid #b3d9ff;
         }
-
         .ngo-not-found {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-
-        .ngo-not-assigned {
+         .ngo-not-assigned {
             background-color: #f8f9fa;
             color: #6c757d;
             border: 1px solid #dee2e6;
         }
-
-        .category-stats {
+         .category-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
-
-        .category-item {
+          .category-item {
             background: linear-gradient(135deg, #ffeaa7, #fab1a0);
             padding: 15px;
             border-radius: 10px;
@@ -479,14 +409,12 @@ $conn->close();
             color: #2d3436;
             font-weight: 600;
         }
-
         .category-count {
             font-size: 1.8em;
             font-weight: bold;
             margin-bottom: 5px;
         }
-
-        .no-data {
+         .no-data {
             text-align: center;
             color: #6c757d;
             font-style: italic;
@@ -495,7 +423,6 @@ $conn->close();
             border-radius: 10px;
             margin: 20px 0;
         }
-
         .logout-btn {
             position: absolute;
             top: 20px;
@@ -509,13 +436,11 @@ $conn->close();
             transition: all 0.3s ease;
             z-index: 3;
         }
-
-        .logout-btn:hover {
+         .logout-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
-
-        .error-message {
+         .error-message {
             background: #f8d7da;
             color: #721c24;
             padding: 15px;
@@ -523,7 +448,6 @@ $conn->close();
             margin: 20px 0;
             border: 1px solid #f5c6cb;
         }
-
         .add-donation-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -538,13 +462,11 @@ $conn->close();
             display: inline-block;
             margin-bottom: 20px;
         }
-
         .add-donation-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-
-        @media (max-width: 768px) {
+         @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
@@ -608,36 +530,26 @@ $conn->close();
             <h1>Donor Dashboard</h1>
             <p>Making a difference, one meal at a time</p>
         </div>
-
-        <div class="nav-tabs">
+              <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
             <button class="nav-tab" onclick="showTab('history')">My Donations</button>
             <button class="nav-tab" onclick="showTab('stats')">Statistics</button>
         </div>
-
-        <div class="content">
-            
-            <!-- Dashboard Tab -->
+             <div class="content">
             <div id="dashboard" class="tab-content active">
                 <a href="fooddetails.php" class="add-donation-btn">+ Add New Donation</a>
-
-               
-
-                
-                <div class="dashboard-grid">
+                 <div class="dashboard-grid">
                     <div class="card stat-card">
                         <h3>Total Donations</h3>
                         <div class="stat-number" id="totalDonations"><?php echo $totalDonations; ?></div>
                         <p>Food items shared</p>
                     </div>
-                    
                     <div class="card stat-card">
                         <h3>Pickup Locations</h3>
                         <div class="stat-number" id="uniqueLocations"><?php echo $uniqueLocations; ?></div>
                         <p>Areas served</p>
                     </div>
-                    
-                    <div class="card">
+                     <div class="card">
                         <h3>📊 Monthly Progress</h3>
                         <p><strong>This Month:</strong></p>
                         <div class="progress-bar">
@@ -651,8 +563,6 @@ $conn->close();
                     </div>
                 </div>
             </div>
-
-            <!-- History Tab -->
             <div id="history" class="tab-content">
                 <div class="card">
                     <h3>📋 My Donation History</h3>
@@ -689,8 +599,7 @@ $conn->close();
                                                 <strong>Pickup:</strong> <?php echo htmlspecialchars($donation['pickup_address'] ?? 'N/A'); ?>
                                             </div>
                                         </div>
-
-                                        <div class="donation-status-row">
+                                            <div class="donation-status-row">
                                             <div>
                                                 <strong>Status:</strong>
                                                 <?php 
@@ -721,8 +630,6 @@ $conn->close();
                     </div>
                 </div>
             </div>
-
-            <!-- Statistics Tab -->
             <div id="stats" class="tab-content">
                 <div class="card">
                     <h3>📈 Food Category Breakdown</h3>
@@ -760,32 +667,20 @@ $conn->close();
             </div>
         </div>
     </div>
-
-    <script>
-        // Tab switching functionality
+<script>
         function showTab(tabName) {
-            // Hide all tab contents
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(tab => tab.classList.remove('active'));
-            
-            // Remove active class from all nav tabs
             const navTabs = document.querySelectorAll('.nav-tab');
             navTabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected tab and mark nav tab as active
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
-
-        // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            // Add smooth scrolling and animations
             const cards = document.querySelectorAll('.card');
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
             });
-
-            // Animate progress bar
             setTimeout(() => {
                 const progressBar = document.querySelector('.progress-fill');
                 if (progressBar) {
@@ -793,19 +688,14 @@ $conn->close();
                 }
             }, 500);
         });
-
-        // Add interactive hover effects
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px) scale(1.02)';
             });
-            
             card.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0) scale(1)';
             });
         });
-
-        // Add click animation to donation items
         document.querySelectorAll('.donation-item').forEach(item => {
             item.addEventListener('click', function() {
                 this.style.transform = 'scale(0.98)';

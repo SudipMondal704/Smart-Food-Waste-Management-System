@@ -1,8 +1,5 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-
 $server = "localhost";
 $user = "root";
 $pass = "";
@@ -11,49 +8,32 @@ $conn = new mysqli($server, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// DELETE Logic
 if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $conn->query("DELETE FROM users WHERE user_id = $delete_id");
     header("Location:admin.php?type=donors");
     exit;
 }
-
-// UPDATE Logic - update user and related tables
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_user'])) {
     $user_id = intval($_POST['user_id']);
     $username = $conn->real_escape_string($_POST['username']);
     $address = $conn->real_escape_string($_POST['address']);
     $email = $conn->real_escape_string($_POST['email']);
     $phone = $conn->real_escape_string($_POST['phone']);
-
-    // Update users table
     $conn->query("UPDATE users SET username='$username', address='$address', email='$email', phone='$phone' WHERE user_id=$user_id");
-
-    // Update fooddetails table where user_id is foreign key
     $conn->query("UPDATE fooddetails SET donor_name='$username', pickup_address='$address', phone='$phone' WHERE user_id=$user_id");
-
-    // Optional: Update feedback table if you store name/phone/email there too
     $conn->query("UPDATE feedback SET full_name='$username', email='$email', phone_number='$phone' WHERE user_id=$user_id");
 }
-
 $result = $conn->query("SELECT * FROM users");
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Donor List</title>
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    
-        
-      
 </head>
 <body>
-
 <div class="table-container">
     <table>
         <thead>
@@ -87,8 +67,6 @@ $result = $conn->query("SELECT * FROM users");
         </tbody>
     </table>
 </div>
-
-<!-- Modal for Editing -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <h2>Edit Donor</h2>

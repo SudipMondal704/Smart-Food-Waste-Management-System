@@ -60,8 +60,6 @@
             font-size: 2.2em;
             font-weight: 300;
         }
-
-        /* Add Food Button in Top Corner */
         .add-food-btn {
             position: absolute;
             top: 20px;
@@ -242,8 +240,6 @@
             background: #2ed233;
             transform: scale(0.99);
         }
-
-        /* Card Styles */
         .card-wrap {
             display: flex;
             flex-direction: row;
@@ -318,8 +314,6 @@
             color: #333;
             text-align: center;
         }
-
-        /* Radio button styling */
         .card input[type="radio"]:checked + .img-content {
             background-color: rgba(136, 241, 115, 0.3);
             border-radius: 20px;
@@ -351,8 +345,6 @@
             align-items: center; 
             cursor: pointer;
         }
-
-        /* Custom file input styling */
         .file-input-container {
             width: 100%;
         }
@@ -416,8 +408,6 @@
             border-color: #26a0da;
             box-shadow: 0 0 5px rgba(155, 89, 182, 0.3);
         }
-
-        /* Responsive media query code */
         @media (max-width: 680px) {
             .container {
                 padding: 20px;

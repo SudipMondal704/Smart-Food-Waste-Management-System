@@ -4,18 +4,14 @@ $host = "localhost";
 $user = "root";
 $pass = "";
 $dbname = "food_waste";
-
-// Database connection
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-                                                                                    
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $input    = trim($_POST['login']);    // email or phone
-    $password = trim($_POST['password']); // plain text password
+    $input    = trim($_POST['login']); 
+    $password = trim($_POST['password']);
 
-    // --------- Check Donor (users table) ---------
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
@@ -26,12 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id']    = $user['user_id'];
         $_SESSION['user_name']  = $user['username'];
         $_SESSION['user_type']  = 'Donor';
+         $notification_query = "INSERT INTO notification SET 
+                          title='DONOR Login', 
+                          details='" . mysqli_real_escape_string($conn, $user['username']) . " has loggedin into the portal',
+                          date='" . date('Y-m-d') . "',
+                          time='" . date('H:i:s') . "'";
+    
+    $res = mysqli_query($conn, $notification_query);
 
         echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
         exit();
     }
 
-    // --------- Check NGO ---------
     $stmt = $conn->prepare("SELECT * FROM ngo WHERE email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
@@ -43,12 +45,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_name']  = $ngo['ngo_name'];
         $_SESSION['user_type']  = 'NGO';
          $_SESSION['role']     = 'ngo';
+         $notification_query = "INSERT INTO notification SET 
+                          title='NGO Login', 
+                          details='" . mysqli_real_escape_string($conn, $ngo['ngo_name']) . " has logged into the portal',
+                          date='" . date('Y-m-d') . "',
+                          time='" . date('H:i:s') . "'";
+    
+    $res = mysqli_query($conn, $notification_query);
 
         echo "<script>alert('Signin Successful! Welcome back'); window.location.href='home/homeSession.php';</script>";
         exit();
     }
 
-    // --------- Check Admin ---------
      $stmt = $conn->prepare("SELECT * FROM admin WHERE admin_email = ? OR phone = ?");
     $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
@@ -56,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $admin = $result->fetch_assoc();
 
     if ($admin && $password === $admin['password']) {
-        // Fixed: Using $admin instead of $row
         $_SESSION['user_role']     = 'admin';
         $_SESSION['user_id']       = $admin['id'];
         $_SESSION['admin_name']    = $admin['admin_name'];
@@ -66,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // --------- No match found ---------
     echo "<script>alert('Invalid login credentials!'); window.location.href='home/homeSession.php';</script>";
 }
 

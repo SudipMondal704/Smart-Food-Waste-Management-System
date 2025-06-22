@@ -2,14 +2,11 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-// Get admin info from session
 $isLoggedIn = false;
 $userName = '';
 $userEmail = '';
 $userPhone = '';
 $userRole = '';
-
 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     $isLoggedIn = true;
     $userName = $_SESSION['admin_name'] ?? 'Admin';
@@ -18,12 +15,8 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     $userRole = 'Admin';
 }
 ?>
-
-<!-- Topbar/Navbar Section -->
 <div class="topbar">
     <i class="bx bx-menu toggle-menu"></i>
-    
-    <!-- Welcome Message -->
     <?php if ($isLoggedIn): ?>
     <div class="welcome-message">
         Welcome, <?php echo htmlspecialchars($userName); ?>
@@ -40,51 +33,15 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
             <img src="../img/user.png" alt="Profile" class="profile-img">
         </div>
     </div>
-
-    <!-- Notification Popup -->
     <div class="notification-popup" id="notification-popup">
         <div class="notification-header">
             <h3>Notifications</h3>
             <span class="clear-all" id="clear-all">Clear All</span>
         </div>
         <div class="notification-items" id="notification-items">
-            <!--
-            <div class="notification-item unread">
-                <div class="notification-icon user">
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="notification-content">
-                    <p class="notification-title">New User Login</p>
-                    <p class="notification-desc">Rahul Sharma has just signed in to the platform</p>
-                    <p class="notification-time">2 minutes ago</p>
-                </div>
-            </div>
-            <div class="notification-item unread">
-                <div class="notification-icon donate">
-                    <i class='bx bxs-donate-heart'></i>
-                </div>
-                <div class="notification-content">
-                    <p class="notification-title">New Food Donation</p>
-                    <p class="notification-desc">Hotel Taj has donated 25kg of food items</p>
-                    <p class="notification-time">15 minutes ago</p>
-                </div>
-            </div>
-            <div class="notification-item unread">
-                <div class="notification-icon collect">
-                    <i class='bx bxs-package'></i>
-                </div>
-                <div class="notification-content">
-                    <p class="notification-title">NGO Food Collection</p>
-                    <p class="notification-desc">Hope Foundation collected 18kg of food</p>
-                    <p class="notification-time">1 hour ago</p>
-                </div>
-            </div>
-            -->
         </div>
         <a href="#" class="view-all">View All Notifications</a>
     </div>
-
-    <!-- Profile Popup -->
     <?php if ($isLoggedIn): ?>
     <div class="profile-popup" id="profile-popup">
         <div class="profile-header">
@@ -129,9 +86,7 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     </div>
     <?php endif; ?>
 </div>
-
 <style>
-/* Welcome Message */
 .welcome-message {
     position: absolute;
     left: 50%;
@@ -141,16 +96,12 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     color: #333;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-
-/* Topbar Right Section */
 .topbar-right {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-left: auto;
 }
-
-/* User Profile */
 .user-profile {
     cursor: pointer;
     padding: 5px;
@@ -169,8 +120,6 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     object-fit: cover;
     border: 2px solid #ddd;
 }
-
-/* Profile Popup */
 .profile-popup {
     position: absolute;
     top: 60px;
@@ -264,8 +213,6 @@ if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
     color: #333;
     font-weight: 500;
 }
-
-/* Responsive */
 @media (max-width: 768px) {
     .welcome-message {
         font-size: 14px;
@@ -286,8 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationItems = document.getElementById('notification-items');
     const userProfile = document.getElementById('user-profile');
     const profilePopup = document.getElementById('profile-popup');
-    
-    // Toggle notification popup
     notificationBell.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -299,8 +244,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.notification-count').style.display = 'none';
         }
     });
-    
-    // Toggle profile popup
     if (userProfile && profilePopup) {
         userProfile.addEventListener('click', function(e) {
             e.preventDefault();
@@ -310,8 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
             profilePopup.classList.toggle('show');
         });
     }
-    
-    // Close popups when clicking outside
     document.addEventListener('click', function(e) {
         if(!notificationBell.contains(e.target) && 
            !notificationPopup.contains(e.target) && 
@@ -326,8 +267,6 @@ document.addEventListener('DOMContentLoaded', function() {
             profilePopup.classList.remove('show');
         }
     });
-    
-    // Clear notifications
     clearAllBtn.addEventListener('click', function() {
         const emptyMessage = document.createElement('div');
         emptyMessage.className = 'no-notifications';
@@ -336,8 +275,6 @@ document.addEventListener('DOMContentLoaded', function() {
         notificationItems.appendChild(emptyMessage);
         document.querySelector('.notification-count').style.display = 'none';
     });
-    
-    // Add notification function
     window.addNotification = function(type, title, description) {
         const notificationItem = document.createElement('div');
         notificationItem.className = 'notification-item unread';
@@ -381,7 +318,6 @@ function getNotification() {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function() {
       document.getElementById("notification-items").innerHTML = this.responseText;
-      //console.log(this.responseText +" : "+ii);
     }
   xmlhttp.open("GET", "getNotification.php");
   xmlhttp.send();

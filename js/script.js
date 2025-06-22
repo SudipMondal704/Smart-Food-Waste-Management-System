@@ -1,11 +1,5 @@
-/**
- * Enhanced Food Donation Website JavaScript
- * Features: Login Modal, Accordion, Chatbot, Scroll Effects, Form Handling
- */
 
-// Utility Functions
 const Utils = {
-    // Debounce function for performance optimization
     debounce: function(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -17,8 +11,6 @@ const Utils = {
             timeout = setTimeout(later, wait);
         };
     },
-
-    // Check if element exists before operating
     safeElementOperation: function(selector, callback) {
         const element = document.querySelector(selector);
         if (element && callback) {
@@ -26,8 +18,6 @@ const Utils = {
         }
         return element;
     },
-
-    // Animate element with fade effect
     fadeIn: function(element, duration = 300) {
         element.style.opacity = '0';
         element.style.display = 'block';
@@ -69,8 +59,6 @@ const Utils = {
         requestAnimationFrame(animate);
     }
 };
-
-// Login Modal Management
 class LoginModal {
     constructor() {
         this.modal = document.getElementById('loginModal');
@@ -81,24 +69,16 @@ class LoginModal {
             this.init();
         }
     }
-    
     init() {
-        // Bind event listeners
         this.bindEvents();
-        
-        // Initialize form validation
         this.initFormValidation();
     }
-    
     bindEvents() {
-        // Open modal triggers
         const loginNavBtn = document.getElementById('loginNavBtn');
         const donateNowBtn = document.getElementById('donateNowBtn');
         const closeModal = document.getElementById('closeModal');
         const registerBtn = document.getElementById('register');
         const loginBackBtn = document.getElementById('login');
-        
-        // Event listeners with null checks
         if (loginNavBtn) {
             loginNavBtn.addEventListener('click', (e) => this.openModal(e));
         }
@@ -118,29 +98,22 @@ class LoginModal {
         if (loginBackBtn) {
             loginBackBtn.addEventListener('click', () => this.toggleForm('login'));
         }
-        
-        // Close on outside click
         this.modal.addEventListener('click', (e) => {
             if (e.target === this.modal) {
                 this.closeModal();
             }
         });
-        
-        // Close on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isActive) {
                 this.closeModal();
             }
         });
     }
-    
     openModal(e) {
         e.preventDefault();
         this.modal.classList.add('active');
         this.isActive = true;
         document.body.style.overflow = 'hidden';
-        
-        // Focus on first input field
         const firstInput = this.modal.querySelector('input[type="email"], input[type="text"]');
         if (firstInput) {
             setTimeout(() => firstInput.focus(), 100);
@@ -177,8 +150,6 @@ class LoginModal {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
-        
-        // Basic validation
         let isValid = true;
         const requiredFields = form.querySelectorAll('[required]');
         
@@ -192,14 +163,12 @@ class LoginModal {
         });
         
         if (isValid) {
-            // Simulate form submission
             this.showMessage('Form submitted successfully! Welcome to our platform.', 'success');
             setTimeout(() => this.closeModal(), 2000);
         } else {
             this.showMessage('Please fill in all required fields.', 'error');
         }
     }
-    
     showMessage(message, type = 'info') {
         const messageDiv = document.createElement('div');
         messageDiv.className = `modal-message ${type}`;
@@ -219,8 +188,6 @@ class LoginModal {
         }, 3000);
     }
 }
-
-// Enhanced Accordion Management
 class AccordionManager {
     constructor() {
         this.accordions = document.querySelectorAll('.accordion');
@@ -230,16 +197,12 @@ class AccordionManager {
     init() {
         this.accordions.forEach((accordion, index) => {
             accordion.addEventListener('click', () => this.toggleAccordion(accordion, index));
-            
-            // Add keyboard support
             accordion.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     this.toggleAccordion(accordion, index);
                 }
             });
-            
-            // Make accordion focusable
             accordion.setAttribute('tabindex', '0');
             accordion.setAttribute('role', 'button');
             accordion.setAttribute('aria-expanded', 'false');
@@ -249,24 +212,7 @@ class AccordionManager {
     toggleAccordion(accordion, index) {
         const panel = accordion.nextElementSibling;
         if (!panel) return;
-        
         const isActive = accordion.classList.contains('active');
-        
-        // Close all other accordions (optional - uncomment for single open behavior)
-        /*
-        this.accordions.forEach((otherAccordion, otherIndex) => {
-            if (otherIndex !== index) {
-                otherAccordion.classList.remove('active');
-                otherAccordion.setAttribute('aria-expanded', 'false');
-                const otherPanel = otherAccordion.nextElementSibling;
-                if (otherPanel) {
-                    otherPanel.classList.remove('active');
-                }
-            }
-        });
-        */
-        
-        // Toggle current accordion
         if (isActive) {
             accordion.classList.remove('active');
             accordion.setAttribute('aria-expanded', 'false');
@@ -278,8 +224,6 @@ class AccordionManager {
         }
     }
 }
-
-// Enhanced Scroll Management
 class ScrollManager {
     constructor() {
         this.scrollToTopBtn = document.getElementById('scrollToTop');
@@ -343,14 +287,10 @@ class ScrollManager {
                 }
             });
         }, observerOptions);
-        
-        // Observe elements for animation
         const animatedElements = document.querySelectorAll('.fade-in, .slide-in, .scale-in');
         animatedElements.forEach(el => observer.observe(el));
     }
 }
-
-// Enhanced Chatbot
 class Chatbot {
     constructor() {
         this.messagesContainer = document.getElementById('messages');
@@ -433,8 +373,6 @@ class Chatbot {
                 this.handleUserMessage();
             }
         });
-        
-        // Add send button if it exists
         const sendBtn = document.getElementById('sendBtn');
         if (sendBtn) {
             sendBtn.addEventListener('click', () => {
@@ -443,8 +381,6 @@ class Chatbot {
                 }
             });
         }
-        
-        // Initial greeting
         setTimeout(() => {
             this.addMessage(this.getRandomReply('greetings'), false);
         }, 1000);
@@ -456,8 +392,6 @@ class Chatbot {
         
         this.addMessage(userMessage, true);
         this.inputField.value = '';
-        
-        // Show typing indicator
         this.showTypingIndicator();
         
         setTimeout(() => {
@@ -489,8 +423,6 @@ class Chatbot {
         
         this.messagesContainer.appendChild(messageDiv);
         this.scrollToBottom();
-        
-        // Add entrance animation
         requestAnimationFrame(() => {
             messageDiv.classList.add('message-enter');
         });
@@ -544,27 +476,21 @@ class Chatbot {
         this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
     }
 }
-
-// Enhanced Form Handler
 class FormHandler {
     constructor() {
         this.init();
     }
     
     init() {
-        // Contact form
         const contactForm = document.querySelector('.contact-form');
         if (contactForm) {
             contactForm.addEventListener('submit', (e) => this.handleContactForm(e));
         }
-        
-        // Donation form
         const donationForm = document.querySelector('.donation-form');
         if (donationForm) {
             donationForm.addEventListener('submit', (e) => this.handleDonationForm(e));
         }
         
-        // Newsletter form
         const newsletterForm = document.querySelector('.newsletter-form');
         if (newsletterForm) {
             newsletterForm.addEventListener('submit', (e) => this.handleNewsletterForm(e));
@@ -654,7 +580,6 @@ class FormHandler {
     }
     
     showFormSuccess(message) {
-        // Create success notification
         const notification = document.createElement('div');
         notification.className = 'form-success-notification';
         notification.innerHTML = `
@@ -663,15 +588,10 @@ class FormHandler {
                 <span class="success-message">${message}</span>
             </div>
         `;
-        
-        document.body.appendChild(notification);
-        
-        // Show with animation
+         document.body.appendChild(notification);
         requestAnimationFrame(() => {
             notification.classList.add('show');
         });
-        
-        // Remove after delay
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
@@ -682,21 +602,15 @@ class FormHandler {
         }, 4000);
     }
 }
-
-// Performance Monitor
 class PerformanceMonitor {
     constructor() {
         this.metrics = {};
         this.init();
     }
-    
     init() {
-        // Monitor page load performance
         window.addEventListener('load', () => {
             this.measurePerformance();
         });
-        
-        // Monitor scroll performance
         let scrollStartTime;
         window.addEventListener('scroll', () => {
             if (!scrollStartTime) {
@@ -712,8 +626,7 @@ class PerformanceMonitor {
             }
         });
     }
-    
-    measurePerformance() {
+     measurePerformance() {
         if ('performance' in window) {
             const perfData = performance.getEntriesByType('navigation')[0];
             
@@ -722,17 +635,12 @@ class PerformanceMonitor {
                 domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
                 totalPageLoadTime: perfData.loadEventEnd - perfData.fetchStart
             };
-            
-            // Log performance data (remove in production)
             console.log('Performance Metrics:', this.metrics);
         }
     }
 }
-
-// Initialize all components when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     try {
-        // Initialize all components
         new LoginModal();
         new AccordionManager();
         new ScrollManager();
@@ -745,8 +653,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Error initializing components:', error);
     }
 });
-
-// Export classes for potential external use
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         LoginModal,
@@ -757,64 +663,43 @@ if (typeof module !== 'undefined' && module.exports) {
         Utils
     };
 }1
-// Testimonial Section JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            // Get testimonial elements
             const track = document.getElementById('reviewTestimonialsTrack');
             const prevBtn = document.getElementById('reviewPrevBtn');
             const nextBtn = document.getElementById('reviewNextBtn');
             const dots = document.querySelectorAll('.review-dot');
-            
             let currentSlide = 0;
-            const totalSlides = 2; // Total number of slides
-            
-            // Function to update slide position
+            const totalSlides = 2;
             function updateSlide() {
-                const translateX = -currentSlide * 50; // 50% for each slide
+                const translateX = -currentSlide * 50;
                 track.style.transform = `translateX(${translateX}%)`;
-                
-                // Update dots
                 dots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === currentSlide);
                 });
-                
-                // Update navigation buttons
                 prevBtn.disabled = currentSlide === 0;
                 nextBtn.disabled = currentSlide === totalSlides - 1;
             }
-            
-            // Next slide function
             function nextSlide() {
                 if (currentSlide < totalSlides - 1) {
                     currentSlide++;
                     updateSlide();
                 }
             }
-            
-            // Previous slide function
             function prevSlide() {
                 if (currentSlide > 0) {
                     currentSlide--;
                     updateSlide();
                 }
             }
-            
-            // Go to specific slide
             function goToSlide(slideIndex) {
                 currentSlide = slideIndex;
                 updateSlide();
             }
-            
-            // Event listeners
             nextBtn.addEventListener('click', nextSlide);
             prevBtn.addEventListener('click', prevSlide);
-            
-            // Dot navigation
             dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => goToSlide(index));
             });
-            
-            // Auto-play functionality (optional)
             function startAutoPlay() {
                 return setInterval(() => {
                     if (currentSlide < totalSlides - 1) {
@@ -823,27 +708,17 @@ if (typeof module !== 'undefined' && module.exports) {
                         currentSlide = 0;
                         updateSlide();
                     }
-                }, 5000); // Change slide every 5 seconds
+                }, 5000);
             }
-            
-            // Start auto-play
             let autoPlayInterval = startAutoPlay();
-            
-            // Pause auto-play on hover
             const testimonialContainer = document.querySelector('.review-testimonial-container');
             testimonialContainer.addEventListener('mouseenter', () => {
                 clearInterval(autoPlayInterval);
             });
-            
-            // Resume auto-play when mouse leaves
             testimonialContainer.addEventListener('mouseleave', () => {
                 autoPlayInterval = startAutoPlay();
             });
-            
-            // Initialize
             updateSlide();
-            
-            // Handle image loading errors
             const avatarImages = document.querySelectorAll('.review-customer-avatar img');
             avatarImages.forEach(img => {
                 img.addEventListener('error', function() {
@@ -851,8 +726,6 @@ if (typeof module !== 'undefined' && module.exports) {
                     this.nextElementSibling.style.display = 'flex';
                 });
             });
-            
-            // Touch/swipe support for mobile
             let startX = 0;
             let currentX = 0;
             let isDragging = false;
@@ -872,14 +745,12 @@ if (typeof module !== 'undefined' && module.exports) {
                 if (!isDragging) return;
                 
                 const diffX = startX - currentX;
-                const threshold = 50; // Minimum swipe distance
+                const threshold = 50;
                 
                 if (Math.abs(diffX) > threshold) {
                     if (diffX > 0) {
-                        // Swipe left - next slide
                         nextSlide();
                     } else {
-                        // Swipe right - previous slide
                         prevSlide();
                     }
                 }
@@ -887,8 +758,6 @@ if (typeof module !== 'undefined' && module.exports) {
                 isDragging = false;
                 autoPlayInterval = startAutoPlay();
             });
-            
-            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') {
                     prevSlide();

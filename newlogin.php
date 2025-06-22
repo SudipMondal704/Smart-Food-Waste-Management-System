@@ -672,7 +672,6 @@
       const bullets = document.querySelectorAll(".bullets span");
       const images = document.querySelectorAll(".image");
 
-      // Input field focus/blur effects
       inputs.forEach((inp) => {
         inp.addEventListener("focus", () => {
           inp.classList.add("active");
@@ -683,28 +682,19 @@
         });
       });
 
-      // Toggle between sign-in and sign-up forms
       toggle_btn.forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.preventDefault();
           main.classList.toggle("sign-up-mode");
         });
       });
-
-      // Image carousel functionality
       function moveSlider() {
         let index = this.dataset.value;
-
-        // Update images
         let currentImage = document.querySelector(`.img-${index}`);
         images.forEach((img) => img.classList.remove("show"));
         currentImage.classList.add("show");
-
-        // Update text slider
         const textSlider = document.querySelector(".text-group");
         textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
-
-        // Update bullets
         bullets.forEach((bull) => bull.classList.remove("active"));
         this.classList.add("active");
       }
@@ -712,27 +702,19 @@
       bullets.forEach((bullet) => {
         bullet.addEventListener("click", moveSlider);
       });
-
-      // Auto-slide carousel
       let currentSlide = 1;
       const totalSlides = 3;
-
-      function autoSlide() {
+       function autoSlide() {
         currentSlide = currentSlide >= totalSlides ? 1 : currentSlide + 1;
         const currentBullet = document.querySelector(`[data-value="${currentSlide}"]`);
         if (currentBullet) {
           moveSlider.call(currentBullet);
         }
       }
-
       setInterval(autoSlide, 4000);
-
-      // Form validation and enhancement
       document.addEventListener('DOMContentLoaded', function() {
-        // Handle radio button functionality
         const radioButtons = document.querySelectorAll('input[type="radio"]');
         const radioLabels = document.querySelectorAll('.radio-label');
-        
         radioLabels.forEach(label => {
           label.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -754,8 +736,6 @@
             this.closest('.radio-label').classList.add('active');
           });
         });
-
-        // Handle checkbox functionality
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         const checkboxLabels = document.querySelectorAll('.checkbox-label');
         
@@ -777,16 +757,12 @@
             this.closest('.checkbox-label').classList.toggle('active', this.checked);
           });
         });
-
-        // Initialize input states
         inputs.forEach(input => {
           if (input.value.trim() !== '') {
             input.classList.add('active');
           }
         });
       });
-
-      // Utility function to show messages
       function showMessage(message, type = 'info') {
         const existingMessage = document.querySelector('.form-message');
         if (existingMessage) {

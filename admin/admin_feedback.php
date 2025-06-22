@@ -1,39 +1,25 @@
 <?php
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
 ?>
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Feedback Admin Panel</title>
     <link rel="stylesheet" href="admin.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-</head>
+  </head>
 <body>
-
 <div class="table-container">
 <?php
-// Database connection
 $server = "localhost";
 $user = "root";
 $pass = "";
 $db = "food_waste";
-
 $conn = new mysqli($server, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Fetch feedback data
 $result = mysqli_query($conn, "SELECT * FROM feedback");
-
-// Start table
 echo "<table>
 <thead>
 <tr>
@@ -46,8 +32,6 @@ echo "<table>
 </tr>
 </thead>
 <tbody>";
-
-// Table rows from database
 while ($row = mysqli_fetch_assoc($result)) {
     echo "<tr>
         <td>{$row['feedback_id']}</td>
@@ -58,11 +42,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td>{$row['feedback_date']}</td>
     </tr>";
 }
-
-// Close table
 echo "</tbody></table>";
-
-// Close connection
 $conn->close();
 ?>
 </div>

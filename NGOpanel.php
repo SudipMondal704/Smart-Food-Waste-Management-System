@@ -4,34 +4,22 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role
     echo "<script>alert('Please login as NGO first!'); window.location.href='newlogin.php';</script>";
     exit();
 }
-
-// Get user ID from session
 $user_id = $_SESSION['user_id'];
-
-// Database connection
 $conn = new mysqli("localhost", "root", "", "food_waste");
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Handle Accept/Deny actions
 if (isset($_POST['action']) && isset($_POST['food_id'])) {
     $food_id = (int)$_POST['food_id'];
     $action = $_POST['action'];
-    
     if ($action === 'accept') {
         $update_query = "UPDATE fooddetails SET status = 'accepted' WHERE fooddetails_id = ? AND assigned_ngo_id = ?";
         $message = "Food donation accepted successfully!";
     } elseif ($action === 'deny') {
-        // Modified: Only set status to 'denied' but keep the NGO assigned for tracking
-        // The admin should handle reassignment and status reset
         $update_query = "UPDATE fooddetails SET status = 'denied' WHERE fooddetails_id = ? AND assigned_ngo_id = ?";
         $message = "Food donation denied. Admin will be notified for reassignment.";
     }
-    
-    if (isset($update_query)) {
+     if (isset($update_query)) {
         $stmt = $conn->prepare($update_query);
         if ($stmt) {
             $stmt->bind_param("ii", $food_id, $user_id);
@@ -44,11 +32,8 @@ if (isset($_POST['action']) && isset($_POST['food_id'])) {
         }
     }
 }
-
-// Handle Delete action using PHP
 if (isset($_POST['delete_food_id'])) {
     $food_id = (int)$_POST['delete_food_id'];
-    
     $delete_query = "DELETE FROM fooddetails WHERE fooddetails_id = ? AND assigned_ngo_id = ?";
     $stmt = $conn->prepare($delete_query);
     if ($stmt) {
@@ -63,8 +48,6 @@ if (isset($_POST['delete_food_id'])) {
         echo "<script>alert('Database error occurred');</script>";
     }
 }
-
-// Get NGO details using prepared statement
 $ngo_query = "SELECT ngo_name, email, phone, address FROM ngo WHERE ngo_id = ?";
 $stmt = $conn->prepare($ngo_query);
 if (!$stmt) {
@@ -86,15 +69,11 @@ if ($ngo_result && $ngo_result->num_rows > 0) {
     $ngo_phone = $ngo_data['phone'] ?? '';
     $ngo_address = $ngo_data['address'] ?? '';
 } else {
-    // If NGO not found, logout
     session_destroy();
     echo "<script>alert('NGO account not found!'); window.location.href='newlogin.php';</script>";
     exit();
 }
 $stmt->close();
-
-// Get assigned food donations using prepared statement
-// Modified: Show donations that are assigned to this NGO and not denied by this NGO
 $donations_query = "SELECT fd.*, u.username as donor_username 
                    FROM fooddetails fd 
                    LEFT JOIN users u ON fd.user_id = u.user_id 
@@ -107,8 +86,6 @@ if (!$stmt2) {
 $stmt2->bind_param("i", $user_id);
 $stmt2->execute();
 $donations_result = $stmt2->get_result();
-
-// Get donation statistics
 $stats_query = "SELECT 
     COUNT(*) as total_donations,
     SUM(CASE WHEN status = 'pending' OR status IS NULL OR status = 'assigned' THEN 1 ELSE 0 END) as pending_donations,
@@ -125,18 +102,14 @@ $stats_result = $stmt3->get_result();
 $stats = $stats_result->fetch_assoc();
 $stmt3->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NGO Dashboard - Food Waste Management</title>
-    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <!-- flaticons -->
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <style>
         * {
@@ -144,16 +117,14 @@ $stmt3->close();
             padding: 0;
             box-sizing: border-box;
         }
-
-        body {
+          body {
             font-family: "Montserrat", sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
             position: relative;
         }
-
-        .container {
+         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
@@ -163,8 +134,6 @@ $stmt3->close();
             margin-top: 60px;
             position: relative;
         }
-
-        /* Company Logo and Name Styles */
         .company-header {
             position: absolute;
             top: 20px;
@@ -174,7 +143,6 @@ $stmt3->close();
             gap: 12px;
             z-index: 10;
         }
-
         .company-logo {
             width: 50px;
             height: 50px;
@@ -183,46 +151,32 @@ $stmt3->close();
             align-items: center;
             justify-content: center;
         }
-
-        .company-logo img {
+          .company-logo img {
             width: 50px;
             height: 50px;
             object-fit: contain;
         }
-
-        .company-name {
+         .company-name {
             font-size: 1.4rem;
             font-weight: bold;
             color: #2c3e50;
             line-height: 1.2;
         }
-
-        /* .company-tagline {
-            font-size: 0.9rem;
-            color:rgb(103, 109, 110);
-            margin-top: 2px;
-        } */
-
-        .header {
+         .header {
             text-align: center;
             margin-bottom: 30px;
-            padding-bottom: 20px;
-            /* Added padding to accommodate company header */
-            /* padding-top: 60px;                                           */
+        padding-bottom: 20px;                  
             border-bottom: 2px solid #e0e0e0;
         }
-
         .header h1 {
             color: #2c3e50;
             font-size: 2.5rem;
             margin-bottom: 10px;
         }
-
-        .header p {
+         .header p {
             color: #7f8c8d;
             font-size: 1.1rem;
         }
-
         .top-bar {
             position: fixed;
             top: 0;
@@ -237,8 +191,6 @@ $stmt3->close();
             z-index: 1000;
             backdrop-filter: blur(10px);
         }
-
-        /* Fixed Back Button Styles */
         .back-button {
             display: inline-flex;
             align-items: center;
@@ -563,14 +515,12 @@ $stmt3->close();
     </div>
     
     <div class="container">
-        <!-- Company Header with Logo -->
         <div class="company-header">
             <div class="company-logo">
                 <img src="img/logo.png" alt="Food Donate Logo">
             </div>
             <div>
                 <div class="company-name">easy<b style="color: #34b409; font-weight: 600;">Donate</b></div>
-                <!-- <div class="company-tagline">Share Food, Share Joy !!</div> -->
             </div>
         </div>
 
@@ -648,12 +598,10 @@ $stmt3->close();
                                 echo "<td>" . htmlspecialchars($donation['pickup_address'] ?? 'N/A') . "</td>";
                                 echo "<td>" . htmlspecialchars($donation['phone'] ?? $donation['alt_phone'] ?? 'N/A') . "</td>";
                                 
-                                // Status badge
                                 $status = $donation['status'] ?? 'assigned';
                                 $status_class = 'status-' . strtolower($status);
                                 echo "<td><span class='status-badge $status_class'>" . ucfirst($status) . "</span></td>";
-                                
-                                // Date
+
                                 $date = $donation['created_at'] ?? date('Y-m-d');
                                 if ($date && $date != 'N/A') {
                                     $formatted_date = date('M j, Y', strtotime($date));
@@ -662,9 +610,7 @@ $stmt3->close();
                                     echo "<td>N/A</td>";
                                 }
                                 
-                                // Action buttons - Modified logic
                                 echo "<td class='action-buttons'>";
-                                // Allow actions only if status is assigned, pending, or null (not denied, accepted, or completed)
                                 if (in_array($status, ['assigned', 'pending', null, ''])) {
                                     echo "<form method='POST' style='display: inline;' onsubmit='return confirmAction(\"accept\")'>";
                                     echo "<input type='hidden' name='food_id' value='" . $donation['fooddetails_id'] . "'>";
@@ -681,8 +627,6 @@ $stmt3->close();
                                     echo "<span style='color: #6c757d; font-size: 0.8rem;'><i class='fas fa-check-double'></i> Action Completed</span>";
                                 }
                                 echo "</td>";
-                                
-                                // Delete button in separate column
                                 echo "<td class='delete-column'>";
                                 echo "<form method='POST' style='display: inline;' onsubmit='return confirmDelete()'>";
                                 echo "<input type='hidden' name='delete_food_id' value='" . $donation['fooddetails_id'] . "'>";
@@ -720,14 +664,10 @@ $stmt3->close();
         function confirmDelete() {
             return confirm('Are you sure you want to delete this food request? This action cannot be undone.');
         }
-        
-        // Add some interactivity
         document.addEventListener('DOMContentLoaded', function() {
             console.log('NGO Dashboard loaded successfully');
             console.log('User ID: <?= $user_id ?>');
             console.log('NGO Name: <?= htmlspecialchars($ngo_name) ?>');
-            
-            // Add click effect to stat cards
             const statCards = document.querySelectorAll('.stat-card');
             statCards.forEach(card => {
                 card.addEventListener('click', function() {
@@ -737,8 +677,6 @@ $stmt3->close();
                     }, 150);
                 });
             });
-
-            // Add hover effects to action buttons
             const actionButtons = document.querySelectorAll('.btn');
             actionButtons.forEach(button => {
                 button.addEventListener('mouseenter', function() {
@@ -750,17 +688,13 @@ $stmt3->close();
                 });
             });
         });
-
-        // Prevent back button after logout
         if (performance.navigation.type === 2) {
             location.reload();
         }
     </script>
 </body>
 </html>
-
 <?php
-// Close remaining prepared statements and database connection
 if (isset($stmt2)) $stmt2->close();
 $conn->close();
 ?>

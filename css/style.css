@@ -31,8 +31,6 @@ img {
     width: 100%;
     height: 50vh;
 }
-
-/* Content-Main Section */
 .content-main {
     width: 100%;
     height: 50vh;
@@ -106,8 +104,6 @@ img {
     text-align: center;
     text-transform: uppercase;
 }
-
-/* Button styling */
 button {
     margin-top: 20px;
     cursor: pointer;
@@ -136,8 +132,6 @@ button {
     background: #3d8b40;
     transform: translateY(-2px);
 }
-
-/* Background slideshow */
 .background-slideshow {
     position: fixed;
     top: 0;
@@ -178,8 +172,6 @@ button {
     background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=800&fit=crop');
     animation-delay: 9s;
 }
-
-/* Dark overlay */
 .background-overlay {
     position: fixed;
     top: 0;
@@ -189,15 +181,11 @@ button {
     background: rgba(0, 0, 0, 0.7);
     z-index: -1;
 }
-
-/* Header styling */
 header {
     width: 100%;
     height: 100vh;
     position: relative;
 }
-
-/* Navbar Section */
 .navbar {
     display: flex;
     padding: 10px 30px;
@@ -230,19 +218,15 @@ header {
     font-size: 26px;
     font-weight: 500;
 }
-
-/* Navigation Menu Fixes */
 .nav-menu {
     display: flex;
     gap: 15px;
-    align-items: center; /* Ensure all items are vertically centered */
+    align-items: center; 
 }
-
 .nav-menu .nav-item {
     display: flex;
     align-items: center;
 }
-
 .nav-menu a {
     padding: 12px 20px;
     color: #f4f4f4;
@@ -263,22 +247,17 @@ header {
 .nav-menu a.active {
     color: #43de23;
 }
-
-/* User Profile Navigation Item Fixes */
 .nav-menu .nav-item.user-profile {
     position: relative;
     display: flex;
     align-items: center;
     opacity: 0;
     animation: slideDown .5s ease forwards;
-    animation-delay: 1s; /* Animate in after other nav items */
+    animation-delay: 1s; 
 }
-
 .nav-menu .nav-item.user-profile.active {
     opacity: 1;
 }
-
-/* User Avatar Styling */
 .user-avatar {
     width: 40px;
     height: 40px;
@@ -286,19 +265,16 @@ header {
     cursor: pointer;
     object-fit: cover;
     transition: all 0.3s ease;
-    display: block; /* Ensure it displays as block element */
+    display: block; 
 }
-
 .user-avatar:hover {
     transform: scale(1.05);
     border-color: #fff;
     box-shadow: 0 0 15px rgba(52, 180, 9, 0.3);
 }
-
-/* Profile Popup Positioning Fix */
 .profile-popup {
     position: absolute;
-    top: calc(100% + 15px); /* Add more space from avatar */
+    top: calc(100% + 15px); 
     right: 0;
     background: white;
     border-radius: 10px;
@@ -329,8 +305,6 @@ header {
     border-right: 8px solid transparent;
     border-bottom: 8px solid white;
 }
-
-/* Profile Header */
 .profile-header {
     display: flex;
     text-align: center;
@@ -360,8 +334,6 @@ header {
     font-size: 12px;
     margin-bottom: 10px;
 }
-
-/* Profile Info Items */
 .profile-info {
     margin-bottom: 20px;
 }
@@ -390,8 +362,6 @@ header {
     font-size: 13px;
     margin: -.8rem -1.2rem;
 }
-
-/* Logout Button Styling */
 .profile-info-item.logout-item {
     cursor: pointer;
     padding: 12px 0;
@@ -414,8 +384,6 @@ header {
     color: #dc3545;
     font-weight: 500;
 }
-
-/* Profile Actions */
 .profile-actions {
     display: flex;
     justify-content: center;
@@ -443,8 +411,6 @@ header {
     background: #2a9206;
     transform: translateY(-2px);
 }
-
-/* Hide login nav item when user is logged in */
 .nav-menu .nav-item.login-item {
     display: list-item;
 }
@@ -452,8 +418,6 @@ header {
 .nav-menu .nav-item.login-item.hidden {
     display: none !important;
 }
-
-/* Dropdown Menu Styling */
 .dropdown {
     position: relative;
 }
@@ -510,8 +474,6 @@ header {
 .dropdown:hover > a .dropdown-icon {
     transform: rotate(180deg);
 }
-
-/* Main section */
 .main-section {
     height: 100vh;
     display: flex;
@@ -589,8 +551,6 @@ header {
     line-height: 1.7;
     font-weight: 300;
 }
-
-/* About Section */
 .about-section {
     padding: 80px 0;
     background: #fffF;
@@ -630,8 +590,6 @@ header {
     opacity: 0;
     animation: slideRight 1s ease forwards;
 }
-
-/* Ambition Section */
 .ambitions-section {
     width: 100%;
     margin: 0 auto;
@@ -739,8 +697,6 @@ header {
     text-align: justify;
     flex-grow: 1;
 }
-
-/* How Does It Work Section */
 .how-it-works-section {
     width: 100%;
     margin: 0 auto;
@@ -801,8 +757,6 @@ header {
     max-width: 280px;
     margin: 0 auto;
 }
-
-/* Food Facts Section */
 .food-facts-section {
     width: 100%;
     margin: 0 auto;
@@ -824,8 +778,6 @@ header {
     height: 120px;
     width: 100%;
 }
-
-/* Pickup Section */
 .pickup-section {
     padding: 80px 0;
     background: #fff;
@@ -865,8 +817,6 @@ header {
     opacity: 0;
     animation: slideLeft 1s ease forwards;
 }
-
-/* Voices of Community */
 .review-testimonials-section {
     padding: 50px 20px;
     background-image: url(../img/footer-map.png);
@@ -1081,8 +1031,6 @@ header {
 .review-dot:hover {
     background: #94a3b8;
 }
-
-/* Footer Section */
 .footer-section {
     padding: 30px 0;
     background: #272626;
@@ -1164,8 +1112,6 @@ header {
     margin-top: 20px;
     font-style: italic;
 }
-
-/* Footer Center Quick Links Styling */
 .footer-center .quick-list {
     margin-bottom: 30px;
     list-style: none;
@@ -1201,8 +1147,6 @@ header {
 .footer-center .quick-list .refer a:hover {
     color: #34b409;
 }
-
-/* Footer Right Contact Info Styling */
 .footer-right .contact-list {
     margin-bottom: 30px;
 }
@@ -1350,8 +1294,6 @@ header {
     border-bottom: 2px solid #00f985;
     background: #191919;
 }
-
-/* Animations - Background images unchanged, text fixed */
 @keyframes simpleSlide {
     0% { opacity: 0; }
     7.25% { opacity: 1; }
@@ -1359,8 +1301,6 @@ header {
     32.25% { opacity: 0; }
     100% { opacity: 0; }
 }
-
-/* FIXED: Text animation with no overlapping */
 @keyframes textFadeInOut {
     0% { 
         opacity: 0; 

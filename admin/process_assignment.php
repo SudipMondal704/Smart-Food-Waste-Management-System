@@ -1,35 +1,21 @@
 <?php
-
-
-// Check if user is logged in as admin
 require_once('adminSession.php');
-
-
-// Database configuration
 $server = "localhost";
 $user = "root";
 $pass = "";
 $db = "food_waste";
-
-// Connect to database
 $conn = new mysqli($server, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-// Set response content type
 header('Content-Type: application/json');
-
-// Initialize response array
 $response = array(
     'success' => false,
     'message' => '',
     'data' => null
 );
-
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Validate and sanitize input
         if (!isset($_POST['food_id']) || !isset($_POST['ngo_id'])) {
             throw new Exception("Missing required parameters: food_id and ngo_id");
         }
@@ -44,8 +30,6 @@ try {
         if ($food_id <= 0 || $ngo_id <= 0) {
             throw new Exception("food_id and ngo_id must be positive integers.");
         }
-
-        // Check if food item exists and is not already assigned
         $check_food = "SELECT fooddetails_id, food_name, donor_name, assigned_ngo_id 
                        FROM fooddetails 
                        WHERE fooddetails_id = ?";
@@ -68,8 +52,6 @@ try {
         if ($food_data['assigned_ngo_id'] !== null) {
             throw new Exception("Food item is already assigned to another NGO.");
         }
-
-        // Check if NGO exists and is active
         $check_ngo = "SELECT ngo_id, ngo_name, status 
                       FROM ngo 
                       WHERE ngo_id = ?";
@@ -88,18 +70,13 @@ try {
         }
 
         $ngo_data = $result_ngo->fetch_assoc();
-        
-        // Check if NGO is active (assuming there's a status field)
         if (isset($ngo_data['status']) && $ngo_data['status'] !== 'active') {
             throw new Exception("Selected NGO is not currently active.");
         }
-
-        // Begin transaction for data consistency
         $conn->begin_transaction();
 
         try {
-            // Update food assignment
-            $update_food = "UPDATE fooddetails 
+               $update_food = "UPDATE fooddetails 
                            SET assigned_ngo_id = ?, 
                                assignment_date = NOW() 
                            WHERE fooddetails_id = ?";
@@ -114,24 +91,15 @@ try {
             if (!$stmt_update->execute()) {
                 throw new Exception("Failed to update food assignment: " . $stmt_update->error);
             }
-
-            // Optional: Log the assignment in a separate assignments table
             $log_assignment = "INSERT INTO assignment_log (food_id, ngo_id, assigned_by, assignment_date) 
                               VALUES (?, ?, ?, NOW())";
             $stmt_log = $conn->prepare($log_assignment);
-            
-            // Get current user (you might want to implement proper session management)
-            $assigned_by = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1; // Default admin
-            
+            $assigned_by = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
             if ($stmt_log) {
                 $stmt_log->bind_param("iii", $food_id, $ngo_id, $assigned_by);
-                $stmt_log->execute(); // Don't fail if logging fails
+                $stmt_log->execute();
             }
-
-            // Commit transaction
             $conn->commit();
-
-            // Success response
             $response['success'] = true;
             $response['message'] = "Food item '{$food_data['food_name']}' successfully assigned to '{$ngo_data['ngo_name']}'.";
             $response['data'] = array(
@@ -144,12 +112,9 @@ try {
             );
 
         } catch (Exception $e) {
-            // Rollback transaction on error
             $conn->rollback();
             throw $e;
         }
-
-        // Close prepared statements
         $stmt_check->close();
         $stmt_ngo->close();
         $stmt_update->close();
@@ -162,20 +127,13 @@ try {
 } catch (Exception $e) {
     $response['success'] = false;
     $response['message'] = $e->getMessage();
-    
-    // Log error for debugging (in production, log to file)
     error_log("Assignment Error: " . $e->getMessage());
 }
-
-// Close database connection
 $conn->close();
-
-// Handle different response formats based on request
 if (isset($_POST['ajax']) && $_POST['ajax'] === '1') {
-    // AJAX request - return JSON
+
     echo json_encode($response);
 } else {
-    // Regular form submission - return HTML
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -286,9 +244,7 @@ if (isset($_POST['ajax']) && $_POST['ajax'] === '1') {
                 <a href="assigned_donations.php" class="btn btn-secondary">View Assignments</a>
             </div>
         </div>
-        
-        <script>
-            // Auto redirect after 5 seconds on success
+         <script>
             <?php if ($response['success']): ?>
                 setTimeout(function() {
                     window.location.href = 'assign_ngo.php';

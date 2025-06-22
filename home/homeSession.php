@@ -6,13 +6,11 @@ $user = "root";
 $pass = "";
 $dbname = "food_waste";
 
-// Database connection
 $conn = new mysqli($host, $user, $pass, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if user is logged in and get user data
 $user_data = null;
 $is_logged_in = false;
 
@@ -35,27 +33,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
         
         if ($result->num_rows > 0) {
             $user_data = $result->fetch_assoc();
-            
-            // Count donations - you can uncomment and modify this when you have a donations table
-            /*
-            if ($user_type == 'Donor') {
-                $donation_count_query = "SELECT COUNT(*) as donation_count FROM donations WHERE user_id = ?";
-            } else {
-                $donation_count_query = "SELECT COUNT(*) as donation_count FROM received_donations WHERE ngo_id = ?";
-            }
-            $donation_stmt = $conn->prepare($donation_count_query);
-            $donation_stmt->bind_param("i", $user_id);
-            $donation_stmt->execute();
-            $donation_result = $donation_stmt->get_result();
-            $donation_data = $donation_result->fetch_assoc();
-            $user_data['donation_count'] = $donation_data['donation_count'];
-            $donation_stmt->close();
-            */
-            
-            // Set default donation count for now
             $user_data['donation_count'] = 0;
             
-            // Format join date
             $join_date = new DateTime($user_data['created_at']);
             $user_data['join_date'] = $join_date->format('M Y');
         }
@@ -72,18 +51,13 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>easyDonate - Save Food Share joy</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Boxicons -->
-	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Flaticons -->
-	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Header Content -->
-    <!-- Slideshow background -->
-     <div class="background-slideshow">
+    <div class="background-slideshow">
         <div class="bg-slide"></div>
         <div class="bg-slide"></div>
         <div class="bg-slide"></div>
@@ -92,7 +66,6 @@ $conn->close();
     </div>
     <div class="background-overlay"></div>
     <header>
-        <!-- Navbar Section -->
         <nav class="navbar">
             <a href="#" class="nav-logo">
                 <img src="../img/logo.png" alt="Food Donate Logo">
@@ -117,35 +90,27 @@ $conn->close();
                 <li class="nav-item">
                     <a href="Contact.php" style="--i:4">Contact</a>
                 </li>
-                <!-- Login Link - Show only when not logged in -->
                 <?php if (!$is_logged_in): ?>
                 <li class="nav-item login-item">
                     <a href="../newlogin.php" style="--i:5" id="login-nav-btn">Login</a>
                 </li>
-            
                 <?php endif; ?>
            
-           <!-- User Profile - Show only when logged in -->
             <?php if ($is_logged_in && $user_data): ?>
             <li class="nav-item user-profile active" id="user-profile">
                 <?php 
-                // Fix image path handling - since homeSession.php is in home/ folder
                 $profile_image_src = '';
                 if (!empty($user_data['image'])) {
-                    // Correct path: homeSession.php is in home/, so uploaded_img/ is in same directory
                     $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
                     if (file_exists($file_path)) {
                         $profile_image_src = $file_path;
                     } else {
-                        // Fallback to default user image if file doesn't exist
                         $profile_image_src = '../img/user.png';
                     }
                 } else {
-                    // Default placeholder for users without profile image
                     $profile_image_src = '../img/user.png';
                 }
                 
-                // Same logic for popup image
                 $popup_image_src = '';
                 if (!empty($user_data['image'])) {
                     $file_path = 'uploaded_img/' . htmlspecialchars($user_data['image']);
@@ -157,60 +122,55 @@ $conn->close();
                 } else {
                     $popup_image_src = '../img/user.png';
                 }
-            ?>
+                ?>
     
-            <img src="<?php echo $profile_image_src; ?>" 
-                alt="User Avatar" class="user-avatar" id="user-avatar" 
-                onerror="this.src='../img/user.png'">
+                <img src="<?php echo $profile_image_src; ?>" 
+                    alt="User Avatar" class="user-avatar" id="user-avatar" 
+                    onerror="this.src='../img/user.png'">
             
-            <div class="profile-popup" id="profile-popup">
-                <div class="profile-header">
-                    <div class="image">
-                        <img src="<?php echo $popup_image_src; ?>" 
-                            alt="User Profile" id="profile-image"
-                            onerror="this.src='../img/user.png'">
+                <div class="profile-popup" id="profile-popup">
+                    <div class="profile-header">
+                        <div class="image">
+                            <img src="<?php echo $popup_image_src; ?>" 
+                                alt="User Profile" id="profile-image"
+                                onerror="this.src='../img/user.png'">
+                        </div>
+                        <div class="content">
+                            <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
+                            <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                        </div>
                     </div>
-                    <div class="content">
-                        <h3 id="profile-name"><?php echo htmlspecialchars($user_data['name']); ?></h3>
-                        <p id="profile-email"><?php echo htmlspecialchars($user_data['email']); ?></p>
+                    <div class="profile-info">
+                        <div class="profile-info-item">
+                            <i class="fas fa-user-tag"></i>
+                            <span id="profile-type"> Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
+                        </div>
+                        <div class="profile-info-item">
+                            <?php if($user_type == 'Donor'): ?>
+                                <i class='bx bxs-dashboard' ></i>
+                                <span id="profile-type"><a href="../Donerpanel.php"> My Dashboard </a></span>
+                            <?php elseif ($user_type == 'NGO'): ?>
+                                <i class='bx bxs-dashboard' ></i>
+                                <span id="profile-type"><a href="../NGOpanel.php"> My Dashboard </a></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="profile-info-item logout-item" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
                     </div>
                 </div>
-                <div class="profile-info">
-                    <div class="profile-info-item">
-                        <i class="fas fa-user-tag"></i>
-                        <span id="profile-type"> Type : <?php echo htmlspecialchars($_SESSION['user_type']); ?></span>
-                    </div>
-                    <div class="profile-info-item">
-                        <?php if($user_type == 'Donor'): ?>
-                            <i class='bx bxs-dashboard' ></i>
-                            <span id="profile-type"><a href="../Donerpanel.php"> My Dashboard </a></span>
-                        <?php elseif ($user_type == 'NGO'): ?>
-                            <i class='bx bxs-dashboard' ></i>
-                            <span id="profile-type"><a href="../NGOpanel.php"> My Dashboard </a></span>
-                        <?php else: ?>
-                        
-                        <?php endif; ?>
-                    </div>
-                    <!-- Logout button moved to left side under other icons -->
-                    <div class="profile-info-item logout-item" id="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </div>
-                </div>
-                <!-- Edit Profile button moved to bottom -->
-                <div class="profile-actions">
-                    <a href="update_profile.php" class="profile-btn edit-profile-btn">Edit Profile</a>
-                </div>
-            </div>
-        </li>
-        <?php endif; ?>
+            </li>
+            <?php endif; ?>
+            </ul>
         </nav>
         <main>
-            <!-- Main Section -->
-             <section class="main-section">
+            <section class="main-section">
                 <div class="section-content">
                     <div class="main-details">
-                        <!-- Content Section 1 -->
                         <div class="content-section">
                             <h1 class="title">
                                 Let's Make The Change
@@ -221,7 +181,6 @@ $conn->close();
                             </p>
                         </div>
                         
-                        <!-- Content Section 2 -->
                         <div class="content-section">
                             <h1 class="title">
                                 Transform Lives Through Food
@@ -232,7 +191,6 @@ $conn->close();
                             </p>
                         </div>
                         
-                        <!-- Content Section 3 -->
                         <div class="content-section">
                             <h1 class="title">
                                 Building Sustainable Communities
@@ -243,7 +201,6 @@ $conn->close();
                             </p>
                         </div>
                         
-                        <!-- Content Section 4 -->
                         <div class="content-section">
                             <h1 class="title">
                                 Nourish Souls, Strengthen Hearts
@@ -260,7 +217,7 @@ $conn->close();
                     </div>
                 </div>
             </section>
-            <!-- About Section -->
+            
             <section class="about-section">
                 <div class="section-content">
                     <div class="about-details">
@@ -275,8 +232,8 @@ $conn->close();
                     </div>
                 </div>
             </section>
-            <!-- Ambition Section -->
-             <div class="ambitions-section section">
+            
+            <div class="ambitions-section section">
                 <div class="ambition-header">
                     <p class="ambition-label">Look what we can do together.</p>
                     <h2 class="ambition-title">Our Ambitions</h2>
@@ -312,7 +269,7 @@ $conn->close();
                     </div>
                 </div>
             </div>
-            <!-- How Does It Work Section -->
+            
             <div class="how-it-works-section section">
                 <div class="container">
                     <h2 class="how-it-works-title">How does easyDonate works?</h2>
@@ -338,9 +295,8 @@ $conn->close();
                     </div>
                 </div>
             </div>
-            <!-- Food Facts Section -->
+            
             <div class="food-facts-section section">
-                <!-- <p class="sub-heading">Understanding the problem.</p> -->
                 <h2 class="heading">What type of excess food we donate?</h2>
                 <div class="cards-container">
                     <div class="card">
@@ -372,7 +328,7 @@ $conn->close();
                     </div>
                 </div>
             </div>
-            <!-- Pickup Section -->
+            
             <section class="pickup-section">
                 <div class="section-content">
                     <div class="pickup-image-wrapper">
@@ -384,7 +340,7 @@ $conn->close();
                     </div>
                 </div>
             </section>
-            <!-- Review Testimonials Section -->
+            
             <div class="review-testimonials-section">
                 <div class="review-testimonial-container">
                     <div class="review-testimonial-header">
@@ -398,7 +354,6 @@ $conn->close();
                         
                         <div class="review-testimonials-slider">
                             <div class="review-testimonials-track" id="reviewTestimonialsTrack">
-                                <!-- Slide 1 -->
                                 <div class="review-testimonial-slide">
                                     <div class="review-testimonial-card">
                                         <div class="review-quote-icon">"</div>
@@ -446,7 +401,6 @@ $conn->close();
                                     </div>
                                 </div>
 
-                                <!-- Slide 2 -->
                                 <div class="review-testimonial-slide">
                                     <div class="review-testimonial-card">
                                         <div class="review-quote-icon">"</div>
@@ -508,8 +462,6 @@ $conn->close();
                 </div>
             </div>
             
-            
-            <!-- Footer Section -->
             <footer class="footer-section">
                 <div class="section-content">
                     <div class="footer-left">
@@ -590,7 +542,6 @@ $conn->close();
                 </div>
             </footer>
 
-            <!-- Back to Top Scrollbar -->
             <button class="scroll-to-top" id="scrollToTop">
                 <i class="fas fa-chevron-up"></i>
             </button>
@@ -598,14 +549,12 @@ $conn->close();
     </header>
     
     <script>
-        // User Profile Functionality
         document.addEventListener('DOMContentLoaded', function() {
             const userAvatar = document.getElementById('user-avatar');
             const profilePopup = document.getElementById('profile-popup');
             const logoutBtn = document.getElementById('logout-btn');
             const userProfile = document.getElementById('user-profile');
             
-            // Toggle profile popup
             if (userAvatar && profilePopup) {
                 userAvatar.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -613,18 +562,15 @@ $conn->close();
                 });
             }
             
-            // Close popup when clicking outside
             document.addEventListener('click', function(e) {
                 if (profilePopup && userProfile && !userProfile.contains(e.target)) {
                     profilePopup.classList.remove('show');
                 }
             });
             
-            // Logout functionality
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
                     if (confirm('Are you sure you want to logout?')) {
-                        // Redirect to logout script
                         window.location.href = 'logout.php';
                     }
                 });

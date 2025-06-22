@@ -13,7 +13,6 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Details Form</title>
     <link rel="stylesheet" href="fooddetails.css">
-    <!-- boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
@@ -35,7 +34,6 @@ if (!isset($_SESSION['user_id'])) {
                 <input type="hidden" name="action" value="food_details">
                 
                 <div id="food-items-container">
-                    <!-- Initial food item -->
                     <div class="food-item" data-item-id="1">
                         <div class="food-item-header">
                             <h3 class="food-item-title">Food Item 1</h3>
@@ -151,8 +149,6 @@ if (!isset($_SESSION['user_id'])) {
                         <input type="text" name="altphone" placeholder="Enter the alternative number" required>
                     </div>
                 </div>
-
-                <!-- Add Food Button moved here, above Submit button -->
                 <div style="text-align: center; margin: 20px 0;">
                     <button type="button" class="add-food-btn" onclick="addFoodItem()" style="position: relative; top: auto; right: auto; width: auto; display: inline-block;">+ Add Another Food Item</button>
                 </div>
@@ -168,7 +164,6 @@ if (!isset($_SESSION['user_id'])) {
         let foodItemCounter = 1;
 
 function addFoodItem() {
-    // Get current number of food items and increment from there
     const currentItems = document.querySelectorAll('.food-item').length;
     const newItemNumber = currentItems + 1;
     
@@ -269,16 +264,12 @@ function addFoodItem() {
     `;
     
     container.appendChild(newItem);
-    
-    // Reinitialize event listeners for the new item
     initializeEventListeners(newItem);
 }
 
 function removeFoodItem(button) {
     const foodItem = button.closest('.food-item');
     foodItem.remove();
-    
-    // Renumber remaining items to maintain sequential numbering
     renumberFoodItems();
 }
 
@@ -286,37 +277,26 @@ function renumberFoodItems() {
     const remainingItems = document.querySelectorAll('.food-item');
     remainingItems.forEach((item, index) => {
         const itemNumber = index + 1;
-        
-        // Update title
         const title = item.querySelector('.food-item-title');
         title.textContent = `Food Item ${itemNumber}`;
-        
-        // Update data attribute
         item.setAttribute('data-item-id', itemNumber);
-        
-        // Update radio button names to ensure they're unique
         const foodTypeRadios = item.querySelectorAll('input[name^="food_type_"]');
         foodTypeRadios.forEach(radio => {
             radio.name = `food_type_${itemNumber}`;
         });
-        
         const foodCategoryRadios = item.querySelectorAll('input[name^="food_category_"]');
         foodCategoryRadios.forEach(radio => {
             radio.name = `food_category_${itemNumber}`;
         });
     });
 }
-
 function initializeEventListeners(container = document) {
-    // Script to make the entire card clickable for radio buttons
     container.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', function() {
             const radio = this.querySelector('input[type="radio"]');
             radio.checked = true;
         });
     });
-
-    // Script to show the file name when a file is selected
     container.querySelectorAll('.file-input').forEach(input => {
         input.addEventListener('change', function() {
             const fileName = this.files[0] ? this.files[0].name : 'No file chosen';
@@ -325,8 +305,6 @@ function initializeEventListeners(container = document) {
         });
     });
 }
-
-// Initialize event listeners on page load
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
 });
