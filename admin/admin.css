@@ -105,7 +105,7 @@ body {
     background-color: #efefef;
 }
 
-.menu ul li.active > a {
+.menu ul li a.active {
     color: var(--blue);
 }
 
@@ -157,7 +157,7 @@ body {
     position: fixed;
     width: calc(100% - 230px);
     left: 230px;
-    height: 70px;
+    height: 67px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -375,8 +375,9 @@ body {
 }
 
 .table-data .order table tr td:first-child {
-    display: flex;
+    
     align-items: center;
+    padding-left: 10px;
     grid-gap: 12px;
 }
 

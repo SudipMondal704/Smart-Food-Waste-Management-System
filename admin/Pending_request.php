@@ -55,6 +55,7 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
     <style>
         .action-buttons {
             display: flex;
+            justify-content : center;
             gap: 5px;
             justify-content: center;
         }
@@ -104,9 +105,10 @@ $result_unassigned = $conn->query($sql_unassigned_donors);
             padding: 5px;
         }
         .status-info {
+            
             font-size: 12px;
-            color: #666;
-            font-style: italic;
+            color: #000;
+            
         }
         .reassignment-note {
             background-color: #fff3cd;
