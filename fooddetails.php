@@ -116,7 +116,7 @@ if (!isset($_SESSION['user_id'])) {
                             <div class="input-box file-input-container" style="width: 100%;">
                                 <span class="details">Upload Image</span>
                                 <div class="custom-file-upload">
-                                    <input type="file" name="food_image[]" accept="image/*" class="file-input">
+                                    <input type="file" name="food_image[]" accept="image/*" class="file-input"  required>
                                     <label class="file-label">
                                         <span class="button-text">Choose File</span>
                                         <span class="file-name">No file chosen</span>
