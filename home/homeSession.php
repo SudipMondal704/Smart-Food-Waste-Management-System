@@ -211,10 +211,12 @@ $conn->close();
                             </p>
                         </div>
                     </div>
+                    <?php if (!$is_logged_in || ($is_logged_in && $user_type == 'Donor')): ?>
                     <div class="button">
                         <a href="http://localhost/php%20files/Final%20Year%20Project/Smart-Food-Waste-Management-System/fooddetails.php" class="btn" id="donateNowBtn">Donate Food<i class="fa-solid fa-circle-arrow-right"></i>
                         </a>                    
                     </div>
+                    <?php endif; ?>
                 </div>
             </section>
             
