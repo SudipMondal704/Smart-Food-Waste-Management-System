@@ -11,12 +11,12 @@ if ($conn->connect_error) {
 }
 $user_data = null;
 $is_logged_in = false;
-
+$ut="Visitor";
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
     $is_logged_in = true;
     $user_id = $_SESSION['user_id'];
     $user_type = $_SESSION['user_type'];
-    
+    $ut=$user_type;
     if ($user_type == 'Donor') {
         $query = "SELECT username as name, email, phone, address, image, created_at FROM users WHERE user_id = ?";
     } elseif ($user_type == 'NGO') {
@@ -39,6 +39,27 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_type'])) {
         }
         $stmt->close();
     }
+}
+
+//print_r($_POST);
+if(isset($_POST['u_name']) && isset($_POST['u_email']) && isset($_POST['u_msg'])) {
+    $name = $_POST['u_name'];
+    $email = $_POST['u_email'];
+    $message = $_POST['u_msg'];
+    
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO contact (name, email, msg, user_type) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $email, $message, $ut);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "<script>alert('Message sent successfully!');</script>";
+    } else {
+        echo "<script>alert('Error sending message. Please try again later.');</script>";
+    }
+
+    // Close the statement
+    $stmt->close();
 }
 
 $conn->close();
@@ -478,11 +499,11 @@ $conn->close();
                 <div class="section-content">
                     <div class="contact-left">
                         <h2>If You Have Any Query,<br> Please Contact Us</h2>
-                        <form action="#" class="contact-form">
-                            <input type="text" placeholder="Your Name" class="form-input" required>
-                            <input type="email" placeholder="Your Email" class="form-input" required>
-                            <textarea placeholder="Your Message" class="form-input" required></textarea>
-                            <button class="btn">Send Message <i class="fa-solid fa-circle-arrow-right"></i></button>
+                        <form action="" class="contact-form" method="post">
+                            <input type="text" placeholder="Your Name" id="u_name" name="u_name" class="form-input" required>
+                            <input type="email" placeholder="Your Email" id="u_email"  name="u_email" class="form-input" required>
+                            <textarea placeholder="Your Message" class="form-input" id="u_msg" name="u_msg" required></textarea>
+                            <button type="submit" class="btn">Send Message <i class="fa-solid fa-circle-arrow-right"></i></button>
                         </form>
                     </div>
                     <div class="map-container">
@@ -671,6 +692,6 @@ $conn->close();
             }
         });
     </script>
-  <script src="../js/script.js"></script>
+  <!--<script src="../js/script.js"></script>-->
 </body>
 </html>
