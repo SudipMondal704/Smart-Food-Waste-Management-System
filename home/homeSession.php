@@ -82,7 +82,6 @@ $conn->close();
                     <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                     <div class="dropdown-content">
                         <a href="service.php">Service</a>
-                        <a href="#">Donate</a>
                         <a href="team.php">Our Team</a>
                         <a href="voices-of-community.php">Voices of Community</a>
                     </div>
@@ -226,7 +225,7 @@ $conn->close();
                         <h2 class="section-title">About Us</h2>
                         <p class="text">We are a dedicated team working towards eradicating hunger and reducing food waste across India through technology and community support,we connect food donors with NGOs to help feed those in need.</p>
                         <div class="button">
-                            <a href="About.html" class="btn">Read More<i class="fa-solid fa-circle-arrow-right"></i></a>
+                            <a href="About.php" class="btn">Read More<i class="fa-solid fa-circle-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="about-image-wrapper">

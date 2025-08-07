@@ -398,7 +398,6 @@ $conn->close();
                     <a href="#" style="--i:3">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                     <div class="dropdown-content">
                         <a href="service.php">Service</a>
-                        <a href="#">Donate</a>
                         <a href="team.php">Our Team</a>
                         <a href="voices-of-community.php">Voices of Community</a>
                     </div>
@@ -664,34 +663,356 @@ $conn->close();
   </header>
   
   <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const userAvatar = document.getElementById('user-avatar');
-            const profilePopup = document.getElementById('profile-popup');
-            const logoutBtn = document.getElementById('logout-btn');
-            const userProfile = document.getElementById('user-profile');
+      // Navigation scroll effect
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+        navbar.style.backdropFilter = 'blur(10px)';
+        navbar.style.transition = 'all 0.3s ease';
+    } else {
+        navbar.style.backgroundColor = 'transparent';
+        navbar.style.backdropFilter = 'none';
+    }
+});
+
+// Dropdown functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        const dropdownContent = dropdown.querySelector('.dropdown-content');
+        
+        dropdown.addEventListener('mouseenter', function() {
+            dropdownContent.style.display = 'block';
+            dropdownContent.style.opacity = '0';
+            dropdownContent.style.transform = 'translateY(-10px)';
             
-            if (userAvatar && profilePopup) {
-                userAvatar.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    profilePopup.classList.toggle('show');
+            setTimeout(() => {
+                dropdownContent.style.opacity = '1';
+                dropdownContent.style.transform = 'translateY(0)';
+                dropdownContent.style.transition = 'all 0.3s ease';
+            }, 10);
+        });
+        
+        dropdown.addEventListener('mouseleave', function() {
+            dropdownContent.style.opacity = '0';
+            dropdownContent.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                dropdownContent.style.display = 'none';
+            }, 300);
+        });
+    });
+});
+
+// UPDATED Accordion functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const accordions = document.querySelectorAll('.accordion');
+    
+    accordions.forEach(accordion => {
+        // Skip disabled accordions
+        if (!accordion.hasAttribute('disabled')) {
+            accordion.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Get the panel (next sibling element)
+                const panel = this.nextElementSibling;
+                
+                // Check if this accordion is currently active
+                const isActive = this.classList.contains('active');
+                
+                // Close all other accordions first (optional - remove if you want multiple open)
+                accordions.forEach(otherAccordion => {
+                    if (otherAccordion !== this && !otherAccordion.hasAttribute('disabled')) {
+                        otherAccordion.classList.remove('active');
+                        const otherPanel = otherAccordion.nextElementSibling;
+                        if (otherPanel && otherPanel.classList.contains('panel')) {
+                            otherPanel.style.display = 'none';
+                            otherPanel.classList.remove('show');
+                        }
+                    }
                 });
+                
+                // Toggle current accordion
+                if (isActive) {
+                    // Close current accordion
+                    this.classList.remove('active');
+                    if (panel && panel.classList.contains('panel')) {
+                        panel.style.display = 'none';
+                        panel.classList.remove('show');
+                    }
+                } else {
+                    // Open current accordion
+                    this.classList.add('active');
+                    if (panel && panel.classList.contains('panel')) {
+                        panel.style.display = 'block';
+                        panel.classList.add('show');
+                    }
+                }
+            });
+        }
+    });
+    
+    // Close accordions when clicking outside
+    document.addEventListener('click', function(e) {
+        // Check if click is outside any accordion or panel
+        const isAccordionClick = e.target.closest('.accordion');
+        const isPanelClick = e.target.closest('.panel');
+        
+        if (!isAccordionClick && !isPanelClick) {
+            accordions.forEach(accordion => {
+                if (!accordion.hasAttribute('disabled')) {
+                    accordion.classList.remove('active');
+                    const panel = accordion.nextElementSibling;
+                    if (panel && panel.classList.contains('panel')) {
+                        panel.style.display = 'none';
+                        panel.classList.remove('show');
+                    }
+                }
+            });
+        }
+    });
+});
+
+// Chatbot functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const messagesContainer = document.getElementById('messages');
+    const inputField = document.getElementById('input');
+    
+    // Predefined responses for the chatbot
+    const responses = {
+        'hello': 'Hello! Welcome to easyDonate. How can I help you today?',
+        'hi': 'Hi there! I\'m here to help you with food donation questions.',
+        'how to donate': 'To donate food: 1) Click "Donate Food" on the home page, 2) Fill in the details, 3) Submit your donation request.',
+        'donate food': 'To donate food: 1) Click "Donate Food" on the home page, 2) Fill in the details, 3) Submit your donation request.',
+        'food types': 'We accept: 1) Raw food (vegetables, rice, wheat, cereals), 2) Cooked/prepared food, 3) Packaged food (snacks, beverages).',
+        'types of food': 'We accept: 1) Raw food (vegetables, rice, wheat, cereals), 2) Cooked/prepared food, 3) Packaged food (snacks, beverages).',
+        'contact': 'You can contact us at fooddonate@gmail.com or call us at (+91) 0000 000 000. We are available 24x7.',
+        'help': 'I can help you with questions about food donation, types of food we accept, how to donate, and general information about our service.',
+        'default': 'I\'m sorry, I didn\'t understand that. You can ask me about how to donate food, what types of food we accept, or contact information.'
+    };
+    
+    // Add initial bot message
+    if (messagesContainer && inputField) {
+        addMessage('Hello! I\'m the easyDonate support bot. How can I help you today?', 'bot');
+        
+        // Handle input
+        inputField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const userMessage = this.value.trim();
+                if (userMessage) {
+                    addMessage(userMessage, 'user');
+                    this.value = '';
+                    
+                    // Simulate typing delay
+                    setTimeout(() => {
+                        const botResponse = getBotResponse(userMessage);
+                        addMessage(botResponse, 'bot');
+                    }, 1000);
+                }
             }
+        });
+    }
+    
+    function addMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `response ${sender}`;
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = sender === 'user' ? 'You' : 'Bot';
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message';
+        messageContent.textContent = message;
+        
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(messageContent);
+        
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    function getBotResponse(userMessage) {
+        const message = userMessage.toLowerCase();
+        
+        // Check for exact matches first
+        for (const [key, response] of Object.entries(responses)) {
+            if (message.includes(key)) {
+                return response;
+            }
+        }
+        
+        // Default response
+        return 'I\'m sorry, I didn\'t understand that. You can ask me about food donation, types of food we accept, contact information, or say "help" to see what I can assist you with.';
+    }
+});
+
+// Scroll to top functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    if (scrollToTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = 'block';
+                scrollToTopBtn.style.opacity = '1';
+            } else {
+                scrollToTopBtn.style.opacity = '0';
+                setTimeout(() => {
+                    if (window.pageYOffset <= 300) {
+                        scrollToTopBtn.style.display = 'none';
+                    }
+                }, 300);
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
+
+// Form validation and enhancement
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.contact-form');
+    
+    if (form) {
+        const inputs = form.querySelectorAll('.form-input');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#34b409';
+                this.style.boxShadow = '0 0 0 2px rgba(52, 180, 9, 0.1)';
+            });
             
-            document.addEventListener('click', function(e) {
-                if (profilePopup && userProfile && !userProfile.contains(e.target)) {
-                    profilePopup.classList.remove('show');
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.style.borderColor = '#ddd';
+                    this.style.boxShadow = 'none';
+                }
+            });
+        });
+        
+        form.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && input.value.trim() === '') {
+                    input.style.borderColor = '#e74c3c';
+                    isValid = false;
                 }
             });
             
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to logout?')) {
-                        window.location.href = 'logout.php';
-                    }
-                });
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
             }
         });
-    </script>
-  <!--<script src="../js/script.js"></script>-->
+    }
+});
+
+// Mobile menu toggle (if needed)
+document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.querySelector('.navbar');
+    
+    if (navbar) {
+        // Add mobile menu button if it doesn't exist
+        if (!document.querySelector('.mobile-menu-btn')) {
+            const mobileMenuBtn = document.createElement('button');
+            mobileMenuBtn.className = 'mobile-menu-btn';
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            mobileMenuBtn.style.display = 'none';
+            navbar.appendChild(mobileMenuBtn);
+            
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    icon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+                });
+            }
+            
+            // Show/hide mobile menu button based on screen size
+            function checkScreenSize() {
+                if (window.innerWidth <= 768) {
+                    mobileMenuBtn.style.display = 'block';
+                } else {
+                    mobileMenuBtn.style.display = 'none';
+                    if (navMenu) {
+                        navMenu.classList.remove('active');
+                    }
+                }
+            }
+            
+            checkScreenSize();
+            window.addEventListener('resize', checkScreenSize);
+        }
+    }
+});
+
+// Smooth animations for page elements
+document.addEventListener('DOMContentLoaded', function() {
+    // Add intersection observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements for animation
+    const animateElements = document.querySelectorAll('.contact-section, .chatbot-section, .footer-section');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+});
+
+// Profile popup functionality (if user is logged in)
+document.addEventListener('DOMContentLoaded', function() {
+    const userAvatar = document.getElementById('user-avatar');
+    const profilePopup = document.getElementById('profile-popup');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userProfile = document.getElementById('user-profile');
+    
+    if (userAvatar && profilePopup) {
+        userAvatar.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profilePopup.classList.toggle('show');
+        });
+    }
+    
+    document.addEventListener('click', function(e) {
+        if (profilePopup && userProfile && !userProfile.contains(e.target)) {
+            profilePopup.classList.remove('show');
+        }
+    });
+    
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'logout.php';
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>

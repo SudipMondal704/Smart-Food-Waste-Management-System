@@ -287,7 +287,6 @@ $conn->close();
                         <a href="#" style="--i:3" class="active">Pages <i class="fas fa-chevron-down dropdown-icon"></i></a>
                         <div class="dropdown-content">
                             <a href="service.php">Service</a>
-                            <a href="#">Donate</a>
                             <a href="team.php" class="active">Our Team</a>
                             <a href="voices-of-community.php">Voices of Community</a>
                         </div>

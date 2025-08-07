@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_GET['action']) && $_GET['ac
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Customer Feedback Form</title>
+  <title>Donors Feedback Form</title>
   <link rel="stylesheet" href="feedback.css">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_GET['action']) && $_GET['ac
     <div class="logo">
       <img src="img/feedback.png" alt="logo" />
     </div>
-    <div class="title">Customer Feedback Form</div>
+    <div class="title">Donors Feedback Form</div>
     <div class="subtitle">
       Thank you for taking time to provide feedback. We appreciate hearing from you and will review your comments carefully.
     </div>

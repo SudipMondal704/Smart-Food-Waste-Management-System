@@ -623,9 +623,7 @@
                   <input type="password" name="password" minlength="6" class="input-field" autocomplete="off" required/> 
                   <label>Password</label>
                 </div>
-                <div class="input-wrap">
-                  <input type="file" name="image" accept="image/*">
-                </div>
+                
                 <div class="checkbox-wrap">
                   <label class="checkbox-label">
                     <input type="checkbox" required />
